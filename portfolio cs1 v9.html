@@ -1635,6 +1635,19 @@ a.ch-stat-link:hover { opacity: 0.82; }
   .crash-grid { grid-template-columns: 1fr; }
 }
 
+/* ── WIREFRAME SECTION ── */
+.svs-wire-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin: 36px 0 8px; align-items: start; }
+.svs-wire-fig { margin: 0; }
+.svs-wire-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.32em; text-transform: uppercase; color: var(--ink-soft); margin-bottom: 10px; font-weight: 700; }
+.svs-wire-fig svg { width: 100%; height: auto; display: block; border: 1.5px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); }
+.svs-wire-caption { font-family: var(--serif); font-style: italic; font-size: 13px; line-height: 1.55; color: var(--ink-soft); margin-top: 12px; padding-top: 10px; border-top: 1px dashed var(--ink-faint); }
+@media (max-width: 768px) { .svs-wire-grid { grid-template-columns: 1fr; } }
+
+/* ── HONEST BOX ── */
+.svs-honest-box { margin-top: 32px; padding: 22px 26px; background: var(--paper-cream); border: 1.5px solid var(--ink); border-left: 4px solid var(--c-pink-deep); }
+.svs-honest-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--c-pink-deep); font-weight: 700; margin-bottom: 12px; }
+.svs-honest-box p { font-family: var(--serif); font-style: italic; font-size: 15px; line-height: 1.6; color: var(--ink-soft); margin: 0; }
+.svs-honest-box p em { color: var(--ink); font-weight: 500; }
 </style>
 </head>
 <body>
@@ -2667,6 +2680,7 @@ a.ch-stat-link:hover { opacity: 0.82; }
                       <li>60–90 seconds of real attention before getting distracted</li>
                       <li><strong>Needs:</strong> warmth, real photos, location clarity</li>
                       <li><strong>Implication:</strong> earn trust in the scroll of a thumb</li>
+<li><strong>Design decision it drove:</strong> hero photo placed immediately right of the headline — no scroll required to see a real face</li>
                     </ul>
                   </article>
 
@@ -2691,6 +2705,7 @@ a.ch-stat-link:hover { opacity: 0.82; }
                       <li>Cares about showing actual events, teachers, culture</li>
                       <li><strong>Needs:</strong> a site they can update without a developer</li>
                       <li><strong>Implication:</strong> simple IA, no backend, easy content areas</li>
+<li><strong>Design decision it drove:</strong> <code>mailto:</code> form instead of a backend; one-page handoff doc on launch day</li>
                     </ul>
                   </article>
 
@@ -2713,6 +2728,7 @@ a.ch-stat-link:hover { opacity: 0.82; }
                       <li>Looks for: real students, curriculum overview, contact</li>
                       <li><strong>Needs:</strong> validation the school matches the recommendation</li>
                       <li><strong>Implication:</strong> "Our Story" + gallery need real substance</li>
+<li><strong>Design decision it drove:</strong> full-page "Our Story" overlay with founding photo; 43-photo gallery with real event names, not just categories</li>
                     </ul>
                   </article>
                 </div>
@@ -2967,6 +2983,123 @@ a.ch-stat-link:hover { opacity: 0.82; }
                 </figure>
               </section>
 
+              <!-- WIREFRAMES -->
+              <section class="svs-section">
+                <div class="svs-eyebrow">★ early wireframes</div>
+                <h2 class="svs-h2">Before colour, there were <em>boxes</em>.</h2>
+                <div class="svs-prose">
+                  <p>Lo-fi wireframes let me stress-test the information architecture before committing to any palette or type. Two questions drove every layout decision: <em>what does a parent need to see first?</em> and <em>what makes this feel like a school, not a landing page?</em></p>
+                </div>
+                <div class="svs-wire-grid">
+
+                  <figure class="svs-wire-fig">
+                    <div class="svs-wire-label">homepage · desktop · lo-fi v1</div>
+                    <svg viewBox="0 0 580 370" xmlns="http://www.w3.org/2000/svg" font-family="Caveat, cursive">
+                      <!-- browser shell -->
+                      <rect x="0" y="0" width="580" height="370" rx="6" fill="#F8F5EE" stroke="#C8B8A8" stroke-width="1.5"/>
+                      <rect x="0" y="0" width="580" height="30" rx="6" fill="#EAE3D8" stroke="#C8B8A8" stroke-width="1.5"/>
+                      <rect x="0" y="18" width="580" height="12" fill="#EAE3D8"/>
+                      <circle cx="15" cy="15" r="5" fill="#F5A5B8" stroke="#C8B8A8" stroke-width="1"/>
+                      <circle cx="30" cy="15" r="5" fill="#FFD580" stroke="#C8B8A8" stroke-width="1"/>
+                      <circle cx="45" cy="15" r="5" fill="#A8D8C0" stroke="#C8B8A8" stroke-width="1"/>
+                      <rect x="66" y="8" width="180" height="14" rx="7" fill="#FAFAF7" stroke="#C8B8A8" stroke-width="1"/>
+                      <text x="156" y="19" font-size="8" fill="#B89888" text-anchor="middle" font-family="Inter, sans-serif">svsschool.net</text>
+                      <!-- nav bar -->
+                      <rect x="0" y="30" width="580" height="36" fill="#FAFAF7" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <rect x="0" y="60" width="580" height="6" fill="#FAFAF7"/>
+                      <rect x="14" y="39" width="38" height="16" rx="2" fill="#E0D8CC" stroke="#B89888" stroke-width="1"/>
+                      <text x="33" y="51" font-size="8" fill="#8A7A6A" text-anchor="middle" font-family="Inter, sans-serif">logo</text>
+                      <rect x="340" y="42" width="32" height="10" rx="2" fill="#E0D8CC" stroke="#B89888" stroke-width="0.8"/>
+                      <rect x="380" y="42" width="40" height="10" rx="2" fill="#E0D8CC" stroke="#B89888" stroke-width="0.8"/>
+                      <rect x="428" y="42" width="32" height="10" rx="2" fill="#E0D8CC" stroke="#B89888" stroke-width="0.8"/>
+                      <rect x="514" y="39" width="52" height="16" rx="8" fill="#2A1810" stroke="#2A1810"/>
+                      <text x="540" y="51" font-size="8" fill="#FAFAF7" text-anchor="middle" font-family="Inter, sans-serif">enquire</text>
+                      <!-- hero left: text -->
+                      <rect x="14" y="76" width="50" height="10" rx="5" fill="#C8B8A8" opacity="0.7"/>
+                      <rect x="14" y="94" width="250" height="22" rx="2" fill="#C8B8A8" opacity="0.65"/>
+                      <rect x="14" y="122" width="210" height="22" rx="2" fill="#C8B8A8" opacity="0.65"/>
+                      <rect x="14" y="150" width="240" height="22" rx="2" fill="#FFD580" opacity="0.75"/>
+                      <rect x="14" y="182" width="220" height="8" rx="2" fill="#E0D8CC"/>
+                      <rect x="14" y="196" width="190" height="8" rx="2" fill="#E0D8CC"/>
+                      <!-- 2 CTAs -->
+                      <rect x="14" y="216" width="96" height="26" rx="13" fill="#2A1810"/>
+                      <text x="62" y="233" font-size="10" fill="#FAFAF7" text-anchor="middle">Enquire Now</text>
+                      <rect x="118" y="216" width="96" height="26" rx="13" fill="none" stroke="#2A1810" stroke-width="1.5"/>
+                      <text x="166" y="233" font-size="10" fill="#2A1810" text-anchor="middle">Contact Us</text>
+                      <!-- hero right: photo placeholder -->
+                      <rect x="300" y="72" width="266" height="198" rx="4" fill="#E0D8CC" stroke="#B89888" stroke-width="1.5"/>
+                      <line x1="300" y1="72" x2="566" y2="270" stroke="#C8B8A8" stroke-width="1"/>
+                      <line x1="566" y1="72" x2="300" y2="270" stroke="#C8B8A8" stroke-width="1"/>
+                      <text x="433" y="162" font-size="11" fill="#9A8A7A" text-anchor="middle">real school photo</text>
+                      <text x="433" y="178" font-size="10" fill="#9A8A7A" text-anchor="middle">(not a stock image)</text>
+                      <!-- stats bar -->
+                      <rect x="0" y="290" width="580" height="56" fill="#E8E0D8" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <rect x="0" y="286" width="580" height="4" fill="#E8E0D8"/>
+                      <text x="100" y="316" font-size="16" fill="#2A1810" text-anchor="middle" font-weight="700">700+</text>
+                      <text x="100" y="330" font-size="8" fill="#8A7A6A" text-anchor="middle" font-family="Inter, sans-serif">STUDENTS</text>
+                      <line x1="200" y1="300" x2="200" y2="340" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <text x="290" y="316" font-size="16" fill="#2A1810" text-anchor="middle" font-weight="700">Nursery–10</text>
+                      <text x="290" y="330" font-size="8" fill="#8A7A6A" text-anchor="middle" font-family="Inter, sans-serif">GRADES</text>
+                      <line x1="380" y1="300" x2="380" y2="340" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <text x="480" y="316" font-size="16" fill="#2A1810" text-anchor="middle" font-weight="700">25+</text>
+                      <text x="480" y="330" font-size="8" fill="#8A7A6A" text-anchor="middle" font-family="Inter, sans-serif">YEARS STRONG</text>
+                      <!-- annotations -->
+                      <line x1="566" y1="168" x2="590" y2="148" stroke="#E47A92" stroke-width="1.3" stroke-dasharray="4,3"/>
+                      <text x="302" y="60" font-size="14" fill="#7B1F3A" font-style="italic">photo = trust, immediately →</text>
+                      <line x1="166" y1="242" x2="148" y2="262" stroke="#E47A92" stroke-width="1.3" stroke-dasharray="4,3"/>
+                      <text x="14" y="272" font-size="13" fill="#7B1F3A" font-style="italic">2 CTAs for 2 different intents</text>
+                      <text x="14" y="286" font-size="13" fill="#7B1F3A" font-style="italic">(enquire vs just look around)</text>
+                    </svg>
+                    <figcaption class="svs-wire-caption">Two-column hero: headline left, school photo right. Photo placement was a deliberate first decision — parents needed to see a real face before reading a word.</figcaption>
+                  </figure>
+
+                  <figure class="svs-wire-fig">
+                    <div class="svs-wire-label">homepage · mobile · lo-fi v1</div>
+                    <svg viewBox="0 0 260 420" xmlns="http://www.w3.org/2000/svg" font-family="Caveat, cursive">
+                      <!-- phone shell -->
+                      <rect x="10" y="0" width="240" height="420" rx="20" fill="#F8F5EE" stroke="#C8B8A8" stroke-width="2"/>
+                      <rect x="10" y="0" width="240" height="36" rx="20" fill="#EAE3D8" stroke="#C8B8A8" stroke-width="2"/>
+                      <rect x="10" y="18" width="240" height="18" fill="#EAE3D8"/>
+                      <!-- status bar -->
+                      <rect x="90" y="8" width="80" height="12" rx="6" fill="#C8B8A8"/>
+                      <!-- nav bar -->
+                      <rect x="10" y="36" width="240" height="34" fill="#FAFAF7" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <rect x="24" y="44" width="32" height="14" rx="2" fill="#E0D8CC" stroke="#B89888" stroke-width="0.8"/>
+                      <text x="40" y="55" font-size="8" fill="#8A7A6A" text-anchor="middle" font-family="Inter, sans-serif">logo</text>
+                      <rect x="196" y="44" width="42" height="14" rx="7" fill="#2A1810"/>
+                      <text x="217" y="55" font-size="8" fill="#FAFAF7" text-anchor="middle" font-family="Inter, sans-serif">enquire</text>
+                      <!-- hero: mobile = headline first, photo below -->
+                      <rect x="24" y="84" width="54" height="10" rx="5" fill="#C8B8A8" opacity="0.6"/>
+                      <rect x="24" y="100" width="210" height="18" rx="2" fill="#C8B8A8" opacity="0.65"/>
+                      <rect x="24" y="124" width="180" height="18" rx="2" fill="#C8B8A8" opacity="0.65"/>
+                      <rect x="24" y="148" width="210" height="18" rx="2" fill="#FFD580" opacity="0.75"/>
+                      <rect x="24" y="176" width="194" height="7" rx="2" fill="#E0D8CC"/>
+                      <rect x="24" y="188" width="160" height="7" rx="2" fill="#E0D8CC"/>
+                      <rect x="24" y="206" width="90" height="24" rx="12" fill="#2A1810"/>
+                      <text x="69" y="222" font-size="10" fill="#FAFAF7" text-anchor="middle">Enquire</text>
+                      <rect x="122" y="206" width="90" height="24" rx="12" fill="none" stroke="#2A1810" stroke-width="1.4"/>
+                      <text x="167" y="222" font-size="10" fill="#2A1810" text-anchor="middle">Contact</text>
+                      <!-- photo below -->
+                      <rect x="24" y="242" width="212" height="120" rx="4" fill="#E0D8CC" stroke="#B89888" stroke-width="1.5"/>
+                      <line x1="24" y1="242" x2="236" y2="362" stroke="#C8B8A8" stroke-width="1"/>
+                      <line x1="236" y1="242" x2="24" y2="362" stroke="#C8B8A8" stroke-width="1"/>
+                      <text x="130" y="304" font-size="11" fill="#9A8A7A" text-anchor="middle">school photo</text>
+                      <!-- stats -->
+                      <rect x="10" y="374" width="240" height="46" fill="#E8E0D8" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <rect x="10" y="370" width="240" height="4" fill="#E8E0D8"/>
+                      <text x="75" y="398" font-size="12" fill="#2A1810" text-anchor="middle" font-weight="700">700+</text>
+                      <line x1="140" y1="380" x2="140" y2="412" stroke="#C8B8A8" stroke-width="0.8"/>
+                      <text x="195" y="398" font-size="12" fill="#2A1810" text-anchor="middle" font-weight="700">25+</text>
+                      <!-- annotation -->
+                      <line x1="234" y1="135" x2="258" y2="120" stroke="#E47A92" stroke-width="1.2" stroke-dasharray="3,3"/>
+                      <text x="14" y="76" font-size="13" fill="#7B1F3A" font-style="italic">headline leads on mobile —</text>
+                      <text x="14" y="90" font-size="13" fill="#7B1F3A" font-style="italic">photo follows below fold</text>
+                    </svg>
+                    <figcaption class="svs-wire-caption">On mobile, photo moves below the headline — because most parents land here from Google search and need to know what the school is before they trust a photo.</figcaption>
+                  </figure>
+
+                </div>
+              </section>
               <!-- DESIGN SYSTEM -->
               <section class="svs-section">
                 <div class="svs-eyebrow">★ design system</div>
@@ -3404,8 +3537,8 @@ a.ch-stat-link:hover { opacity: 0.82; }
 
                   <article class="crash-card">
                     <div class="cc-num">07</div>
-                    <h4 class="cc-title">A deadline that was <em>real</em>, not academic.</h4>
-                    <p class="cc-what">Admissions opened on a fixed date. Real school, real cycle, real parents who might not find them based on whether the site was live in time.</p>
+                    <h4 class="cc-title">A deadline with <em>real</em> stakes.</h4>
+                    <p class="cc-what">Admissions opened on a fixed date. Real school, real cycle, real parents searching for a school before the year began. Not a portfolio exercise — a live project with consequences.</p>
                     <div class="cc-fix">
                       <span class="cc-fix-label">→ what it changed</span>
                       <p>That kind of pressure is different. It made every evening session feel like it mattered.</p>
@@ -3602,7 +3735,7 @@ a.ch-stat-link:hover { opacity: 0.82; }
                   <div class="svs-eyebrow">★ impact · early signal</div>
                   <h2 class="svs-h2">Numbers that matter <em>at this scale</em>.</h2>
                   <div class="svs-prose">
-                    <p>For a school whose entire online presence was <strong>zero</strong> a month earlier, the first four weeks looked like this:</p>
+                    <p>For a school whose entire online presence was <strong>zero</strong> a month earlier, the first four weeks looked like this. A note on the numbers: these are small in absolute terms — but every single one represents a channel that didn't exist before. The baseline was zero. Any enquiry through the site was a parent who wouldn't have found them otherwise.</p>
                   </div>
                   <div class="svs-girl-row">
                     <div class="svs-girl-doodle"><svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
@@ -3819,6 +3952,10 @@ a.ch-stat-link:hover { opacity: 0.82; }
                     <div class="svs-lesson-num">03</div>
                     <h4>Iteration with a real client is humbling.</h4>
                     <p>Banner four times. Tagline seven times. Every round of client feedback beat my assumptions. <strong>That's the work.</strong></p>
+              <div class="svs-honest-box">
+                <div class="svs-honest-label">★ one thing I'd genuinely do differently</div>
+                <p>I'd run one structured round of parent testing before launch — even just three people looking at the site and talking through what they'd click first. I have the instincts, and the client feedback validated the direction, but <em>I don't have a parent quote that says "this made me want to visit."</em> That gap is real, and I know it. It's on the v2 roadmap.</p>
+              </div>
                   </div>
                 </div>
               </section>
