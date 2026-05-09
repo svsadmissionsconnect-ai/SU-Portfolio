@@ -1534,6 +1534,107 @@ body.case-open .sparkle-layer, body.page-open .sparkle-layer { display: none; }
 a.ch-stat-link { display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em; color: var(--case-bg); background: var(--case-deep); padding: 8px 14px; text-transform: uppercase; text-decoration: none; transition: opacity .2s; }
 a.ch-stat-link::before { content: "★"; color: var(--case-accent); }
 a.ch-stat-link:hover { opacity: 0.82; }
+
+/* ── CHAPTER BREAKS — full-bleed dark story beats ── */
+.chapter-break {
+  margin: 80px -100px 0;
+  padding: 90px 100px;
+  background: var(--ink);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.chapter-break + .svs-section { padding-top: 80px; }
+.cb-inner { max-width: 680px; margin: 0 auto; }
+.cb-rule {
+  font-family: var(--mono); font-size: 10px; letter-spacing: 0.48em;
+  text-transform: uppercase; color: var(--c-pink); display: block;
+  margin-bottom: 22px; opacity: 0.75;
+}
+.cb-text {
+  font-family: var(--display); font-weight: 300;
+  font-size: clamp(36px, 4.8vw, 66px); line-height: 1.08;
+  color: var(--bg); letter-spacing: -0.025em; margin: 0;
+  font-variation-settings: "SOFT" 60, "opsz" 144;
+}
+.cb-text em { font-family: var(--serif); font-style: italic; color: var(--c-pink); font-weight: 400; }
+.cb-star { display: block; color: var(--c-pink); font-size: 20px; margin-top: 24px; opacity: 0.55; }
+@media (max-width: 900px) {
+  .chapter-break { margin: 60px -32px 0; padding: 72px 32px; }
+}
+
+/* ── CRASH CARDS — the hard parts made visible ── */
+.crash-intro { font-family: var(--serif); font-style: italic; font-size: 16px; line-height: 1.6; color: var(--ink-soft); margin-bottom: 36px; }
+.crash-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 22px;
+  margin: 0 0 52px;
+}
+.crash-card {
+  position: relative;
+  padding: 32px 26px 44px;
+  border: 1.5px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.crash-card:hover {
+  transform: translate(-2px,-2px) rotate(0deg) !important;
+  box-shadow: 8px 8px 0 var(--ink);
+}
+.crash-card:nth-child(1) { transform: rotate(-1.4deg); background: #FFF8E6; }
+.crash-card:nth-child(2) { transform: rotate(1.1deg);  background: #FDE8EF; }
+.crash-card:nth-child(3) { transform: rotate(-0.7deg); background: #E8EEF9; }
+.crash-card:nth-child(4) { transform: rotate(1.6deg);  background: #E8F5EE; }
+.crash-card:nth-child(5) { transform: rotate(-1.2deg); background: #FFF3DD; }
+.crash-card:nth-child(6) { transform: rotate(0.9deg);  background: #EDE8F8; }
+.crash-card:nth-child(7) { transform: rotate(-1.8deg); background: #FFECE8; }
+.crash-card:nth-child(8) { transform: rotate(1.3deg);  background: #E8F5F3; }
+.crash-card::before {
+  content: "";
+  position: absolute;
+  top: -11px; left: 50%;
+  transform: translateX(-50%);
+  width: 52px; height: 20px;
+  background: rgba(245,165,184,0.5);
+  border: 1px solid rgba(200,100,130,0.2);
+}
+.cc-num {
+  font-family: var(--hand); font-size: 14px; font-weight: 700;
+  color: var(--ink-faint); margin-bottom: 10px;
+}
+.cc-title {
+  font-family: var(--display); font-size: 17px; font-weight: 500;
+  line-height: 1.25; color: var(--ink); margin-bottom: 11px; letter-spacing: -0.01em;
+}
+.cc-title em { font-family: var(--serif); font-style: italic; }
+.cc-what {
+  font-family: var(--serif); font-style: italic;
+  font-size: 14px; line-height: 1.55; color: var(--ink-soft); margin-bottom: 16px;
+}
+.cc-fix { border-top: 1.2px dashed rgba(42,24,16,0.22); padding-top: 13px; }
+.cc-fix-label {
+  font-family: var(--hand); font-size: 13.5px; font-weight: 700;
+  color: var(--c-blue); display: block; margin-bottom: 6px;
+}
+.cc-fix p {
+  font-family: var(--sans); font-size: 13px; line-height: 1.5; color: var(--ink);
+}
+.cc-fix code {
+  font-family: var(--mono); font-size: 11px;
+  background: rgba(0,0,0,0.08); padding: 1px 4px;
+  border-radius: 2px;
+}
+.cc-fix em { font-family: var(--serif); font-style: italic; color: var(--c-blue); }
+.cc-lesson {
+  position: absolute; bottom: 10px; right: 14px;
+  font-family: var(--hand); font-size: 11.5px; color: var(--ink-faint);
+  font-style: italic; max-width: 170px; text-align: right; line-height: 1.3;
+}
+@media (max-width: 768px) {
+  .crash-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 </head>
 <body>
@@ -2382,6 +2483,14 @@ a.ch-stat-link:hover { opacity: 0.82; }
                 </figure>
               </section>
 
+
+              <div class="chapter-break">
+                <div class="cb-inner">
+                  <span class="cb-rule">turning point · 01</span>
+                  <p class="cb-text">But admissions were <em>slipping</em>.</p>
+                  <span class="cb-star">★</span>
+                </div>
+              </div>
               <!-- THE PROBLEM -->
               <section class="svs-section">
                 <div class="svs-eyebrow">★ the problem</div>
@@ -3216,81 +3325,115 @@ a.ch-stat-link:hover { opacity: 0.82; }
                 </div>
               </section>
 
+
+              <div class="chapter-break">
+                <div class="cb-inner">
+                  <span class="cb-rule">turning point · 02</span>
+                  <p class="cb-text">Now for the <em>honest part</em>.</p>
+                  <span class="cb-star">★</span>
+                </div>
+              </div>
               <!-- THE HARD PARTS -->
               <section class="svs-section">
                 <div class="svs-eyebrow">★ the hard parts</div>
                 <h2 class="svs-h2">The parts that <em>didn't</em> go smoothly.</h2>
                 <div class="svs-prose">
-                  <p>No case study is honest without the messy bits. Here are the ones that mattered:</p>
+                  <p class="crash-intro">No case study is honest without the messy bits. Here are the ones that mattered — shown the way they felt.</p>
                 </div>
 
-                <div class="svs-hardparts">
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">01</div>
-                    <div class="svs-hard-body">
-                      <h4>The banner that went through <em>four lives</em>.</h4>
-                      <p>Redesigned the admissions banner four times. First too celebratory. Then too muted. Then too corporate. The fourth — soft mint pill, teal border, gentle float. Finally right. <strong>Lesson: trust client reactions over your own assumptions.</strong></p>
+                
+                <div class="crash-grid">
+
+                  <article class="crash-card">
+                    <div class="cc-num">01</div>
+                    <h4 class="cc-title">The banner that went through <em>four lives</em>.</h4>
+                    <p class="cc-what">First too celebratory. Then too muted. Then too corporate. Three rounds of "not quite."</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ how I got there</span>
+                      <p>Soft mint pill, teal border, gentle float. Client reaction on round four: <em>"yes, that."</em></p>
                     </div>
+                    <span class="cc-lesson">trust reactions over your own assumptions.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">02</div>
-                    <div class="svs-hard-body">
-                      <h4>Directing an AI without being a developer.</h4>
-                      <p>Every time I asked Claude to fix one thing, something else quietly broke. A rule meant for one section leaked into another and turned a button invisible. I had to learn to brief precisely. <strong>Vague direction gives vague results — whether you're talking to a person or an AI.</strong></p>
+                  <article class="crash-card">
+                    <div class="cc-num">02</div>
+                    <h4 class="cc-title">Directing an AI without <em>being a developer</em>.</h4>
+                    <p class="cc-what">Every time I fixed one thing, something else quietly broke. A rule meant for one section turned a button invisible somewhere else.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ what I learned</span>
+                      <p>Brief precisely. Vague direction gives vague results — whether talking to a person or an AI.</p>
                     </div>
+                    <span class="cc-lesson">specificity is a design skill too.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">03</div>
-                    <div class="svs-hard-body">
-                      <h4>The invisible button I chased for three sessions.</h4>
-                      <p>The "Read our full story" button in the dark green Our Story section was literally invisible. The CSS rule had a doubled ID selector (<code>#about #about .lm-link</code>) that matched nothing — so the button rendered dark green text on a dark green background. <strong>Design problems that look visual are sometimes technical.</strong></p>
+                  <article class="crash-card">
+                    <div class="cc-num">03</div>
+                    <h4 class="cc-title">The invisible button I chased for <em>three sessions</em>.</h4>
+                    <p class="cc-what">The "Read our full story" button: dark green text on a dark green background. Four hours of debugging a purely visual problem.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ the culprit</span>
+                      <p>A doubled ID selector <code>#about #about .lm-link</code> matched nothing. Visual problem, technical cause.</p>
                     </div>
+                    <span class="cc-lesson">3am. session four. still invisible.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">04</div>
-                    <div class="svs-hard-body">
-                      <h4>Writing copy that <em>doesn't</em> sound like a brochure.</h4>
-                      <p>I rewrote the hero tagline seven times. "Quality education for 26 years" (boring). "Where tradition meets modern learning" (corporate). "Where every child finds their <em>SPARK</em>." — that one landed. <strong>Copy is design. Every word carries the vibe.</strong></p>
+                  <article class="crash-card">
+                    <div class="cc-num">04</div>
+                    <h4 class="cc-title">Writing copy that doesn't sound like <em>a brochure</em>.</h4>
+                    <p class="cc-what">Seven rewrites of the hero tagline. "Quality education for 26 years" (boring). "Where tradition meets modern learning" (corporate).</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ what landed</span>
+                      <p>"Where every child finds their <em>SPARK.</em>" — seven tries to get to seven words.</p>
                     </div>
+                    <span class="cc-lesson">copy is design. every word carries the vibe.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">05</div>
-                    <div class="svs-hard-body">
-                      <h4>Curating <em>43 photos</em> from 26 years of events.</h4>
-                      <p>The client had years of event photos in phone backups, WhatsApp groups, and old hard drives. Picking 43 that worked together — same energy, different moments, real faces, usable quality — took longer than expected. I also wrote alt text for every single one (WCAG requirement).</p>
+                  <article class="crash-card">
+                    <div class="cc-num">05</div>
+                    <h4 class="cc-title">Curating <em>43 photos</em> from 26 years of events.</h4>
+                    <p class="cc-what">Photos scattered across phone backups, WhatsApp groups, old hard drives. Inconsistent quality, mixed lighting, different eras.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ the criteria</span>
+                      <p>Same energy. Real faces. Usable resolution. Then alt text for every single one (WCAG requirement).</p>
                     </div>
+                    <span class="cc-lesson">curation is design work too.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">06</div>
-                    <div class="svs-hard-body">
-                      <h4>The mobile overlay flex collapse.</h4>
-                      <p>The three full-page overlays (story, curriculum, gallery) worked perfectly on desktop but collapsed to zero visible height on mobile. Inner containers were collapsing inside a flex parent. Two days of back-and-forth before I understood: inner scrollable containers needed <code>flex: 0 0 auto</code>, not <code>flex: 1</code>.</p>
+                  <article class="crash-card">
+                    <div class="cc-num">06</div>
+                    <h4 class="cc-title">The mobile overlay <em>flex collapse</em>.</h4>
+                    <p class="cc-what">Three full-page overlays worked perfectly on desktop. On mobile they collapsed to zero visible height. Two days of back-and-forth.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ the fix</span>
+                      <p>Inner containers needed <code>flex: 0 0 auto</code>, not <code>flex: 1</code>. One line. Two days to find it.</p>
                     </div>
+                    <span class="cc-lesson">one property. two days. always test on device.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">07</div>
-                    <div class="svs-hard-body">
-                      <h4>A deadline that was <em>real</em>, not academic.</h4>
-                      <p>Admissions opened on a fixed date. This wasn't a portfolio exercise with an imaginary deadline. Real school, real cycle, real parents who might or might not find the right one based on whether the site was live in time. <strong>That kind of pressure is different.</strong> It made every evening session feel like it mattered.</p>
+                  <article class="crash-card">
+                    <div class="cc-num">07</div>
+                    <h4 class="cc-title">A deadline that was <em>real</em>, not academic.</h4>
+                    <p class="cc-what">Admissions opened on a fixed date. Real school, real cycle, real parents who might not find them based on whether the site was live in time.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ what it changed</span>
+                      <p>That kind of pressure is different. It made every evening session feel like it mattered.</p>
                     </div>
+                    <span class="cc-lesson">real stakes change how you work.</span>
                   </article>
 
-                  <article class="svs-hard">
-                    <div class="svs-hard-num">08</div>
-                    <div class="svs-hard-body">
-                      <h4>No backend, but the form had to <em>work</em>.</h4>
-                      <p>The admissions enquiry form needed to reach the school — without a server, database, or monthly cost. I built the submit button to construct a <code>mailto:</code> URL with all fields pre-filled. Works on every device, costs nothing, and the school gets a real email. <strong>Sometimes the elegant solution is the simplest one.</strong></p>
+                  <article class="crash-card">
+                    <div class="cc-num">08</div>
+                    <h4 class="cc-title">No backend, but the form had to <em>actually work</em>.</h4>
+                    <p class="cc-what">Admissions enquiry needed to reach the school — zero server, zero database, zero monthly cost.</p>
+                    <div class="cc-fix">
+                      <span class="cc-fix-label">→ the elegant hack</span>
+                      <p>Submit button builds a <code>mailto:</code> URL with all fields pre-filled. Works everywhere. Costs nothing.</p>
                     </div>
+                    <span class="cc-lesson">the simplest solution is often the best one.</span>
                   </article>
+
                 </div>
-              
-                <div class="svs-girl-row">
+<div class="svs-girl-row">
                   <div class="svs-girl-doodle"><svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
       <g fill="#6B3410" stroke="#2A1810" stroke-width="0.7">
         <circle cx="18" cy="22" r="8"/>
@@ -3453,6 +3596,14 @@ a.ch-stat-link:hover { opacity: 0.82; }
                 </div>
               </section>
 
+
+              <div class="chapter-break">
+                <div class="cb-inner">
+                  <span class="cb-rule">turning point · 03</span>
+                  <p class="cb-text">Mid-April. Site live. <em>Admissions open.</em></p>
+                  <span class="cb-star">★</span>
+                </div>
+              </div>
               <!-- IMPACT -->
               <section class="svs-section svs-impact">
                 <div class="svs-impact-inner">
