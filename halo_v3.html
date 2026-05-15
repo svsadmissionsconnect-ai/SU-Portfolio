@@ -15,33 +15,34 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --void: #020205;
-  --ink: #080810;
-  --card: #0e0e1a;
-  --card2: #131320;
-  --card3: #191928;
-  --line: rgba(255,255,255,0.055);
-  --line2: rgba(255,255,255,0.10);
-  --line3: rgba(255,255,255,0.18);
+  /* ── Backgrounds: deep navy replaces pure black ── */
+  --void: #0A0F1E;
+  --ink:  #0D1628;
+  --card: #111827;
+  --card2: #162033;
+  --card3: #1E2A3A;
+  --line:  rgba(148,210,255,0.07);
+  --line2: rgba(148,210,255,0.13);
+  --line3: rgba(148,210,255,0.24);
 
-  --lime: #b6ff6e;         /* primary accent — electric lime */
+  --lime: #b6ff6e;
   --lime-dim: rgba(182,255,110,0.10);
   --lime-glow: rgba(182,255,110,0.22);
-  --cyan: #00e5d4;         /* secondary */
+  --cyan: #00e5d4;
   --red: #ff4455;
   --amber: #ffb830;
 
-  --text: #f0f0fa;
-  --text2: #7070a0;
-  --text3: #38384e;
+  --text:  #F0F4FF;
+  --text2: #8B9BB4;
+  --text3: #3D4F63;
 
   --font-hero: 'Bebas Neue', sans-serif;
   --font-body: 'DM Sans', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
-  --r: 14px;
-  --r2: 8px;
-  --r3: 22px;
+  --r: 16px;
+  --r2: 10px;
+  --r3: 24px;
   --r-pill: 100px;
   --blur: blur(24px);
 }
@@ -89,8 +90,9 @@ body:has(.clickable:hover) .cursor-ring { width: 52px; height: 52px; border-colo
 .ambient {
   position: fixed; inset: 0; pointer-events: none; z-index: 0;
   background:
-    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(182,255,110,0.045) 0%, transparent 55%),
-    radial-gradient(ellipse 50% 50% at 85% 80%, rgba(0,229,212,0.03) 0%, transparent 55%);
+    radial-gradient(ellipse 60% 40% at 15% 20%, rgba(182,255,110,0.05) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 85% 80%, rgba(30,80,180,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 30% at 50% 100%, rgba(10,15,30,0.6) 0%, transparent 60%);
 }
 
 /* ── GRAIN OVERLAY ── */
@@ -116,7 +118,7 @@ nav {
   height: 58px;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 36px;
-  background: rgba(2,2,5,0.78);
+  background: rgba(10,15,30,0.84);
   backdrop-filter: var(--blur);
   -webkit-backdrop-filter: var(--blur);
   border-bottom: 1px solid var(--line);
@@ -440,7 +442,7 @@ nav {
 
 .bc-gradient {
   position: absolute; inset: 0;
-  background: linear-gradient(180deg, transparent 30%, rgba(8,8,16,0.95) 100%);
+  background: linear-gradient(180deg, transparent 30%, rgba(13,22,40,0.97) 100%);
 }
 
 .bc-body {
@@ -613,13 +615,23 @@ nav {
 .prod-grid-4 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
 
 .pg-card {
-  background: var(--card); border: 1px solid var(--line);
-  border-radius: var(--r); overflow: hidden; cursor: pointer;
-  text-decoration: none; transition: border-color 0.2s, transform 0.18s;
+  background: var(--card);
+  border: 1px solid var(--line2);
+  border-top: 2px solid var(--line2);
+  border-radius: var(--r);
+  overflow: hidden; cursor: pointer;
+  text-decoration: none;
+  transition: border-color 0.22s, border-top-color 0.22s, transform 0.2s, box-shadow 0.22s;
   display: flex; flex-direction: column;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3), 0 0 0 1px rgba(148,210,255,0.04) inset;
 }
-.pg-card:hover { border-color: var(--line2); transform: translateY(-4px); }
-.pg-card:hover .pg-img { filter: brightness(0.78) saturate(1.1); }
+.pg-card:hover {
+  border-color: var(--line3);
+  border-top-color: var(--lime);
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 20px rgba(182,255,110,0.06);
+}
+.pg-card:hover .pg-img { filter: brightness(0.82) saturate(1.15); }
 .pg-img {
   width: 100%; height: 180px; object-fit: cover;
   filter: brightness(0.58) saturate(0.8); display: block;
@@ -1121,6 +1133,27 @@ footer {
 .auth-tab.on { background: var(--card3); color: var(--text); }
 .social-btn:hover { border-color: var(--line3) !important; color: var(--text) !important; }
 
+/* ── Auth error message ── */
+#auth-error {
+  display: none;
+  background: rgba(255,68,85,0.12);
+  border: 1px solid rgba(255,68,85,0.35);
+  color: #ff6b7a;
+  border-radius: var(--r2);
+  padding: 10px 14px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+@keyframes authErrorShake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
 </style>
 </head>
 <body>
@@ -1163,7 +1196,7 @@ footer {
         Cart
         <div class="badge">3</div>
       </button>
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
   </nav>
@@ -1458,7 +1491,7 @@ footer {
     <div class="nav-right">
       <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search assets<kbd>⌘K</kbd></div>
       <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
   </nav>
@@ -1536,7 +1569,7 @@ footer {
     <div class="nav-right">
       <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
       <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
   </nav>
@@ -1605,7 +1638,7 @@ footer {
     <div class="nav-right">
       <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
       <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
   </nav>
@@ -1670,7 +1703,7 @@ footer {
       <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
   </nav>
@@ -1832,7 +1865,7 @@ footer {
       <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
     </div>
     <div class="nav-right">
-      <button class="btn-ghost-sm clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-ghost-sm clickable" onclick="go('s-home')">← Home</button>
     </div>
   </nav>
@@ -2123,6 +2156,136 @@ document.querySelectorAll('.acc-row').forEach(row => {
     ico.textContent = ico.textContent === '+' ? '−' : '+';
   });
 });
+
+/* ── AUTH TAB SWITCH ── */
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.auth-tab').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(tab)) b.classList.add('on');
+  });
+  document.getElementById('form-login').style.display  = tab === 'login'    ? '' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? '' : 'none';
+  ['auth-error','auth-error-reg'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  });
+}
+
+/* ── PASSWORD TOGGLE ── */
+function togglePw() {
+  const f   = document.getElementById('pw-field');
+  const btn = f ? f.parentElement.querySelector('button') : null;
+  if (!f) return;
+  f.type = f.type === 'password' ? 'text' : 'password';
+  if (btn) btn.textContent = f.type === 'password' ? 'SHOW' : 'HIDE';
+}
+
+/* ── AUTH ERROR ── */
+function showAuthError(msg) {
+  const isReg = document.getElementById('form-register').style.display !== 'none';
+  const el = document.getElementById(isReg ? 'auth-error-reg' : 'auth-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.animation = 'none';
+  el.offsetWidth;
+  el.style.animation = 'authErrorShake 0.35s ease';
+}
+
+/* ── UPDATE NAV USER STATE ── */
+function updateNavUser(user) {
+  document.querySelectorAll('.nav-login-btn').forEach(btn => {
+    if (user) {
+      const initials = user.name ? user.name.slice(0,2).toUpperCase() : '??';
+      btn.textContent = initials;
+      btn.title = `Signed in as ${user.email} — click to sign out`;
+      btn.style.background = 'var(--lime)';
+      btn.style.color = 'var(--void)';
+      btn.style.fontWeight = '700';
+      btn.onclick = () => { localStorage.removeItem('halo_user'); updateNavUser(null); };
+    } else {
+      btn.textContent = 'Login';
+      btn.title = '';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.fontWeight = '';
+      btn.onclick = () => go('s-login');
+    }
+  });
+}
+
+/* ── HANDLE LOGIN / REGISTER ── */
+function handleLogin() {
+  const isReg = document.getElementById('form-register').style.display !== 'none';
+  const form  = document.getElementById(isReg ? 'form-register' : 'form-login');
+  const emailEl = form.querySelector('input[type="email"]');
+  const pwEl    = form.querySelector('input[type="password"]');
+  const nameEl  = isReg ? form.querySelector('input[type="text"]') : null;
+
+  const email = emailEl ? emailEl.value.trim() : '';
+  const pw    = pwEl    ? pwEl.value           : '';
+  const name  = nameEl  ? nameEl.value.trim()  : '';
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showAuthError('Please enter a valid email address.');
+    emailEl && emailEl.focus();
+    return;
+  }
+  if (pw.length < 6) {
+    showAuthError('Password must be at least 6 characters.');
+    pwEl && pwEl.focus();
+    return;
+  }
+  if (isReg && !name) {
+    showAuthError('Please enter your name.');
+    nameEl && nameEl.focus();
+    return;
+  }
+
+  const user = {
+    email,
+    name: name || email.split('@')[0],
+    ts: Date.now()
+  };
+  localStorage.setItem('halo_user', JSON.stringify(user));
+  updateNavUser(user);
+
+  // Brief success flash then go home
+  const btn = document.querySelector('#' + (isReg ? 'form-register' : 'form-login') + ' .btn-primary-lg');
+  if (btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Welcome!';
+    btn.style.opacity = '0.8';
+    setTimeout(() => { btn.textContent = orig; btn.style.opacity = ''; go('s-home'); }, 900);
+  } else {
+    go('s-home');
+  }
+}
+
+/* ── THEME SWITCHER ── */
+function setTheme(t, el) {
+  document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
+  el.classList.add('active');
+  const themes = {
+    default: ['#b6ff6e', 'rgba(182,255,110,0.10)', 'rgba(182,255,110,0.22)'],
+    violet:  ['#c084fc', 'rgba(192,132,252,0.10)', 'rgba(192,132,252,0.22)'],
+    amber:   ['#fbbf24', 'rgba(251,191,36,0.10)',  'rgba(251,191,36,0.22)'],
+    cyan:    ['#22d3ee', 'rgba(34,211,238,0.10)',   'rgba(34,211,238,0.22)'],
+    rose:    ['#fb7185', 'rgba(251,113,133,0.10)',  'rgba(251,113,133,0.22)'],
+  };
+  const [lime, dim, glow] = themes[t] || themes.default;
+  const r = document.documentElement;
+  r.style.setProperty('--lime', lime);
+  r.style.setProperty('--lime-dim', dim);
+  r.style.setProperty('--lime-glow', glow);
+}
+
+/* ── RESTORE SESSION ── */
+(function() {
+  try {
+    const u = localStorage.getItem('halo_user');
+    if (u) updateNavUser(JSON.parse(u));
+  } catch(e) {}
+})();
 </script>
 
 <!-- ████████████████████████████████████████████████
@@ -2138,7 +2301,7 @@ document.querySelectorAll('.acc-row').forEach(row => {
       <!-- Grid overlay -->
       <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(182,255,110,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(182,255,110,.018) 1px,transparent 1px);background-size:48px 48px"></div>
       <!-- Gradient fade -->
-      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(2,2,5,.7) 0%,transparent 60%,rgba(2,2,5,.8) 100%)"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,15,30,.75) 0%,transparent 60%,rgba(10,15,30,.85) 100%)"></div>
       <!-- Content -->
       <div style="position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:48px">
         <div>
@@ -2235,6 +2398,7 @@ document.querySelectorAll('.acc-row').forEach(row => {
             <span style="font-size:12px;color:var(--lime);cursor:pointer;font-family:var(--font-mono);letter-spacing:.04em">FORGOT PASSWORD?</span>
           </div>
 
+          <div id="auth-error"></div>
           <button onclick="handleLogin()" class="btn-primary-lg clickable" style="width:100%;justify-content:center;margin-bottom:14px">
             Sign In →
           </button>
@@ -2316,6 +2480,7 @@ document.querySelectorAll('.acc-row').forEach(row => {
           <div style="text-align:center;font-size:12px;color:var(--text2)">
             Already have an account? <span style="color:var(--lime);cursor:pointer" onclick="switchAuthTab('login')">Sign in</span>
           </div>
+          <div id="auth-error-reg" style="display:none;background:rgba(255,68,85,0.12);border:1px solid rgba(255,68,85,0.35);color:#ff6b7a;border-radius:var(--r2);padding:10px 14px;font-size:12px;font-family:var(--font-mono);letter-spacing:.04em;margin-top:12px"></div>
         </div>
       </div>
     </div>
