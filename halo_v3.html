@@ -1091,41 +1091,6 @@ footer {
 }
 
 /* ── THEME SWITCHER PILL ── */
-.theme-switcher {
-  position: fixed; bottom: 28px; right: 28px; z-index: 300;
-  display: flex; flex-direction: column; gap: 8px;
-  align-items: flex-end;
-}
-.theme-toggle-btn {
-  width: 44px; height: 44px; border-radius: 50%;
-  background: var(--card2); border: 1px solid var(--line2);
-  display: grid; place-items: center; cursor: pointer;
-  font-size: 18px; transition: border-color .2s, transform .15s;
-  box-shadow: 0 4px 24px rgba(0,0,0,.5);
-}
-.theme-toggle-btn:hover { border-color: var(--line3); transform: scale(1.08); }
-.theme-panel {
-  display: none; flex-direction: column; gap: 6px; align-items: flex-end;
-}
-.theme-panel.open { display: flex; }
-.theme-dot {
-  width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
-  border: 2px solid transparent; transition: border-color .18s, transform .15s;
-  box-shadow: 0 2px 12px rgba(0,0,0,.4);
-}
-.theme-dot:hover { transform: scale(1.15); }
-.theme-dot.active { border-color: white; }
-.theme-dot[data-t="default"] { background: #b6ff6e; }
-.theme-dot[data-t="violet"] { background: #c084fc; }
-.theme-dot[data-t="amber"] { background: #fbbf24; }
-.theme-dot[data-t="cyan"] { background: #22d3ee; }
-.theme-dot[data-t="rose"] { background: #fb7185; }
-.theme-label {
-  font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em;
-  color: var(--text3); text-transform: uppercase;
-  background: var(--card2); border: 1px solid var(--line);
-  border-radius: var(--r2); padding: 3px 8px;
-}
 
 
 /* ── Auth tab styles ── */
@@ -2337,23 +2302,6 @@ function handleLogin() {
   }
 }
 
-/* ── THEME SWITCHER ── */
-function setTheme(t, el) {
-  document.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
-  el.classList.add('active');
-  const themes = {
-    default: ['#b6ff6e', 'rgba(182,255,110,0.10)', 'rgba(182,255,110,0.22)'],
-    violet:  ['#c084fc', 'rgba(192,132,252,0.10)', 'rgba(192,132,252,0.22)'],
-    amber:   ['#fbbf24', 'rgba(251,191,36,0.10)',  'rgba(251,191,36,0.22)'],
-    cyan:    ['#22d3ee', 'rgba(34,211,238,0.10)',   'rgba(34,211,238,0.22)'],
-    rose:    ['#fb7185', 'rgba(251,113,133,0.10)',  'rgba(251,113,133,0.22)'],
-  };
-  const [lime, dim, glow] = themes[t] || themes.default;
-  const r = document.documentElement;
-  r.style.setProperty('--lime', lime);
-  r.style.setProperty('--lime-dim', dim);
-  r.style.setProperty('--lime-glow', glow);
-}
 
 /* ── RESTORE SESSION ── */
 (function() {
@@ -2622,19 +2570,6 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 
-
-<!-- THEME SWITCHER -->
-<div class="theme-switcher">
-  <div class="theme-panel" id="theme-panel">
-    <span class="theme-label">THEME</span>
-    <div class="theme-dot active clickable" data-t="default" onclick="setTheme('default',this)" title="Lime (Default)"></div>
-    <div class="theme-dot clickable" data-t="violet" onclick="setTheme('violet',this)" title="Violet"></div>
-    <div class="theme-dot clickable" data-t="amber" onclick="setTheme('amber',this)" title="Amber"></div>
-    <div class="theme-dot clickable" data-t="cyan" onclick="setTheme('cyan',this)" title="Cyan"></div>
-    <div class="theme-dot clickable" data-t="rose" onclick="setTheme('rose',this)" title="Rose"></div>
-  </div>
-  <button class="theme-toggle-btn clickable" onclick="document.getElementById('theme-panel').classList.toggle('open')">🎨</button>
-</div>
 
 </body>
 </html>
