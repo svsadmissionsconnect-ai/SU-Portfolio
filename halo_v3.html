@@ -518,7 +518,7 @@ nav {
 .trend-num {
   position: absolute; top: 12px; left: 12px; z-index: 3;
   font-family: var(--font-hero); font-size: 11px; letter-spacing: 0.1em;
-  color: var(--lime); background: rgba(2,2,5,0.75); backdrop-filter: blur(6px);
+  color: var(--lime); background: rgba(10,15,30,0.82); backdrop-filter: blur(6px);
   border: 1px solid rgba(182,255,110,0.3);
   border-radius: var(--r2); padding: 4px 10px;
 }
@@ -964,7 +964,7 @@ nav {
 
 /* ─── MODALS ─── */
 .modal-bg {
-  position: fixed; inset: 0; background: rgba(2,2,5,0.8);
+  position: fixed; inset: 0; background: rgba(10,15,30,0.88);
   backdrop-filter: blur(8px); z-index: 500;
   display: none; align-items: center; justify-content: center;
 }
@@ -1154,6 +1154,94 @@ footer {
   80%      { transform: translateX(4px); }
 }
 
+/* ── FAVOURITE BUTTON ── */
+.fav-btn {
+  position: absolute; top: 10px; right: 10px; z-index: 4;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(10,15,30,0.75); backdrop-filter: blur(8px);
+  border: 1px solid var(--line2);
+  display: grid; place-items: center; cursor: pointer;
+  font-size: 14px; line-height: 1;
+  transition: background .2s, border-color .2s, transform .15s, color .2s;
+  color: var(--text3);
+}
+.fav-btn:hover { border-color: rgba(255,68,85,0.5); color: #ff6b7a; transform: scale(1.12); }
+.fav-btn.on { background: rgba(255,68,85,0.18); border-color: rgba(255,68,85,0.55); color: #ff4455; }
+.fav-btn.on:hover { transform: scale(1.12); }
+
+/* ── CARD SHIMMER ON HOVER ── */
+.pg-card { position: relative; overflow: hidden; }
+.pg-card::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(182,255,110,0.05) 50%, transparent 60%);
+  opacity: 0; transition: opacity .3s;
+  pointer-events: none;
+}
+.pg-card:hover::after { opacity: 1; }
+
+/* ── HERO GRID OVERLAY ── */
+.hero-grid-overlay {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(182,255,110,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(182,255,110,0.025) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
+}
+.hero-lime-glow {
+  position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+  width: 70%; height: 180px; pointer-events: none; z-index: 1;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(182,255,110,0.12) 0%, transparent 70%);
+  filter: blur(20px);
+}
+
+/* ── SECTION GLOW RULE ── */
+.sec-glow-rule {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  opacity: 0.25; margin: 0 0 40px;
+}
+
+/* ── FLOATING ORBIT BADGE (hero) ── */
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.hgc-orbit { animation: floatY 3.5s ease-in-out infinite; }
+
+/* ── PROD-CELL fav support ── */
+.prod-cell { position: relative; }
+.prod-cell .fav-btn { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 12px; }
+
+/* ── ALL IMAGES: ensure radius on standalone imgs ── */
+.tr-thumb { border-radius: var(--r2); }
+.sim-thumb { border-radius: var(--r2); }
+.bc-img { border-radius: 0; }   /* clipped by bento container already */
+
+/* ── HERO RIGHT: slight bottom rounding ── */
+.hero-right { border-radius: 0 0 var(--r3) 0; overflow: hidden; }
+
+/* ── LIME PULSE on fav heart ── */
+@keyframes heartPop { 0% { transform: scale(1); } 40% { transform: scale(1.45); } 80% { transform: scale(0.92); } 100% { transform: scale(1); } }
+.fav-btn.pop { animation: heartPop 0.38s ease forwards; }
+
+/* ── TREND ROW accent ── */
+.trend-row:hover { background: var(--card); border-radius: var(--r2); }
+.trend-row:hover .tr-num { color: var(--lime); }
+
+/* ── GLASS CARD inner glow ── */
+.hero-glass-card {
+  border: 1px solid rgba(182,255,110,0.18) !important;
+  box-shadow: 0 0 40px rgba(182,255,110,0.08), 0 8px 32px rgba(0,0,0,0.5);
+}
+
+/* ── SECTION H2 gradient ── */
+.sec-h2 { background: linear-gradient(135deg, var(--text) 60%, rgba(182,255,110,0.7));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+.sec-h2 em { -webkit-text-fill-color: var(--lime); background: none; }
+
+/* ── BENTO-STORES image rounding via container ── */
+.bento-stores { border-radius: var(--r3); }
+
 </style>
 </head>
 <body>
@@ -1235,12 +1323,14 @@ footer {
         </div>
       </div>
       <div class="hero-right">
-        <img class="hero-img-main" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1200&q=80" alt="AIoT Edge Computing">
+        <img class="hero-img-main" src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&q=85" alt="AIoT Edge Computing">
+        <div class="hero-grid-overlay"></div>
+        <div class="hero-lime-glow"></div>
         <div class="hero-nav">
           <button class="hn-btn clickable">&#8592;</button>
           <button class="hn-btn clickable">&#8594;</button>
         </div>
-        <div class="hero-glass-card">
+        <div class="hero-glass-card hgc-orbit">
           <div class="hgc-label">● FEATURED ASSET · TRENDING #1</div>
           <div class="hgc-title">NEURO BOOST ENGINE</div>
           <div class="hgc-desc">Neural acceleration runtime delivering sub-5ms inference across CPUs, GPUs & NPUs on TinkerBloX EdgeBloX fabric.</div>
@@ -1293,6 +1383,7 @@ footer {
         </button>
       </div>
 
+      <div class="sec-glow-rule"></div>
       <div class="bento-stores">
         <a class="bento-card clickable" onclick="showStore('app')">
           <div class="bc-arrow">↗</div>
@@ -1373,7 +1464,7 @@ footer {
           </div>
         </a>
         <a class="prod-cell w3 clickable" onclick="showDetail('digital-twin')">
-          <img class="pcell-img" src="https://images.unsplash.com/photo-1624953187665-e85ff06a5a8e?w=600&q=80" alt="" style="height:130px;flex:none">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&q=80" alt="" style="height:130px;flex:none">
           <div class="pcell-body">
             <div class="pcell-tag">MicroService</div>
             <div class="pcell-name">DIGITAL TWIN</div>
@@ -1435,7 +1526,7 @@ footer {
         <a class="trend-row clickable" onclick="showDetail('digital-twin')">
           <div class="tr-num">04</div>
           <div class="tr-info">
-            <img class="tr-thumb" src="https://images.unsplash.com/photo-1624953187665-e85ff06a5a8e?w=200&q=70" alt="">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=200&q=70" alt="">
             <div><div class="tr-name">DIGITAL TWIN</div><div class="tr-desc">Real-time virtual replica engine</div></div>
           </div>
           <div class="tr-cat">MicroService</div>
@@ -1520,7 +1611,7 @@ footer {
       <div class="prod-grid-4">
         <a class="pg-card clickable" onclick="showDetail('smart-diag')"><img class="pg-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART DIAGNOSTICS</div><div class="pg-desc">Continuously monitors IoT compute infrastructure to detect anomalies and predict failures.</div><div class="pg-footer"><span class="pg-price">$39.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
         <a class="pg-card clickable" onclick="showDetail('smarthome')"><img class="pg-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART HOME MIDDLEWARE</div><div class="pg-desc">Unified device orchestration layer for heterogeneous smart home ecosystems.</div><div class="pg-footer"><span class="pg-price">$59.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('digital-twin')"><img class="pg-img" src="https://images.unsplash.com/photo-1624953187665-e85ff06a5a8e?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">DIGITAL TWIN</div><div class="pg-desc">Real-time virtual replica engine with sub-100ms asset state synchronization.</div><div class="pg-footer"><span class="pg-price">$74.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('digital-twin')"><img class="pg-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">DIGITAL TWIN</div><div class="pg-desc">Real-time virtual replica engine with sub-100ms asset state synchronization.</div><div class="pg-footer"><span class="pg-price">$74.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
       </div>
     </div>
 
@@ -2009,7 +2100,7 @@ const PD = {
   sustain: { name:'SUSTAINABILITY MONITOR @ EDGE', cat:'AI Algo Store', price:'$49', img:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&q=80', desc:'Real-time carbon footprint tracking and energy optimization deployed directly at the network edge. Part of TinkerBloX ShadesOfGreen initiative with live power analytics.', specs:[{k:'Tracking',v:'Real-time'},{k:'Metrics',v:'CO₂+kWh'},{k:'Refresh',v:'100ms'},{k:'Deploy',v:'Edge-native'}] },
   blockchain: { name:'BLOCKCHAIN TRACK & TRACE', cat:'Logic Store', price:'$69', img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=900&q=80', desc:'Immutable supply chain audit trail for industrial IoT. Cryptographic provenance tracking across the full product lifecycle with edge-native write throughput and zero latency.', specs:[{k:'Ledger',v:'Distributed'},{k:'TPS',v:'10,000+'},{k:'Latency',v:'<10ms'},{k:'Audit',v:'Immutable'}] },
   sdv: { name:'SDV CRUISE CONTROL', cat:'AI Algo Store', price:'$89', img:'https://images.unsplash.com/photo-1493238792000-8113da705763?w=900&q=80', desc:'AI inference runtime for Software-Defined Vehicles running mission-critical workloads alongside OTA safety guarantees. AUTOSAR-compatible, ISO 26262 certified.', specs:[{k:'Safety',v:'ISO 26262'},{k:'OTA',v:'Supported'},{k:'RTOS',v:'AUTOSAR'},{k:'Targets',v:'HPC+MCU'}] },
-  'digital-twin': { name:'DIGITAL TWIN', cat:'MicroService Store', price:'$74', img:'https://images.unsplash.com/photo-1624953187665-e85ff06a5a8e?w=900&q=80', desc:'Real-time virtual replica engine for physical assets. Predictive simulation, remote monitoring and what-if scenario modeling with sub-100ms state synchronization at scale.', specs:[{k:'Sync',v:'<100ms'},{k:'Models',v:'Physics-based'},{k:'Scale',v:'1M+ assets'},{k:'API',v:'REST+gRPC'}] },
+  'digital-twin': { name:'DIGITAL TWIN', cat:'MicroService Store', price:'$74', img:'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=900&q=80', desc:'Real-time virtual replica engine for physical assets. Predictive simulation, remote monitoring and what-if scenario modeling with sub-100ms state synchronization at scale.', specs:[{k:'Sync',v:'<100ms'},{k:'Models',v:'Physics-based'},{k:'Scale',v:'1M+ assets'},{k:'API',v:'REST+gRPC'}] },
   predictive: { name:'PREDICTIVE MAINTENANCE', cat:'AI Algo Store', price:'$49', img:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=900&q=80', desc:'Analyzes industrial asset telemetry to forecast potential failures before they occur. Prevents costly downtime with 95%+ detection accuracy on TinkerBloX edge hardware.', specs:[{k:'Accuracy',v:'95%+'},{k:'Horizon',v:'72hr'},{k:'Sensors',v:'Vibration+Heat'},{k:'Deploy',v:'Edge-native'}] },
   'smart-diag': { name:'SMART DIAGNOSTICS', cat:'MicroService Store', price:'$39', img:'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=900&q=80', desc:'Continuously monitors IoT compute infrastructure to detect anomalies and predict failures in real time. TinkerBloX execution fabric ensures <6ms alert latency across the full stack.', specs:[{k:'Latency',v:'<6ms'},{k:'Coverage',v:'Full stack'},{k:'Anomaly',v:'ML-based'},{k:'Alerts',v:'Real-time'}] },
   'edge-runtime': { name:'EDGEBLOX RUNTIME', cat:'MicroService Store', price:'$99', img:'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=900&q=80', desc:'TinkerBloX flagship edge orchestration suite. Lean, self-aware, nimble, interoperable and green — built from first principles for heterogeneous device habitats at the edge of tomorrow.', specs:[{k:'Startup',v:'30× faster'},{k:'Memory',v:'65% less'},{k:'Size',v:'3.8× smaller'},{k:'Power',v:'>8% saved'}] }
@@ -2021,7 +2112,7 @@ const IMGS = {
   sustain:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=75',
   blockchain:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75',
   sdv:'https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=75',
-  'digital-twin':'https://images.unsplash.com/photo-1624953187665-e85ff06a5a8e?w=500&q=75',
+  'digital-twin':'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=75',
   predictive:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=75',
   'smart-diag':'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=75',
   'edge-runtime':'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&q=75'
@@ -2038,6 +2129,7 @@ function go(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
+  setTimeout(initFavButtons, 0);
 }
 
 function showStore(cat) {
@@ -2055,6 +2147,7 @@ function showStore(cat) {
   grid.innerHTML = d.items.map(id => {
     const p = PD[id] || {};
     return `<a class="pg-card clickable" onclick="showDetail('${id}')">
+      ${favBtnHtml(id)}
       <img class="pg-img" src="${IMGS[id]}" alt="">
       <div class="pg-body">
         <div class="pg-tag">${p.cat||''}</div>
@@ -2068,6 +2161,7 @@ function showStore(cat) {
     </a>`;
   }).join('');
   go('s-category');
+  setTimeout(initFavButtons, 20);
 }
 
 function showDetail(id) {
@@ -2218,44 +2312,26 @@ function handleLogin() {
   const isReg = document.getElementById('form-register').style.display !== 'none';
   const form  = document.getElementById(isReg ? 'form-register' : 'form-login');
   const emailEl = form.querySelector('input[type="email"]');
-  const pwEl    = form.querySelector('input[type="password"]');
   const nameEl  = isReg ? form.querySelector('input[type="text"]') : null;
 
-  const email = emailEl ? emailEl.value.trim() : '';
-  const pw    = pwEl    ? pwEl.value           : '';
-  const name  = nameEl  ? nameEl.value.trim()  : '';
+  const rawEmail = emailEl ? emailEl.value.trim() : '';
+  const rawName  = nameEl  ? nameEl.value.trim()  : '';
 
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showAuthError('Please enter a valid email address.');
-    emailEl && emailEl.focus();
-    return;
-  }
-  if (pw.length < 6) {
-    showAuthError('Password must be at least 6 characters.');
-    pwEl && pwEl.focus();
-    return;
-  }
-  if (isReg && !name) {
-    showAuthError('Please enter your name.');
-    nameEl && nameEl.focus();
-    return;
-  }
-
+  // Accept whatever is in the fields — no blocking validation
   const user = {
-    email,
-    name: name || email.split('@')[0],
+    email: rawEmail || 'guest@tinkerbloX.io',
+    name:  rawName  || (rawEmail ? rawEmail.split('@')[0] : 'Edge User'),
     ts: Date.now()
   };
   localStorage.setItem('halo_user', JSON.stringify(user));
   updateNavUser(user);
 
-  // Brief success flash then go home
   const btn = document.querySelector('#' + (isReg ? 'form-register' : 'form-login') + ' .btn-primary-lg');
   if (btn) {
     const orig = btn.textContent;
     btn.textContent = '✓ Welcome!';
-    btn.style.opacity = '0.8';
-    setTimeout(() => { btn.textContent = orig; btn.style.opacity = ''; go('s-home'); }, 900);
+    btn.style.background = 'rgba(182,255,110,0.85)';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; go('s-home'); }, 800);
   } else {
     go('s-home');
   }
@@ -2286,6 +2362,65 @@ function setTheme(t, el) {
     if (u) updateNavUser(JSON.parse(u));
   } catch(e) {}
 })();
+
+/* ── FAVOURITES / WISHLIST ── */
+var favs = JSON.parse(localStorage.getItem('halo_favs') || '[]');
+
+function isFav(id) { return favs.indexOf(id) > -1; }
+
+function favBtnHtml(id) {
+  return '<button class="fav-btn' + (isFav(id) ? ' on' : '') + ' clickable" data-id="' + id + '" onclick="toggleFav(\'' + id + '\',event)" title="' + (isFav(id) ? 'Remove from wishlist' : 'Add to wishlist') + '">♥</button>';
+}
+
+function toggleFav(id, e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  var idx = favs.indexOf(id);
+  if (idx > -1) favs.splice(idx, 1);
+  else favs.push(id);
+  localStorage.setItem('halo_favs', JSON.stringify(favs));
+
+  // Update all visible fav buttons for this id
+  document.querySelectorAll('.fav-btn[data-id="' + id + '"]').forEach(function(btn) {
+    btn.classList.toggle('on', isFav(id));
+    btn.title = isFav(id) ? 'Remove from wishlist' : 'Add to wishlist';
+    // Pop animation
+    btn.classList.remove('pop');
+    void btn.offsetWidth;
+    btn.classList.add('pop');
+    btn.addEventListener('animationend', function() { btn.classList.remove('pop'); }, { once: true });
+  });
+  updateFavBadge();
+}
+
+function updateFavBadge() {
+  document.querySelectorAll('.fav-count').forEach(function(el) {
+    el.textContent = favs.length;
+    el.style.display = favs.length > 0 ? 'grid' : 'none';
+  });
+}
+
+function initFavButtons() {
+  document.querySelectorAll('.pg-card, .prod-cell').forEach(function(card) {
+    if (card.querySelector('.fav-btn')) return;
+    var onclick = card.getAttribute('onclick') || '';
+    var match = onclick.match(/showDetail\('([^']+)'\)/);
+    if (!match) return;
+    var id = match[1];
+    var btn = document.createElement('button');
+    btn.className = 'fav-btn' + (isFav(id) ? ' on' : '') + ' clickable';
+    btn.setAttribute('data-id', id);
+    btn.title = isFav(id) ? 'Remove from wishlist' : 'Add to wishlist';
+    btn.textContent = '♥';
+    btn.onclick = function(e) { toggleFav(id, e); };
+    card.insertBefore(btn, card.firstChild);
+  });
+}
+
+// Run on DOMContentLoaded and after screen changes
+document.addEventListener('DOMContentLoaded', function() {
+  initFavButtons();
+  updateFavBadge();
+});
 </script>
 
 <!-- ████████████████████████████████████████████████
