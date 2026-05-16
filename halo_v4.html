@@ -38,7 +38,7 @@
 
   --text:  #eeeeff;
   --text2: #6a6a9e;
-  --text3: #32325a;
+  --text3: #5a5a8a;
 
   --font-hero: 'Bebas Neue', sans-serif;
   --font-body: 'DM Sans', sans-serif;
@@ -197,7 +197,7 @@ nav {
   background: var(--lime); color: var(--void);
   font-size: 9px; font-weight: 700; font-family: var(--font-hero);
   display: grid; place-items: center;
-  box-shadow: 0 0 10px rgba(0,220,200,0.5);
+  box-shadow: 0 0 10px rgba(178,255,0,0.5);
 }
 
 .btn-ghost-sm {
@@ -1172,6 +1172,111 @@ footer {
   60% { transform: translateX(-4px); }
   80% { transform: translateX(4px); }
 }
+
+/* ── FOCUS VISIBLE ── */
+*:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+/* ── TOUCH / MOBILE: hide custom cursor ── */
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none !important; }
+}
+
+/* ── SEARCH OVERLAY ── */
+.search-overlay {
+  position: fixed; inset: 0; z-index: 8000;
+  background: rgba(5,5,15,0.82);
+  backdrop-filter: blur(32px) saturate(1.4);
+  display: none; flex-direction: column; align-items: center;
+  padding-top: 14vh;
+}
+.search-overlay.show { display: flex; }
+.search-box {
+  width: 100%; max-width: 640px;
+  background: rgba(12,12,36,0.72);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22);
+  overflow: hidden;
+}
+.search-input-wrap {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.search-input-wrap svg { opacity: 0.5; flex-shrink: 0; }
+#search-inp {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: var(--font-body); font-size: 18px; color: var(--text);
+}
+#search-inp::placeholder { color: var(--text3); }
+.search-kbd { font-family: var(--font-mono); font-size: 10px; color: var(--text3); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 2px 6px; cursor: pointer; }
+.search-results {
+  max-height: 60vh; overflow-y: auto; padding: 10px;
+}
+.search-result-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 12px; border-radius: var(--r2); cursor: pointer;
+  transition: background 0.15s;
+}
+.search-result-item:hover { background: rgba(178,255,0,0.08); }
+.search-result-img { width: 48px; height: 40px; object-fit: cover; border-radius: var(--r2); flex-shrink: 0; }
+.search-result-name { font-family: var(--font-hero); font-size: 14px; letter-spacing: 0.04em; }
+.search-result-cat { font-size: 11px; color: var(--text2); font-family: var(--font-mono); margin-top: 2px; }
+.search-result-price { margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--lime); }
+.search-empty { text-align: center; padding: 32px; font-size: 13px; color: var(--text3); }
+
+/* ── ACCORDION CONTENT PANELS ── */
+.acc-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.28s ease, padding 0.18s;
+  font-size: 12px; color: var(--text2); line-height: 1.8;
+  font-family: var(--font-body); padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+.acc-body.open { max-height: 200px; padding: 12px 14px; }
+
+/* ── MOBILE BREAKPOINTS ── */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-left { padding: 36px 20px 48px; }
+  .hero-h1 { font-size: clamp(56px, 14vw, 90px); }
+
+  nav { padding: 0 16px; }
+  .nav-center { display: none; }
+  .nav-right { gap: 8px; }
+  .search-trigger span:not(:first-child):not(kbd) { display: none; }
+
+  .bento-stores { grid-template-columns: 1fr !important; grid-template-rows: auto !important; }
+  .bento-card { height: 220px !important; }
+
+  .prod-grid-4 { grid-template-columns: 1fr 1fr !important; }
+  @media (max-width: 480px) { .prod-grid-4 { grid-template-columns: 1fr !important; } }
+
+  .hm-metrics { flex-wrap: wrap; gap: 12px; }
+
+  .plans { grid-template-columns: 1fr !important; }
+
+  .cart-layout { flex-direction: column !important; padding: 20px !important; }
+  .order-card { width: 100% !important; }
+
+  .co-layout { flex-direction: column !important; padding: 20px !important; }
+
+  .det-layout { flex-direction: column !important; padding: 20px !important; }
+  .det-sidebar { width: 100% !important; border-left: none !important; border-top: 1px solid var(--line); }
+
+  .sidebar { width: 100% !important; flex-shrink: 0; border-right: none !important; border-bottom: 1px solid var(--line); }
+
+  #s-login > div { grid-template-columns: 1fr !important; }
+  #s-login > div > div:first-child { display: none; }
+
+  .sub-page { padding: 24px 16px !important; }
+  .section { padding: 32px 16px !important; }
+  .page { padding: 58px 0 0 !important; }
+  .bc { padding: 10px 16px !important; }
+}
 </style>
 </head>
 <body>
@@ -1183,6 +1288,20 @@ footer {
 <!-- Custom cursor -->
 <div class="cursor" id="cur"></div>
 <div class="cursor-ring" id="curRing"></div>
+
+<!-- ── SEARCH OVERLAY ── -->
+<div class="search-overlay" id="search-overlay" onclick="closeSearch(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search-inp" type="text" placeholder="Search assets, categories…" oninput="runSearch(this.value)" autocomplete="off">
+      <span class="search-kbd clickable" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Start typing to search 300+ AIoT assets…</div>
+    </div>
+  </div>
+</div>
 
 <!-- ████████████████████████████████████████████████
      SCREEN: HOME
@@ -1204,7 +1323,7 @@ footer {
       <button class="nav-tab clickable" onclick="go('s-store')">HALO × Store</button>
     </div>
     <div class="nav-right">
-      <div class="search-trigger clickable">
+      <div class="search-trigger clickable" onclick="openSearch()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
         Search assets
         <kbd>⌘K</kbd>
@@ -1217,7 +1336,7 @@ footer {
       <button class="cart-badge-btn clickable" onclick="go('s-cart')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
         Cart
-        <div class="badge">3</div>
+        <div class="badge" style="display:none">0</div>
       </button>
       <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
@@ -1515,8 +1634,8 @@ footer {
       <button class="nav-tab on clickable">HALO × Store</button>
     </div>
     <div class="nav-right">
-      <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search assets<kbd>⌘K</kbd></div>
-      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search assets<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
       <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
@@ -1544,9 +1663,9 @@ footer {
         <button class="btn-link clickable" onclick="showStore('app')">Go to Store <span class="arr">→</span></button>
       </div>
       <div class="prod-grid-4">
-        <a class="pg-card clickable" onclick="showDetail('smart-diag')"><img class="pg-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART DIAGNOSTICS</div><div class="pg-desc">Continuously monitors IoT compute infrastructure to detect anomalies and predict failures.</div><div class="pg-footer"><span class="pg-price">$39.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('smarthome')"><img class="pg-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART HOME MIDDLEWARE</div><div class="pg-desc">Unified device orchestration layer for heterogeneous smart home ecosystems.</div><div class="pg-footer"><span class="pg-price">$59.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('digital-twin')"><img class="pg-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">DIGITAL TWIN</div><div class="pg-desc">Real-time virtual replica engine with sub-100ms asset state synchronization.</div><div class="pg-footer"><span class="pg-price">$74.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('smart-diag')"><img class="pg-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=80" alt="Smart Diagnostics — IoT anomaly detection dashboard"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART DIAGNOSTICS</div><div class="pg-desc">Continuously monitors IoT compute infrastructure to detect anomalies and predict failures.</div><div class="pg-footer"><span class="pg-price">$39.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('smart-diag')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('smarthome')"><img class="pg-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Smart Home Middleware — unified IoT device orchestration"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART HOME MIDDLEWARE</div><div class="pg-desc">Unified device orchestration layer for heterogeneous smart home ecosystems.</div><div class="pg-footer"><span class="pg-price">$59.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('smarthome')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('digital-twin')"><img class="pg-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Digital Twin — real-time virtual asset replica engine"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">DIGITAL TWIN</div><div class="pg-desc">Real-time virtual replica engine with sub-100ms asset state synchronization.</div><div class="pg-footer"><span class="pg-price">$74.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('digital-twin')">+ Add</button></div></div></a>
       </div>
     </div>
 
@@ -1557,9 +1676,9 @@ footer {
         <button class="btn-link clickable" onclick="showStore('ai')">Go to Store <span class="arr">→</span></button>
       </div>
       <div class="prod-grid-4">
-        <a class="pg-card clickable" onclick="showDetail('neuro')"><img class="pg-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">NEURO BOOST ENGINE</div><div class="pg-desc">Neural acceleration runtime for sub-5ms inference on constrained edge hardware.</div><div class="pg-footer"><span class="pg-price">$79.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('predictive')"><img class="pg-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">PREDICTIVE MAINTENANCE</div><div class="pg-desc">Analyzes industrial asset telemetry to forecast potential failures with 95%+ accuracy.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('sdv')"><img class="pg-img" src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">SDV CRUISE CONTROL</div><div class="pg-desc">AI inference for Software-Defined Vehicles running mission-critical workloads with OTA safety.</div><div class="pg-footer"><span class="pg-price">$89.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('neuro')"><img class="pg-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80" alt="Neuro Boost Engine — neural acceleration for edge AI inference"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">NEURO BOOST ENGINE</div><div class="pg-desc">Neural acceleration runtime for sub-5ms inference on constrained edge hardware.</div><div class="pg-footer"><span class="pg-price">$79.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('neuro')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('predictive')"><img class="pg-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80" alt="Predictive Maintenance — industrial IoT failure forecasting"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">PREDICTIVE MAINTENANCE</div><div class="pg-desc">Analyzes industrial asset telemetry to forecast potential failures with 95%+ accuracy.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('predictive')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sdv')"><img class="pg-img" src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=80" alt="SDV Cruise Control — AI runtime for software-defined vehicles"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">SDV CRUISE CONTROL</div><div class="pg-desc">AI inference for Software-Defined Vehicles running mission-critical workloads with OTA safety.</div><div class="pg-footer"><span class="pg-price">$89.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sdv')">+ Add</button></div></div></a>
       </div>
     </div>
 
@@ -1570,9 +1689,9 @@ footer {
         <button class="btn-link clickable" onclick="showStore('logic')">Go to Store <span class="arr">→</span></button>
       </div>
       <div class="prod-grid-4">
-        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain audit trail with 10,000+ TPS and cryptographic provenance.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Real-time carbon tracking and energy optimization at the network edge.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&q=80" alt=""><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">TinkerBloX flagship edge orchestration suite — lean, self-aware, green by design.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80" alt="Blockchain Track & Trace — immutable supply chain audit trail"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain audit trail with 10,000+ TPS and cryptographic provenance.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('blockchain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&q=80" alt="Sustainability Monitor — edge carbon tracking and energy optimization"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Real-time carbon tracking and energy optimization at the network edge.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sustain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&q=80" alt="EdgeBloX Runtime — lean edge orchestration fabric"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">TinkerBloX flagship edge orchestration suite — lean, self-aware, green by design.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('edge-runtime')">+ Add</button></div></div></a>
       </div>
     </div>
   </div>
@@ -1593,8 +1712,8 @@ footer {
       <button class="nav-tab clickable" id="ntab-logic" onclick="showStore('logic')">Logic Store</button>
     </div>
     <div class="nav-right">
-      <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
-      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
       <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
@@ -1662,8 +1781,8 @@ footer {
       <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
     </div>
     <div class="nav-right">
-      <div class="search-trigger clickable"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
-      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
       <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
@@ -1693,7 +1812,7 @@ footer {
         <div class="ds-period">/ month</div>
       </div>
       <div class="ds-note">Billed monthly. Cancel anytime.</div>
-      <button class="ds-add clickable" onclick="go('s-cart')">
+      <button class="ds-add clickable" onclick="addToCart(currentDetail);go('s-cart')">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
         Add to Cart
       </button>
@@ -1737,37 +1856,22 @@ footer {
       <h1 class="cart-h">YOUR CART</h1>
       <p class="cart-sub">Not ready? <a onclick="go('s-store')">Continue Shopping →</a></p>
 
-      <div class="cart-item-card">
-        <img class="ci-thumb" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=300&q=80" alt="">
-        <div class="ci-body">
-          <div class="ci-name">NEURO BOOST ENGINE</div>
-          <div class="ci-desc">Neural acceleration runtime for sub-5ms edge inference · Subscription · 1 month</div>
-          <div class="ci-actions">
-            <span class="ci-rm clickable">Remove</span>
-            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">QTY: 1</span>
-          </div>
-        </div>
-        <div class="ci-price">$79.99</div>
+      <!-- Empty state -->
+      <div id="cart-empty" style="display:none;text-align:center;padding:60px 0">
+        <div style="font-size:44px;opacity:0.25;margin-bottom:16px">🛒</div>
+        <div style="font-family:var(--font-hero);font-size:24px;letter-spacing:0.04em;color:var(--text2);margin-bottom:10px">YOUR CART IS EMPTY</div>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:24px">Browse the HALO store and add assets to get started.</p>
+        <button class="btn-primary-lg clickable" onclick="go('s-store')" style="margin:0 auto">Browse Assets →</button>
       </div>
 
-      <div class="cart-item-card">
-        <img class="ci-thumb" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=300&q=80" alt="">
-        <div class="ci-body">
-          <div class="ci-name">PREDICTIVE MAINTENANCE</div>
-          <div class="ci-desc">Analyzes asset data to forecast potential failures · Subscription · 1 month</div>
-          <div class="ci-actions">
-            <span class="ci-rm clickable">Remove</span>
-            <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">QTY: 1</span>
-          </div>
-        </div>
-        <div class="ci-price">$49.99</div>
-      </div>
+      <!-- Dynamic cart items -->
+      <div id="cart-items"></div>
 
       <h2 style="font-family:var(--font-hero);font-size:26px;letter-spacing:0.04em;margin:36px 0 18px">RECOMMENDED FOR YOU</h2>
       <div class="prod-grid-4">
-        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&q=80" alt=""><div class="pg-body"><div class="pg-tag">Logic Store</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain logic blocks.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation()">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80" alt=""><div class="pg-body"><div class="pg-tag">AI Store</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Edge carbon tracking & energy optimization.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation()">+ Add</button></div></div></a>
-        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&q=80" alt=""><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">Zero-bloat edge orchestration fabric.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation()">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&q=80" alt="Blockchain Track & Trace"><div class="pg-body"><div class="pg-tag">Logic Store</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain logic blocks.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('blockchain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80" alt="Sustainability Monitor"><div class="pg-body"><div class="pg-tag">AI Store</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Edge carbon tracking & energy optimization.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sustain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=400&q=80" alt="EdgeBloX Runtime"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">Zero-bloat edge orchestration fabric.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('edge-runtime')">+ Add</button></div></div></a>
       </div>
     </div>
 
@@ -1782,9 +1886,9 @@ footer {
           <button class="promo-apply clickable">APPLY</button>
         </div>
         <div class="li-rows">
-          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val">$129.98</span></div>
+          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val" id="cart-subtotal">$0.00</span></div>
           <div class="li-r"><span class="li-lbl">Platform fee</span><span class="li-val" style="color:var(--text2);font-size:11px;font-family:var(--font-mono)">INCLUDED</span></div>
-          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val">$129.98</span></div>
+          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val" id="cart-total">$0.00</span></div>
         </div>
         <button class="checkout-cta clickable" onclick="go('s-checkout')">Proceed to Checkout →</button>
         <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:12px;font-family:var(--font-mono)">SECURED BY TINKERBLO<span style="color:var(--lime)">X</span> PLATFORM</div>
@@ -1827,7 +1931,7 @@ footer {
       </div>
       <div class="save-row">
         <span class="save-lbl">Save card for future payments</span>
-        <div class="toggle-sw on clickable"></div>
+        <div class="toggle-sw on clickable" id="save-card-sw" onclick="this.classList.toggle('on')"></div>
       </div>
 
       <div class="form-section-title">Billing Address</div>
@@ -1843,11 +1947,14 @@ footer {
       <div class="form-section-title">Order Information</div>
       <div class="accordion">
         <div class="acc-row clickable"><span class="acc-lbl">Refund Policy</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">Subscriptions may be cancelled within 7 days of purchase for a full refund. One-time licence purchases are non-refundable once the asset has been deployed. Contact support@tinkerbloX.io for all refund requests.</div>
         <div class="acc-row clickable"><span class="acc-lbl">Terms of Service</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">By purchasing you agree to the TinkerBloX Platform Terms of Service. Assets are licensed for use on authorised edge devices only. Redistribution, reverse-engineering or sub-licensing is strictly prohibited.</div>
         <div class="acc-row clickable"><span class="acc-lbl">Privacy Policy</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">TinkerBloX collects only the data necessary to fulfil your order and operate the platform. We do not sell personal data to third parties. All telemetry is anonymised and processed on TinkerBloX edge infrastructure. See privacy.tinkerbloX.io for full details.</div>
       </div>
 
-      <button class="pay-final clickable" onclick="startPayment()">Pay $129.98 →</button>
+      <button class="pay-final clickable" id="pay-btn" onclick="startPayment()">Pay $0.00 →</button>
       <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px;font-family:var(--font-mono)">256-BIT SSL SECURED · POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div>
     </div>
 
@@ -1855,18 +1962,11 @@ footer {
       <div class="order-card" style="position:sticky;top:80px">
         <div class="oc-h" style="font-size:18px">YOUR ORDER</div>
         <div style="height:1px;background:var(--line);margin:14px 0"></div>
-        <div style="display:flex;gap:12px;margin-bottom:16px">
-          <img style="width:80px;height:64px;object-fit:cover;border-radius:var(--r2);filter:brightness(.65);flex-shrink:0" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=200&q=80" alt="">
-          <div><div style="font-family:var(--font-hero);font-size:15px;letter-spacing:.04em;margin-bottom:4px">NEURO BOOST ENGINE</div><div style="font-size:11px;color:var(--text2)">Subscription · 1 month<br>$79.99</div></div>
-        </div>
-        <div style="display:flex;gap:12px;margin-bottom:16px">
-          <img style="width:80px;height:64px;object-fit:cover;border-radius:var(--r2);filter:brightness(.65);flex-shrink:0" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=200&q=80" alt="">
-          <div><div style="font-family:var(--font-hero);font-size:15px;letter-spacing:.04em;margin-bottom:4px">PREDICTIVE MAINTENANCE</div><div style="font-size:11px;color:var(--text2)">Subscription · 1 month<br>$49.99</div></div>
-        </div>
+        <div id="co-items"></div>
         <div style="height:1px;background:var(--line);margin:14px 0"></div>
         <div class="li-rows">
-          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val">$129.98</span></div>
-          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val">$129.98</span></div>
+          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val" id="co-subtotal">$0.00</span></div>
+          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val" id="co-total">$0.00</span></div>
         </div>
       </div>
     </div>
@@ -1911,7 +2011,7 @@ footer {
     <div class="plans">
       <div class="plan">
         <div class="plan-name">FREE</div>
-        <div class="plan-price">$0 <em>/ mo</em></div>
+        <div class="plan-price" data-monthly="0" data-annual="0">$0 <em>/ mo</em></div>
         <div class="plan-for">FOR INDIVIDUALS & EXPLORATION</div>
         <ul class="plan-feats">
           <li><div class="pf-check on"></div> 3 microservice deployments</li>
@@ -1921,12 +2021,12 @@ footer {
           <li class="plan-feat-off"><div class="pf-check off"></div> OTA update support</li>
           <li class="plan-feat-off"><div class="pf-check off"></div> 99.9% SLA guarantee</li>
         </ul>
-        <button class="plan-cta clickable">Get Started</button>
+        <button class="plan-cta clickable" onclick="pickPlan(this,'free')">Get Started Free</button>
       </div>
 
       <div class="plan">
         <div class="plan-name">BASIC</div>
-        <div class="plan-price">$49 <em>/ mo</em></div>
+        <div class="plan-price" data-monthly="49" data-annual="39">$49 <em>/ mo</em></div>
         <div class="plan-for">FOR SMALL TEAMS & STARTUPS</div>
         <ul class="plan-feats">
           <li><div class="pf-check on"></div> 20 microservice deployments</li>
@@ -1936,13 +2036,13 @@ footer {
           <li class="plan-feat-off"><div class="pf-check off"></div> OTA update support</li>
           <li class="plan-feat-off"><div class="pf-check off"></div> 99.9% SLA guarantee</li>
         </ul>
-        <button class="plan-cta clickable">Get Started</button>
+        <button class="plan-cta clickable" onclick="pickPlan(this,'basic')">Get Basic →</button>
       </div>
 
       <div class="plan featured">
         <div class="plan-pop-badge">MOST POPULAR</div>
         <div class="plan-name" style="color:var(--lime)">PRO</div>
-        <div class="plan-price">$79 <em>/ mo</em></div>
+        <div class="plan-price" data-monthly="79" data-annual="63">$79 <em>/ mo</em></div>
         <div class="plan-for">FOR GROWING ENTERPRISES</div>
         <ul class="plan-feats">
           <li><div class="pf-check on"></div> Unlimited deployments</li>
@@ -1957,7 +2057,7 @@ footer {
 
       <div class="plan">
         <div class="plan-name">ENTERPRISE</div>
-        <div class="plan-price">$99 <em>/ mo</em></div>
+        <div class="plan-price" data-monthly="99" data-annual="79">$99 <em>/ mo</em></div>
         <div class="plan-for">FOR LARGE-SCALE DEPLOYMENTS</div>
         <ul class="plan-feats">
           <li><div class="pf-check on"></div> Everything in Pro</li>
@@ -2059,6 +2159,7 @@ const CATS = {
 /* ── NAVIGATION ── */
 function go(id) {
   if (id === 's-favorites') renderFavourites();
+  if (id === 's-cart' || id === 's-checkout') renderCart();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
@@ -2088,7 +2189,7 @@ function showStore(cat) {
         <div class="pg-desc">${(p.desc||'').slice(0,90)}…</div>
         <div class="pg-footer">
           <span class="pg-price">${p.price||'–'}</span>
-          <button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button>
+          <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${id}')">+ Add</button>
         </div>
       </div>
     </a>`;
@@ -2129,14 +2230,14 @@ function showDetail(id) {
     const q = PD[k];
     return `<a class="pg-card clickable" onclick="showDetail('${k}')">
       ${favBtnHtml(k)}
-      <img class="pg-img" src="${IMGS[k]}" alt="">
+      <img class="pg-img" src="${IMGS[k]}" alt="${q.name||k}">
       <div class="pg-body">
         <div class="pg-tag">${q.cat||''}</div>
         <div class="pg-name">${q.name||k}</div>
         <div class="pg-desc">${(q.desc||'').slice(0,80)}…</div>
         <div class="pg-footer">
           <span class="pg-price">${q.price||'–'}</span>
-          <button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button>
+          <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${k}')">+ Add</button>
         </div>
       </div>
     </a>`;
@@ -2164,6 +2265,93 @@ function closeModals() {
   document.querySelectorAll('.modal-bg').forEach(m => m.classList.remove('show'));
 }
 
+/* ── CART SYSTEM ── */
+var cart = JSON.parse(localStorage.getItem('halo_cart') || '[]');
+
+const PRICES = {
+  smarthome:59.99, neuro:79.99, sustain:49.99, blockchain:69.99,
+  sdv:89.99, 'digital-twin':74.99, predictive:49.99, 'smart-diag':39.99, 'edge-runtime':99.99
+};
+
+function addToCart(id) {
+  if (cart.indexOf(id) === -1) cart.push(id);
+  localStorage.setItem('halo_cart', JSON.stringify(cart));
+  updateCartBadge();
+  renderCart();
+  document.querySelectorAll('[onclick*="addToCart(\'' + id + '\')"]').forEach(function(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Added';
+    btn.style.background = 'var(--lime)'; btn.style.color = 'var(--void)';
+    setTimeout(function() { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
+  });
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(function(i) { return i !== id; });
+  localStorage.setItem('halo_cart', JSON.stringify(cart));
+  updateCartBadge();
+  renderCart();
+}
+
+function updateCartBadge() {
+  document.querySelectorAll('.cart-badge-btn .badge:not(.fav-count)').forEach(function(el) {
+    el.textContent = cart.length;
+    el.style.display = cart.length > 0 ? 'grid' : 'none';
+  });
+}
+
+function cartTotal() {
+  return cart.reduce(function(sum, id) { return sum + (PRICES[id] || 0); }, 0);
+}
+function fmt(n) { return '$' + n.toFixed(2); }
+
+function renderCart() {
+  var itemsEl = document.getElementById('cart-items');
+  var emptyEl = document.getElementById('cart-empty');
+  var subtotal = document.getElementById('cart-subtotal');
+  var total    = document.getElementById('cart-total');
+  var coItems  = document.getElementById('co-items');
+  var coSub    = document.getElementById('co-subtotal');
+  var coTot    = document.getElementById('co-total');
+  var payBtn   = document.getElementById('pay-btn');
+  if (!itemsEl) return;
+  var t = cartTotal();
+  if (cart.length === 0) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    itemsEl.innerHTML = '';
+  } else {
+    if (emptyEl) emptyEl.style.display = 'none';
+    itemsEl.innerHTML = cart.map(function(id) {
+      var p = PD[id] || {}; var price = PRICES[id] || 0;
+      return '<div class="cart-item-card">' +
+        '<img class="ci-thumb" src="' + (IMGS[id]||'') + '" alt="' + (p.name||id) + '">' +
+        '<div class="ci-body">' +
+          '<div class="ci-name">' + (p.name||id) + '</div>' +
+          '<div class="ci-desc">' + (p.desc||'').slice(0,80) + '… · Subscription · 1 month</div>' +
+          '<div class="ci-actions">' +
+            '<span class="ci-rm clickable" onclick="removeFromCart(\'' + id + '\')">Remove</span>' +
+            '<span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">QTY: 1</span>' +
+          '</div></div><div class="ci-price">' + fmt(price) + '</div></div>';
+    }).join('');
+  }
+  if (subtotal) subtotal.textContent = fmt(t);
+  if (total)    total.textContent    = fmt(t);
+  if (coItems) {
+    coItems.innerHTML = cart.length === 0
+      ? '<p style="font-size:12px;color:var(--text3);margin-bottom:12px">No items in cart.</p>'
+      : cart.map(function(id) {
+          var p = PD[id]||{}; var price = PRICES[id]||0;
+          return '<div style="display:flex;gap:12px;margin-bottom:16px">' +
+            '<img style="width:80px;height:64px;object-fit:cover;border-radius:var(--r2);filter:brightness(.65);flex-shrink:0" src="' + (IMGS[id]||'') + '" alt="' + (p.name||id) + '">' +
+            '<div><div style="font-family:var(--font-hero);font-size:15px;letter-spacing:.04em;margin-bottom:4px">' + (p.name||id) + '</div>' +
+            '<div style="font-size:11px;color:var(--text2)">Subscription · 1 month<br>' + fmt(price) + '</div></div></div>';
+        }).join('');
+  }
+  if (coSub)  coSub.textContent  = fmt(t);
+  if (coTot)  coTot.textContent  = fmt(t);
+  if (payBtn) payBtn.textContent = 'Pay ' + fmt(t) + ' →';
+}
+
 /* ── FILTER TOGGLE ── */
 function toggleFilter(row) {
   const cb = row.querySelector('.cb');
@@ -2178,6 +2366,24 @@ let billingAnnual = false;
 function toggleBilling() {
   billingAnnual = !billingAnnual;
   document.getElementById('bill-sw').classList.toggle('on', billingAnnual);
+  document.querySelectorAll('.plan-price[data-monthly]').forEach(function(el) {
+    var v = billingAnnual ? el.dataset.annual : el.dataset.monthly;
+    el.innerHTML = (v === '0' ? 'Free' : '$' + v) + ' <em>/ mo</em>';
+  });
+}
+
+/* ── PLAN PICKER ── */
+function pickPlan(btn, name) {
+  document.querySelectorAll('.plan').forEach(function(p) { p.style.outline = ''; });
+  btn.closest('.plan').style.outline = '2px solid var(--lime)';
+  if (name === 'free') {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Selected';
+    btn.style.background = 'var(--lime)'; btn.style.color = 'var(--void)';
+    setTimeout(function() { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; go('s-home'); }, 900);
+  } else {
+    go('s-checkout');
+  }
 }
 
 /* ── PAY TAB SELECT ── */
@@ -2189,9 +2395,46 @@ function selectPayTab(btn) {
 /* ── ACCORDION ── */
 document.querySelectorAll('.acc-row').forEach(row => {
   row.addEventListener('click', () => {
-    const ico = row.querySelector('.acc-ico');
-    ico.textContent = ico.textContent === '+' ? '−' : '+';
+    const ico  = row.querySelector('.acc-ico');
+    const body = row.nextElementSibling;
+    const isOpen = body && body.classList.contains('open');
+    document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.acc-ico').forEach(i => i.textContent = '+');
+    if (!isOpen && body) { body.classList.add('open'); ico.textContent = '−'; }
   });
+});
+
+/* ── SEARCH ── */
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('show');
+  setTimeout(function() { document.getElementById('search-inp').focus(); }, 60);
+}
+function closeSearch(e) {
+  if (!e || e.target === document.getElementById('search-overlay')) {
+    document.getElementById('search-overlay').classList.remove('show');
+    document.getElementById('search-inp').value = '';
+    document.getElementById('search-results').innerHTML = '<div class="search-empty">Start typing to search 300+ AIoT assets…</div>';
+  }
+}
+function runSearch(q) {
+  const res = document.getElementById('search-results');
+  if (!q.trim()) { res.innerHTML = '<div class="search-empty">Start typing to search 300+ AIoT assets…</div>'; return; }
+  const matches = Object.keys(PD).filter(function(id) {
+    const p = PD[id];
+    return (p.name + ' ' + p.cat + ' ' + (p.desc||'')).toLowerCase().indexOf(q.toLowerCase()) > -1;
+  });
+  if (!matches.length) { res.innerHTML = '<div class="search-empty">No assets matched "' + q + '"</div>'; return; }
+  res.innerHTML = matches.map(function(id) {
+    const p = PD[id];
+    return '<div class="search-result-item clickable" onclick="closeSearch();showDetail(\'' + id + '\')">' +
+      '<img class="search-result-img" src="' + IMGS[id] + '" alt="' + p.name + '">' +
+      '<div><div class="search-result-name">' + p.name + '</div><div class="search-result-cat">' + p.cat + '</div></div>' +
+      '<div class="search-result-price">' + (p.price||'') + '/mo</div></div>';
+  }).join('');
+}
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+  if (e.key === 'Escape') closeSearch({ target: document.getElementById('search-overlay') });
 });
 
 /* ── AUTH TAB SWITCH ── */
@@ -2347,6 +2590,8 @@ function initFavButtons() {
 document.addEventListener('DOMContentLoaded', function() {
   initFavButtons();
   updateFavBadge();
+  updateCartBadge();
+  renderCart();
 });
 
 /* ── FAVOURITES SCREEN ── */
@@ -2363,14 +2608,14 @@ function renderFavourites() {
       const p = PD[id] || {};
       return `<a class="pg-card clickable" onclick="showDetail('${id}')">
         ${favBtnHtml(id)}
-        <img class="pg-img" src="${IMGS[id]||''}" alt="">
+        <img class="pg-img" src="${IMGS[id]||''}" alt="${p.name||id}">
         <div class="pg-body">
           <div class="pg-tag">${p.cat||''}</div>
           <div class="pg-name">${p.name||id}</div>
           <div class="pg-desc">${(p.desc||'').slice(0,90)}…</div>
           <div class="pg-footer">
             <span class="pg-price">${p.price||'–'}</span>
-            <button class="pg-add clickable" onclick="event.stopPropagation();go('s-cart')">+ Add</button>
+            <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${id}')">+ Add</button>
           </div>
         </div>
       </a>`;
@@ -2424,7 +2669,7 @@ function renderFavourites() {
         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.35) saturate(.7)"
         alt="Edge Computing" onerror="this.style.display='none'">
       <!-- Grid overlay -->
-      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,220,200,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(0,220,200,.022) 1px,transparent 1px);background-size:48px 48px"></div>
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(178,255,0,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(178,255,0,.022) 1px,transparent 1px);background-size:48px 48px"></div>
       <!-- Gradient fade -->
       <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(5,13,14,.75) 0%,transparent 60%,rgba(5,13,14,.85) 100%)"></div>
       <!-- Content -->
@@ -2634,7 +2879,7 @@ function renderFavourites() {
         Saved
         <div class="badge fav-count" style="display:none">0</div>
       </button>
-      <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge">3</div></button>
+      <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
       <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
       <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
     </div>
