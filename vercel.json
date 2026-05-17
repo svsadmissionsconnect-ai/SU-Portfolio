@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/halo_v4.html", "destination": "/halo_v4.html" },
+    { "source": "/halo_v3.html", "destination": "/halo_v3.html" },
     { "source": "/", "destination": "/portfolio cs1 v9.html" }
   ]
 }
