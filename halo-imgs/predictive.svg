@@ -1,0 +1,29 @@
+<svg width="580" height="240" viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="580" height="240" fill="#08081c"/>
+  <rect width="580" height="240" fill="url(#g_predictive)"/>
+  <defs>
+    <radialGradient id="g_predictive" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#ffaa00" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffaa00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(0, 30)">
+  
+          <rect x="40" y="130" width="30" height="50" rx="2" fill="rgba(255,170,0,0.3)" stroke="#ffaa00" stroke-width="1.2"/>
+          <rect x="90" y="100" width="30" height="80" rx="2" fill="rgba(255,170,0,0.3)" stroke="#ffaa00" stroke-width="1.2"/>
+          <rect x="140" y="115" width="30" height="65" rx="2" fill="rgba(255,170,0,0.3)" stroke="#ffaa00" stroke-width="1.2"/>
+          <rect x="190" y="80" width="30" height="100" rx="2" fill="rgba(255,170,0,0.5)" stroke="#ffaa00" stroke-width="1.8"/>
+          <rect x="240" y="95" width="30" height="85" rx="2" fill="rgba(255,170,0,0.3)" stroke="#ffaa00" stroke-width="1.2"/>
+          <rect x="290" y="60" width="30" height="120" rx="2" fill="rgba(255,170,0,0.5)" stroke="#ffaa00" stroke-width="1.8"/>
+          <rect x="340" y="90" width="30" height="90" rx="2" fill="rgba(255,170,0,0.3)" stroke="#ffaa00" stroke-width="1.2"/>
+          <polyline points="40,50 90,42 140,48 190,30 240,38 290,22 340,32 390,28 440,35 490,20 540,25" 
+            fill="none" stroke="#ffaa00" stroke-width="2" opacity="0.8"/>
+          <rect x="460" y="40" width="80" height="22" rx="3" fill="rgba(255,170,0,0.15)" stroke="#ffaa00" stroke-width="1"/>
+          <text x="465" y="55" font-family="monospace" font-size="8" fill="#ffaa00">95.2% accuracy</text>
+          <text x="20" y="20" font-family="monospace" font-size="8" fill="#ffaa00" opacity="0.6">FAILURE RISK · industrial telemetry</text>
+        
+  </g>
+  <rect x="0" y="202" width="580" height="38" fill="rgba(0,0,0,0.5)"/>
+  <text x="16" y="220" font-family="monospace" font-size="11" fill="#ffaa00" font-weight="700" letter-spacing="1">PREDICTIVE MAINTENANCE</text>
+  <text x="16" y="232" font-family="monospace" font-size="8" fill="#ffaa00" opacity="0.5">Algorithm · Failure Forecast</text>
+</svg>

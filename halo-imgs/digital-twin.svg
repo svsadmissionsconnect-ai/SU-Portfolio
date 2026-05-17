@@ -1,0 +1,25 @@
+<svg width="580" height="240" viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="580" height="240" fill="#08081c"/>
+  <rect width="580" height="240" fill="url(#g_digital-twin)"/>
+  <defs>
+    <radialGradient id="g_digital-twin" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(0, 30)">
+  
+          <polygon points="290,20 400,75 400,165 290,220 180,165 180,75" fill="none" stroke="#00e5ff" stroke-width="1.5" opacity="0.7"/>
+          <polygon points="290,50 370,90 370,158 290,195 210,158 210,90" fill="rgba(0,229,255,0.06)" stroke="#00e5ff" stroke-width="1" opacity="0.5"/>
+          <line x1="290" y1="20" x2="290" y2="220" stroke="#00e5ff" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 4"/>
+          <line x1="180" y1="75" x2="400" y2="165" stroke="#00e5ff" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 4"/>
+          <line x1="400" y1="75" x2="180" y2="165" stroke="#00e5ff" stroke-width="0.8" opacity="0.3" stroke-dasharray="4 4"/>
+          <circle cx="290" cy="120" r="12" fill="rgba(0,229,255,0.2)" stroke="#00e5ff" stroke-width="1.5"/>
+          <text x="20" y="20" font-family="monospace" font-size="8" fill="#00e5ff" opacity="0.6">SYNC · sub-100ms · v2.1</text>
+          <text x="20" y="220" font-family="monospace" font-size="8" fill="#00e5ff" opacity="0.4">asset.state → virtual.replica</text>
+        
+  </g>
+  <rect x="0" y="202" width="580" height="38" fill="rgba(0,0,0,0.5)"/>
+  <text x="16" y="220" font-family="monospace" font-size="11" fill="#00e5ff" font-weight="700" letter-spacing="1">DIGITAL TWIN</text>
+  <text x="16" y="232" font-family="monospace" font-size="8" fill="#00e5ff" opacity="0.5">MicroService · Virtual Replica</text>
+</svg>

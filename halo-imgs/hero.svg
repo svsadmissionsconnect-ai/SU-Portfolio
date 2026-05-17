@@ -1,0 +1,24 @@
+<svg width="800" height="500" viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="500" fill="#08081c"/>
+  
+      <defs>
+        <radialGradient id="rg1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#B2FF00" stop-opacity="0.15"/>
+          <stop offset="100%" stop-color="#B2FF00" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="600" cy="250" r="200" fill="url(#rg1)"/>
+      <circle cx="600" cy="250" r="120" fill="none" stroke="#B2FF00" stroke-width="1" opacity="0.3" stroke-dasharray="8 8"/>
+      <circle cx="600" cy="250" r="70" fill="none" stroke="#B2FF00" stroke-width="1.5" opacity="0.5"/>
+      <circle cx="600" cy="250" r="25" fill="rgba(178,255,0,0.2)" stroke="#B2FF00" stroke-width="2"/>
+      <line x1="200" y1="50" x2="600" y2="250" stroke="#B2FF00" stroke-width="1" opacity="0.3"/>
+      <line x1="100" y1="250" x2="600" y2="250" stroke="#B2FF00" stroke-width="1" opacity="0.3"/>
+      <line x1="200" y1="450" x2="600" y2="250" stroke="#B2FF00" stroke-width="1" opacity="0.3"/>
+      <circle cx="200" cy="50" r="5" fill="#B2FF00" opacity="0.7"/>
+      <circle cx="100" cy="250" r="5" fill="#B2FF00" opacity="0.7"/>
+      <circle cx="200" cy="450" r="5" fill="#B2FF00" opacity="0.7"/>
+      <polyline points="50,420 120,350 200,380 280,300 360,330 440,260 520,290 600,250" 
+        fill="none" stroke="#B2FF00" stroke-width="2" opacity="0.6"/>
+    
+  <text x="60" y="240" font-family="monospace" font-size="48" fill="#B2FF00" font-weight="700" opacity="0.12" letter-spacing="4">HALO</text>
+</svg>

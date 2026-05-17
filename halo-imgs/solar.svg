@@ -1,0 +1,26 @@
+<svg width="580" height="240" viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg">
+  <rect width="580" height="240" fill="#08081c"/>
+  <rect width="580" height="240" fill="url(#g_solar)"/>
+  <defs>
+    <radialGradient id="g_solar" cx="80%" cy="20%" r="60%">
+      <stop offset="0%" stop-color="#ffcc00" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffcc00" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <g transform="translate(0, 30)">
+  
+          <circle cx="290" cy="90" r="45" fill="rgba(255,204,0,0.1)" stroke="#ffcc00" stroke-width="2"/>
+          <circle cx="290" cy="90" r="28" fill="rgba(255,204,0,0.2)" stroke="#ffcc00" stroke-width="1.5"/>
+          <circle cx="290" cy="90" r="12" fill="rgba(255,204,0,0.5)"/>
+          <line x1="290" y1="30" x2="290" y2="145" stroke="#ffcc00" stroke-width="1" opacity="0.3"/>
+          <line x1="240" y1="55" x2="340" y2="125" stroke="#ffcc00" stroke-width="1" opacity="0.3"/>
+          <line x1="340" y1="55" x2="240" y2="125" stroke="#ffcc00" stroke-width="1" opacity="0.3"/>
+          <polyline points="100,170 150,140 200,155 250,120 300,135 350,100 400,115 450,85 500,100 540,75" 
+            fill="none" stroke="#ffcc00" stroke-width="2" opacity="0.8"/>
+          <text x="20" y="20" font-family="monospace" font-size="8" fill="#ffcc00" opacity="0.6">SOLAR YIELD · 94.2% optimized</text>
+        
+  </g>
+  <rect x="0" y="202" width="580" height="38" fill="rgba(0,0,0,0.5)"/>
+  <text x="16" y="220" font-family="monospace" font-size="11" fill="#ffcc00" font-weight="700" letter-spacing="1">SOLAR EDGE</text>
+  <text x="16" y="232" font-family="monospace" font-size="8" fill="#ffcc00" opacity="0.5">Logic Block · Energy AI</text>
+</svg>
