@@ -1,32 +1,46 @@
-<svg width="580" height="240" viewBox="0 0 580 240" xmlns="http://www.w3.org/2000/svg">
-  <rect width="580" height="240" fill="#08081c"/>
-  <rect width="580" height="240" fill="url(#g_smarthome)"/>
+<svg width="600" height="280" viewBox="0 0 600 280" xmlns="http://www.w3.org/2000/svg">
+  <rect width="600" height="280" fill="#0a0a1e"/>
+  
   <defs>
-    <radialGradient id="g_smarthome" cx="80%" cy="20%" r="60%">
-      <stop offset="0%" stop-color="#B2FF00" stop-opacity="0.08"/>
+    <radialGradient id="glow" cx="50%" cy="40%" r="55%">
+      <stop offset="0%" stop-color="#B2FF00" stop-opacity="0.12"/>
       <stop offset="100%" stop-color="#B2FF00" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <g transform="translate(0, 30)">
-  
-          <circle cx="290" cy="75" r="18" fill="none" stroke="#B2FF00" stroke-width="2"/>
-          <circle cx="290" cy="75" r="8" fill="#B2FF00" opacity="0.8"/>
-          <line x1="290" y1="75" x2="160" y2="40" stroke="#B2FF00" stroke-width="1.2" opacity="0.6"/>
-          <line x1="290" y1="75" x2="420" y2="40" stroke="#B2FF00" stroke-width="1.2" opacity="0.6"/>
-          <line x1="290" y1="75" x2="140" y2="110" stroke="#B2FF00" stroke-width="1.2" opacity="0.6"/>
-          <line x1="290" y1="75" x2="440" y2="110" stroke="#B2FF00" stroke-width="1.2" opacity="0.6"/>
-          <line x1="290" y1="75" x2="290" y2="135" stroke="#B2FF00" stroke-width="1.2" opacity="0.6"/>
-          <rect x="148" y="28" width="24" height="24" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.2"/>
-          <rect x="408" y="28" width="24" height="24" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.2"/>
-          <rect x="128" y="98" width="24" height="24" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.2"/>
-          <rect x="428" y="98" width="24" height="24" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.2"/>
-          <rect x="278" y="123" width="24" height="24" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.2"/>
-          <text x="20" y="20" font-family="monospace" font-size="8" fill="#B2FF00" opacity="0.5">5 devices · edge-native</text>
-          <circle cx="290" cy="75" r="35" fill="none" stroke="#B2FF00" stroke-width="0.5" opacity="0.2" stroke-dasharray="4 4"/>
-          <circle cx="290" cy="75" r="55" fill="none" stroke="#B2FF00" stroke-width="0.5" opacity="0.12" stroke-dasharray="3 6"/>
-        
-  </g>
-  <rect x="0" y="202" width="580" height="38" fill="rgba(0,0,0,0.5)"/>
-  <text x="16" y="220" font-family="monospace" font-size="11" fill="#B2FF00" font-weight="700" letter-spacing="1">SMART HOME MIDDLEWARE</text>
-  <text x="16" y="232" font-family="monospace" font-size="8" fill="#B2FF00" opacity="0.5">MicroService · Device Mesh</text>
+  <rect width="600" height="280" fill="url(#glow)"/>
+  <!-- House silhouette -->
+  <polygon points="300,60 180,150 420,150" fill="rgba(178,255,0,0.12)" stroke="#B2FF00" stroke-width="2"/>
+  <rect x="200" y="150" width="200" height="100" fill="rgba(178,255,0,0.08)" stroke="#B2FF00" stroke-width="2"/>
+  <!-- Door -->
+  <rect x="265" y="195" width="40" height="55" rx="20" fill="rgba(178,255,0,0.18)" stroke="#B2FF00" stroke-width="1.5"/>
+  <!-- Windows -->
+  <rect x="215" y="165" width="35" height="30" rx="3" fill="rgba(178,255,0,0.25)" stroke="#B2FF00" stroke-width="1.2"/>
+  <rect x="350" y="165" width="35" height="30" rx="3" fill="rgba(178,255,0,0.25)" stroke="#B2FF00" stroke-width="1.2"/>
+  <!-- Connected devices with lines -->
+  <!-- Bulb left -->
+  <line x1="200" y1="200" x2="90" y2="120" stroke="#B2FF00" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+  <circle cx="90" cy="110" r="16" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.5"/>
+  <circle cx="90" cy="108" r="7" fill="#B2FF00" opacity="0.8"/>
+  <line x1="84" y1="120" x2="96" y2="120" stroke="#B2FF00" stroke-width="1.5"/>
+  <!-- Camera top right -->
+  <line x1="390" y1="130" x2="500" y2="70" stroke="#B2FF00" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+  <rect x="488" y="56" width="32" height="22" rx="4" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.5"/>
+  <circle cx="498" cy="67" r="5" fill="#B2FF00" opacity="0.6"/>
+  <polygon points="520,60 532,64 532,70 520,74" fill="#B2FF00" opacity="0.5"/>
+  <!-- Thermostat bottom right -->
+  <line x1="400" y1="220" x2="510" y2="200" stroke="#B2FF00" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+  <circle cx="522" cy="198" r="18" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.5"/>
+  <text x="522" y="203" font-family="monospace" font-size="11" fill="#B2FF00" text-anchor="middle" font-weight="700">22°</text>
+  <!-- Lock bottom left -->
+  <line x1="200" y1="240" x2="80" y2="220" stroke="#B2FF00" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.7"/>
+  <rect x="63" y="214" width="26" height="20" rx="3" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="1.5"/>
+  <path d="M70 214 Q70 204 76 204 Q82 204 82 214" fill="none" stroke="#B2FF00" stroke-width="1.5"/>
+  <!-- Hub dot at center -->
+  <circle cx="300" cy="175" r="8" fill="#B2FF00" opacity="0.9"/>
+  <circle cx="300" cy="175" r="14" fill="none" stroke="#B2FF00" stroke-width="1" opacity="0.5"/>
+  <!-- Labels -->
+  <text x="16" y="18" font-family="monospace" font-size="9" fill="#B2FF00" opacity="0.5">SMART HOME MIDDLEWARE · unified device mesh</text>
+  <rect x="0" y="258" width="600" height="22" fill="rgba(0,0,0,0.6)"/>
+  <text x="14" y="273" font-family="monospace" font-size="10" fill="#B2FF00" font-weight="700">5 DEVICES CONNECTED · edge-native · 0ms latency</text>
+
 </svg>
