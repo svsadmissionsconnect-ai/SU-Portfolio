@@ -1,0 +1,2912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HALO — Powered by TinkerBloX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════
+   TOKENS & RESET — Frosted Touch · Terminal · Precision Minimal
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --void: #05050f;
+  --ink:  #08081c;
+  --card:  rgba(255,255,255,0.10);
+  --card2: rgba(255,255,255,0.15);
+  --card3: rgba(255,255,255,0.20);
+  --frost: rgba(255,255,255,0.08);
+  --frost-border: rgba(255,255,255,0.22);
+  --line:  rgba(255,255,255,0.055);
+  --line2: rgba(255,255,255,0.10);
+  --line3: rgba(255,255,255,0.20);
+
+  --glass-shadow: 0 8px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.20), inset 0 0 0 1px rgba(255,255,255,0.08);
+  --glass-shadow-hover: 0 24px 64px rgba(0,0,0,0.65), 0 0 0 1px rgba(178,255,0,0.30), inset 0 1px 0 rgba(255,255,255,0.28);
+
+  --lime: #B2FF00;
+  --lime-dim: rgba(178,255,0,0.10);
+  --lime-glow: rgba(178,255,0,0.22);
+  --cyan: #7BFFF0;
+  --red: #ff4455;
+  --amber: #ffb830;
+
+  --text:  #eeeeff;
+  --text2: #6a6a9e;
+  --text3: #5a5a8a;
+
+  --font-hero: 'Bebas Neue', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Precision Minimal radii */
+  --r: 16px;
+  --r2: 10px;
+  --r3: 24px;
+  --r-pill: 100px;
+  --blur: blur(24px);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--void);
+  background-image:
+    radial-gradient(ellipse 80% 60% at 10% 5%,   rgba(100,55,230,0.50) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 55% at 90% 90%,  rgba(178,255,0,0.22)  0%, transparent 50%),
+    radial-gradient(ellipse 50% 45% at 50% 50%,  rgba(0,80,200,0.18)   0%, transparent 58%),
+    radial-gradient(ellipse 40% 35% at 80% 15%,  rgba(60,0,180,0.30)   0%, transparent 55%);
+  color: var(--text);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── CUSTOM CURSOR ── */
+.cursor {
+  position: fixed; width: 8px; height: 8px;
+  background: var(--lime); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.08s, width 0.2s, height 0.2s, opacity 0.2s;
+  mix-blend-mode: exclusion;
+}
+.cursor-ring {
+  position: fixed; width: 32px; height: 32px;
+  border: 1px solid rgba(178,255,0,0.40); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.18s ease, width 0.3s, height 0.3s, border-color 0.2s;
+}
+body:has(.clickable:hover) .cursor { width: 5px; height: 5px; }
+body:has(.clickable:hover) .cursor-ring { width: 44px; height: 44px; border-color: var(--lime); }
+
+/* ── SCREEN SYSTEM ── */
+.screen { display: none; min-height: 100vh; flex-direction: column; }
+.screen.active { display: flex; }
+
+/* ── AMBIENT ── */
+.ambient {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 65% 45% at 15% 20%, rgba(100,50,220,0.22) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 55% at 85% 80%, rgba(178,255,0,0.14)  0%, transparent 55%),
+    radial-gradient(ellipse 75% 55% at 50% 100%,rgba(0,120,160,0.12)  0%, transparent 60%),
+    radial-gradient(ellipse 40% 30% at 75% 10%, rgba(80,0,200,0.20)   0%, transparent 50%);
+  animation: ambientDrift 18s ease-in-out infinite alternate;
+}
+@keyframes ambientDrift {
+  0%   { opacity: 1; }
+  50%  { opacity: 0.75; }
+  100% { opacity: 1; }
+}
+
+/* ── GRAIN ── */
+.grain {
+  position: fixed; inset: -200%; pointer-events: none; z-index: 1; opacity: .018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain-move 8s steps(10) infinite;
+}
+@keyframes grain-move {
+  0%,100% { transform: translate(0,0); }
+  10% { transform: translate(-3%,-4%); }
+  30% { transform: translate(3%,2%); }
+  50% { transform: translate(-2%,4%); }
+  70% { transform: translate(4%,-2%); }
+  90% { transform: translate(-1%,3%); }
+}
+
+/* ═══════════════════════════════════════════════
+   NAVIGATION — Frosted Glass
+═══════════════════════════════════════════════ */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  height: 58px; display: flex; align-items: center; justify-content: space-between;
+  padding: 0 36px;
+  background: rgba(5,5,15,0.42);
+  backdrop-filter: blur(40px) saturate(1.6) brightness(1.05); -webkit-backdrop-filter: blur(40px) saturate(1.6) brightness(1.05);
+  border-bottom: 1px solid rgba(255,255,255,0.14);
+  box-shadow: 0 1px 0 rgba(255,255,255,0.10), 0 4px 40px rgba(0,0,0,0.5);
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 10px; cursor: pointer; text-decoration: none; }
+.logo-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, #d4ff2a, var(--lime));
+  display: grid; place-items: center;
+  font-family: var(--font-hero); font-size: 17px; color: var(--void); line-height: 1;
+  box-shadow: 0 0 16px rgba(178,255,0,0.30);
+}
+.logo-text { font-family: var(--font-hero); font-size: 22px; letter-spacing: 0.12em; color: var(--text); line-height: 1; }
+.logo-by { font-family: var(--font-mono); font-size: 9px; color: var(--text3); letter-spacing: 0.06em; margin-top: 1px; }
+
+.nav-center {
+  display: flex; align-items: center; gap: 3px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: var(--r-pill); padding: 4px;
+  backdrop-filter: blur(12px);
+}
+.nav-tab {
+  font-size: 12px; font-weight: 500; letter-spacing: 0.01em;
+  color: var(--text2); padding: 6px 16px; border-radius: var(--r-pill);
+  cursor: pointer; transition: color 0.18s, background 0.18s; border: none;
+  background: transparent; font-family: var(--font-body);
+}
+.nav-tab:hover { color: var(--text); }
+.nav-tab.on {
+  background: rgba(178,255,0,0.10);
+  color: var(--text);
+  box-shadow:
+    0 0 14px rgba(178,255,0,0.28),
+    inset 0 -2px 0 var(--lime),
+    inset 0 1px 0 rgba(255,255,255,0.14);
+  text-shadow: 0 0 12px rgba(178,255,0,0.50);
+}
+
+.nav-right { display: flex; align-items: center; gap: 10px; }
+
+.search-trigger {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-pill); padding: 7px 14px;
+  font-size: 12px; color: var(--text2); cursor: pointer;
+  font-family: var(--font-body); transition: border-color 0.2s, background 0.2s;
+  width: 170px; backdrop-filter: blur(12px);
+}
+.search-trigger:hover { border-color: rgba(255,255,255,0.16); background: rgba(255,255,255,0.07); }
+.search-trigger kbd { margin-left: auto; font-size: 10px; color: var(--text3); font-family: var(--font-mono); }
+
+.cart-badge-btn {
+  position: relative; display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r-pill); padding: 7px 14px;
+  font-size: 12px; color: var(--text2); cursor: pointer;
+  font-family: var(--font-body); transition: border-color 0.2s, color 0.2s;
+  backdrop-filter: blur(12px);
+}
+.cart-badge-btn:hover { border-color: rgba(255,255,255,0.16); color: var(--text); }
+.badge {
+  position: absolute; top: -5px; right: -5px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--lime); color: var(--void);
+  font-size: 9px; font-weight: 700; font-family: var(--font-hero);
+  display: grid; place-items: center;
+  box-shadow: 0 0 10px rgba(178,255,0,0.5);
+}
+
+.btn-ghost-sm {
+  font-size: 12px; font-weight: 500; color: var(--text2);
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--r-pill); padding: 7px 16px; cursor: pointer;
+  font-family: var(--font-body); transition: color 0.18s, border-color 0.18s, background 0.18s;
+  backdrop-filter: blur(12px);
+}
+.btn-ghost-sm:hover { color: var(--text); border-color: rgba(255,255,255,0.18); background: rgba(255,255,255,0.07); }
+
+.btn-lime {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--void); background: var(--lime); border: none;
+  border-radius: var(--r-pill); padding: 8px 18px; cursor: pointer;
+  font-family: var(--font-body); transition: opacity 0.18s, transform 0.14s;
+  animation: limePulse 2.8s ease-in-out infinite;
+}
+.btn-lime:hover { opacity: 0.87; transform: translateY(-1px); animation: none; box-shadow: 0 0 32px rgba(178,255,0,0.55); }
+
+/* ── PAGE WRAPPER ── */
+.page { flex: 1; position: relative; z-index: 2; padding-top: 58px; }
+
+/* ── BREADCRUMB — Terminal style ── */
+.bc {
+  padding: 10px 36px; display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: var(--text3); border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono); letter-spacing: 0.04em;
+}
+.bc::before { content: '~/'; color: var(--lime); opacity: 0.6; }
+.bc a { color: var(--text3); text-decoration: none; cursor: pointer; transition: color 0.15s; }
+.bc a:hover { color: var(--text2); }
+.bc-sep { opacity: 0.3; }
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr;
+  min-height: calc(100vh - 58px);
+  border-bottom: 1px solid var(--line);
+}
+.hero-left {
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 56px 48px;
+  border-right: 1px solid var(--line);
+  position: relative; overflow: hidden;
+}
+.hero-bg-text {
+  position: absolute; bottom: -40px; left: -10px;
+  font-family: var(--font-hero); font-size: 340px; line-height: 1;
+  color: rgba(0,220,200,0.025); pointer-events: none; user-select: none;
+  white-space: nowrap; letter-spacing: -0.02em;
+}
+
+/* Terminal-style status badge */
+.hero-status {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(178,255,0,0.25);
+  background: rgba(178,255,0,0.06);
+  backdrop-filter: blur(12px);
+  border-radius: var(--r2); padding: 5px 12px;
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--lime); letter-spacing: 0.12em;
+  margin-bottom: 28px; width: fit-content;
+}
+.hero-status::before { content: '> '; opacity: 0.6; }
+.status-dot {
+  width: 6px; height: 6px; border-radius: 50%; background: var(--lime);
+  animation: blink 1.8s ease-in-out infinite, limePulse 2.4s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% { opacity:1 } 50% { opacity:0.2 } }
+
+@keyframes limePulse {
+  0%,100% { box-shadow: 0 0 10px rgba(178,255,0,0.25), 0 0 22px rgba(178,255,0,0.10); }
+  50%      { box-shadow: 0 0 22px rgba(178,255,0,0.55), 0 0 48px rgba(178,255,0,0.22); }
+}
+@keyframes limeGlow {
+  0%,100% { text-shadow: 0 0 8px rgba(178,255,0,0.30); }
+  50%      { text-shadow: 0 0 20px rgba(178,255,0,0.70), 0 0 40px rgba(178,255,0,0.30); }
+}
+
+.hero-h1 {
+  font-family: var(--font-hero);
+  font-size: clamp(72px, 9vw, 130px);
+  line-height: 0.82; letter-spacing: -0.01em;
+  color: var(--text); margin-bottom: 26px;
+}
+.hero-h1 .hl {
+  -webkit-text-fill-color: transparent;
+  -webkit-text-stroke: 2px var(--lime);
+  animation: limeGlow 3s ease-in-out infinite;
+}
+/* Kinetic hero words */
+@keyframes wordIn {
+  from { opacity: 0; transform: translateY(48px) skewY(4deg); filter: blur(8px); }
+  to   { opacity: 1; transform: translateY(0)    skewY(0deg); filter: blur(0); }
+}
+.kword { display: block; opacity: 0; animation: wordIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards; line-height: 0.82; margin-bottom: -0.18em; }
+.kw1 { animation-delay: 0.10s; }
+.kw2 { animation-delay: 0.32s; }
+.kw3 { animation-delay: 0.54s; }
+.hero-desc { font-size: 15px; color: var(--text2); line-height: 1.75; max-width: 360px; margin-bottom: 40px; }
+.hero-cta-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+
+.btn-primary-lg {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--lime); color: var(--void);
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; padding: 14px 28px; border-radius: var(--r);
+  border: none; cursor: pointer; text-decoration: none;
+  transition: opacity 0.18s, transform 0.18s ease, box-shadow 0.18s;
+  animation: limePulse 3s ease-in-out infinite;
+}
+.btn-primary-lg:hover { opacity: 0.87; transform: translateY(-2px); animation: none; box-shadow: 0 0 40px rgba(178,255,0,0.60); }
+.btn-primary-lg:active { transform: translateY(0) scale(0.98); }
+
+.btn-ghost-lg {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(255,255,255,0.05); color: var(--text2);
+  font-size: 13px; border: 1px solid rgba(255,255,255,0.10);
+  padding: 13px 24px; border-radius: var(--r); cursor: pointer;
+  text-decoration: none; transition: color 0.18s, border-color 0.18s, background 0.18s, transform 0.18s;
+  font-family: var(--font-body); backdrop-filter: blur(12px);
+}
+.btn-ghost-lg:hover { color: var(--text); border-color: rgba(255,255,255,0.20); background: rgba(255,255,255,0.08); transform: translateY(-1px); }
+
+/* Hero metrics — terminal readout style */
+.hero-metrics {
+  display: flex; gap: 28px; margin-top: 48px;
+  padding-top: 28px; border-top: 1px solid var(--line);
+}
+.hm-val {
+  font-family: var(--font-hero); font-size: 36px; color: var(--text);
+  letter-spacing: -0.01em; line-height: 1;
+}
+.hm-val span { color: var(--lime); animation: limeGlow 2.6s ease-in-out infinite; display: inline-block; }
+.hm-lbl { font-size: 10px; color: var(--text3); margin-top: 4px; font-family: var(--font-mono); letter-spacing: 0.10em; }
+
+/* Hero right */
+.hero-right {
+  position: relative; overflow: hidden;
+  display: grid; grid-template-rows: 1fr 1fr;
+  border-radius: 0 0 var(--r3) 0;
+}
+.hero-img-main {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: brightness(0.40) saturate(0.6);
+  display: block; transition: filter 1.5s;
+  grid-row: 1 / -1; grid-column: 1;
+}
+
+/* Frosted glass hero card */
+.hero-glass-card {
+  position: absolute; bottom: 36px; left: 36px; right: 36px;
+  background: rgba(8,8,30,0.38);
+  backdrop-filter: blur(52px) saturate(2.0) brightness(1.15); -webkit-backdrop-filter: blur(52px) saturate(2.0) brightness(1.15);
+  border: 1px solid rgba(255,255,255,0.28);
+  border-radius: var(--r3); padding: 24px 28px;
+  box-shadow: 0 24px 72px rgba(0,0,0,0.70), inset 0 1px 0 rgba(255,255,255,0.38), inset 0 0 0 1px rgba(255,255,255,0.10);
+}
+.hgc-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 10px;
+}
+.hgc-title { font-family: var(--font-hero); font-size: 26px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 6px; }
+.hgc-desc { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 18px; }
+.hgc-stats { display: flex; gap: 24px; }
+.hgc-sval { font-family: var(--font-hero); font-size: 22px; color: var(--text); text-shadow: 0 0 14px rgba(178,255,0,0.18); }
+.hgc-sval em { color: var(--lime); font-style: normal; }
+.hgc-slbl { font-size: 10px; color: var(--text3); font-family: var(--font-mono); }
+
+.hero-nav { position: absolute; top: 24px; right: 24px; display: flex; gap: 8px; z-index: 5; }
+.hn-btn {
+  width: 36px; height: 36px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(8,8,30,0.65); backdrop-filter: blur(12px);
+  display: grid; place-items: center; cursor: pointer;
+  color: var(--text2); font-size: 14px;
+  transition: border-color 0.18s, color 0.18s;
+}
+.hn-btn:hover { border-color: var(--lime); color: var(--lime); }
+
+/* ── TICKER ── */
+.ticker {
+  height: 40px; overflow: hidden;
+  background: rgba(255,255,255,0.025);
+  border-bottom: 1px solid var(--line);
+  display: flex; align-items: center;
+  backdrop-filter: blur(8px);
+}
+.ticker-inner { display: flex; gap: 0; width: max-content; animation: marquee 40s linear infinite; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.ti {
+  display: flex; align-items: center; gap: 12px;
+  padding: 0 28px; border-right: 1px solid var(--line);
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em;
+  color: var(--text3); text-transform: uppercase; white-space: nowrap; height: 40px;
+}
+.ti-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--lime); opacity: 0.7; flex-shrink: 0; box-shadow: 0 0 4px var(--lime); }
+
+/* ═══════════════════════════════════════════════
+   SECTIONS
+═══════════════════════════════════════════════ */
+.section { padding: 72px 36px; position: relative; }
+.section + .section { border-top: 1px solid var(--line); }
+
+/* Terminal-style section label */
+.sec-pre {
+  display: flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 12px;
+}
+.sec-pre::before { content: '> '; opacity: 0.7; }
+.sec-pre::after { content: ''; display: block; width: 16px; height: 1px; background: var(--lime); opacity: 0.5; }
+
+.sec-h2 {
+  font-family: var(--font-hero); font-size: clamp(42px, 5vw, 68px);
+  line-height: 1; letter-spacing: 0.01em; color: var(--text); margin-bottom: 10px;
+  background: linear-gradient(135deg, var(--text) 55%, rgba(0,220,200,0.7) 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+}
+.sec-h2 em { -webkit-text-fill-color: var(--lime); background: none; }
+.sec-sub { font-size: 14px; color: var(--text2); line-height: 1.7; max-width: 420px; }
+.sec-row { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; gap: 20px; }
+
+.btn-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; color: var(--text2); background: none; border: none;
+  cursor: pointer; font-family: var(--font-mono); letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255,255,255,0.10); padding-bottom: 2px;
+  transition: color 0.18s, border-color 0.18s; white-space: nowrap;
+}
+.btn-link:hover { color: var(--lime); border-color: var(--lime); }
+.btn-link .arr { transition: transform 0.18s; }
+.btn-link:hover .arr { transform: translateX(4px); }
+
+.sec-glow-rule {
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--lime), transparent);
+  opacity: 0.20; margin: 0 0 40px;
+}
+
+/* ═══════════════════════════════════════════════
+   BENTO: STORES
+═══════════════════════════════════════════════ */
+.bento-stores {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 340px; gap: 18px;
+  background: transparent;
+}
+.bento-card {
+  position: relative; overflow: hidden; cursor: pointer;
+  background: var(--card); text-decoration: none; display: flex;
+  flex-direction: column; justify-content: flex-end;
+  border-radius: var(--r3); transform-style: preserve-3d; will-change: transform;
+  border: 1px solid rgba(255,255,255,0.10);
+  transition: transform 0.22s ease, box-shadow 0.22s, border-color 0.22s;
+  box-shadow: var(--glass-shadow);
+}
+.bento-card:hover { transform: translateY(-4px); box-shadow: var(--glass-shadow-hover); border-color: rgba(255,255,255,0.18); }
+.bento-card:hover .bc-img { filter: brightness(0.75) saturate(1); transform: scale(1.04); }
+.bento-card:hover .bc-body { transform: translateY(0); }
+.bc-img {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; filter: brightness(0.40) saturate(0.65);
+  transition: filter 0.4s, transform 0.5s;
+}
+.bc-gradient {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 25%, rgba(5,5,18,0.97) 100%);
+}
+.bc-body {
+  position: relative; z-index: 2; padding: 24px 26px;
+  transform: translateY(6px); transition: transform 0.3s ease;
+}
+.bc-tag {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.bc-tag::before { content: ''; width: 12px; height: 1px; background: var(--lime); }
+.bc-name { font-family: var(--font-hero); font-size: 26px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 6px; line-height: 1.1; }
+.bc-desc { font-size: 12px; color: rgba(238,238,255,0.55); line-height: 1.55; }
+.bc-arrow {
+  position: absolute; top: 20px; right: 20px; z-index: 3;
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12); display: grid; place-items: center;
+  font-size: 14px; color: var(--text3);
+  transition: border-color 0.2s, color 0.2s, transform 0.2s;
+}
+.bento-card:hover .bc-arrow { border-color: var(--lime); color: var(--lime); transform: translate(2px,-2px); }
+
+/* ═══════════════════════════════════════════════
+   BENTO: PRODUCTS
+═══════════════════════════════════════════════ */
+.bento-products {
+  display: grid; grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: 220px 220px; gap: 12px;
+}
+.prod-cell {
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r); overflow: hidden; cursor: pointer;
+  text-decoration: none; display: flex; flex-direction: column;
+  transition: border-color 0.22s, transform 0.20s ease, box-shadow 0.22s;
+  position: relative; backdrop-filter: blur(16px);
+}
+.prod-cell:hover { border-color: var(--line2); transform: translateY(-3px); box-shadow: var(--glass-shadow-hover); }
+.prod-cell:hover .pcell-img { filter: brightness(0.72) saturate(1.1); }
+.prod-cell.w2 { grid-column: span 2; }
+.prod-cell.w3 { grid-column: span 3; }
+.prod-cell.w2h2 { grid-column: span 2; grid-row: span 2; }
+.pcell-img {
+  width: 100%; flex: 1; object-fit: cover;
+  filter: brightness(0.50) saturate(0.70);
+  transition: filter 0.35s; display: block;
+}
+.pcell-body { padding: 14px 16px; flex-shrink: 0; }
+.pcell-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.10em; color: var(--lime); text-transform: uppercase; margin-bottom: 4px; }
+.pcell-name { font-family: var(--font-hero); font-size: 17px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 3px; line-height: 1.1; }
+.pcell-price { font-size: 12px; color: var(--text2); }
+.pcell-price strong { color: var(--text); font-weight: 600; }
+.trend-num {
+  position: absolute; top: 12px; left: 12px; z-index: 3;
+  font-family: var(--font-hero); font-size: 11px; letter-spacing: 0.10em;
+  color: var(--lime); background: rgba(5,5,18,0.80); backdrop-filter: blur(8px);
+  border: 1px solid rgba(178,255,0,0.25); border-radius: var(--r2); padding: 4px 10px;
+}
+
+/* ═══════════════════════════════════════════════
+   TRENDING TABLE
+═══════════════════════════════════════════════ */
+.trend-table { display: flex; flex-direction: column; gap: 0; }
+.trend-row {
+  display: grid; grid-template-columns: 60px 1fr 200px 160px 120px;
+  align-items: center; gap: 20px;
+  padding: 18px 8px; border-bottom: 1px solid var(--line);
+  cursor: pointer; text-decoration: none;
+  transition: background 0.18s; border-radius: var(--r2);
+}
+.trend-row:hover { background: rgba(255,255,255,0.04); }
+.tr-num {
+  font-family: var(--font-hero); font-size: 32px; color: var(--text3);
+  letter-spacing: 0.04em; line-height: 1;
+  transition: color 0.18s, text-shadow 0.18s;
+}
+.trend-row:hover .tr-num { color: var(--lime); text-shadow: 0 0 16px rgba(178,255,0,0.40); }
+.tr-info { display: flex; align-items: center; gap: 16px; }
+.tr-thumb {
+  width: 58px; height: 46px; border-radius: var(--r2);
+  object-fit: cover; filter: brightness(0.55); flex-shrink: 0;
+  transition: filter 0.2s;
+}
+.trend-row:hover .tr-thumb { filter: brightness(0.82); }
+.tr-name { font-family: var(--font-hero); font-size: 19px; color: var(--text); letter-spacing: 0.03em; }
+.tr-desc { font-size: 12px; color: var(--text3); margin-top: 2px; font-family: var(--font-mono); }
+.tr-cat { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.08em; color: var(--text2); }
+.tr-bar-wrap { height: 2px; background: var(--line); border-radius: 2px; overflow: hidden; }
+.tr-bar { height: 100%; background: linear-gradient(90deg, var(--lime), rgba(0,220,200,0.4)); border-radius: 2px; }
+.tr-price { font-family: var(--font-hero); font-size: 20px; color: var(--text); text-align: right; }
+.trend-table-header {
+  display: grid; grid-template-columns: 60px 1fr 200px 160px 120px;
+  gap: 20px; padding: 0 8px 12px;
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--text3); text-transform: uppercase;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ═══════════════════════════════════════════════
+   STORE / SIDEBAR
+═══════════════════════════════════════════════ */
+.store-layout { display: flex; flex: 1; }
+.sidebar {
+  width: 230px; flex-shrink: 0;
+  border-right: 1px solid var(--line);
+  padding: 28px 22px;
+  background: rgba(8,8,28,0.55);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  border-left: 2px solid rgba(178,255,0,0.20);
+}
+.sb-section { margin-bottom: 28px; }
+.sb-label {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--text3); text-transform: uppercase; margin-bottom: 12px;
+  padding-bottom: 8px; border-bottom: 1px solid var(--line);
+  display: flex; justify-content: space-between;
+}
+.filter-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12px; color: var(--text2); margin-bottom: 9px;
+  cursor: pointer; transition: color 0.15s; user-select: none;
+  font-family: var(--font-mono);
+}
+.filter-row:hover { color: var(--text); }
+.cb {
+  width: 14px; height: 14px; border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px; flex-shrink: 0; background: transparent;
+  display: grid; place-items: center; transition: background 0.15s, border-color 0.15s;
+}
+.cb.on { background: var(--lime); border-color: var(--lime); }
+.cb.on::after { content: '✓'; font-size: 9px; color: var(--void); font-weight: 700; }
+.filter-count { margin-left: auto; font-family: var(--font-mono); font-size: 10px; color: var(--text3); }
+
+.store-main { flex: 1; padding: 32px 36px; overflow-y: auto; }
+.store-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 32px; }
+.store-pg-title { font-family: var(--font-hero); font-size: 38px; letter-spacing: 0.02em; color: var(--text); line-height: 1; }
+.store-pg-sub { font-size: 13px; color: var(--text2); margin-top: 8px; line-height: 1.6; max-width: 380px; }
+.sort-select {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r2); color: var(--text2); font-size: 12px; padding: 8px 12px;
+  cursor: pointer; font-family: var(--font-mono); backdrop-filter: blur(12px);
+}
+
+/* ═══════════════════════════════════════════════
+   PRODUCT GRID CARD — Frosted Glass
+═══════════════════════════════════════════════ */
+.prod-grid-4 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.pg-card {
+  transform-style: preserve-3d; will-change: transform;
+  background: var(--card);
+  backdrop-filter: blur(28px) saturate(1.6); -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: var(--r);
+  overflow: hidden; cursor: pointer; text-decoration: none;
+  transition: border-color 0.22s, transform 0.20s ease, box-shadow 0.22s;
+  display: flex; flex-direction: column; position: relative;
+  box-shadow: var(--glass-shadow);
+}
+.pg-card:hover {
+  border-color: rgba(255,255,255,0.18);
+  transform: translateY(-4px);
+  box-shadow: var(--glass-shadow-hover);
+}
+.pg-card:hover .pg-img { filter: brightness(0.78) saturate(1.10); }
+.pg-img {
+  width: 100%; height: 180px; object-fit: cover;
+  filter: brightness(0.52) saturate(0.75); display: block;
+  transition: filter 0.3s;
+}
+.pg-body { padding: 16px 17px 18px; flex: 1; display: flex; flex-direction: column; }
+.pg-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em; color: var(--lime); text-transform: uppercase; margin-bottom: 6px; }
+.pg-name { font-family: var(--font-hero); font-size: 18px; letter-spacing: 0.04em; color: var(--text); margin-bottom: 6px; line-height: 1.1; }
+.pg-desc { font-size: 12px; color: var(--text2); line-height: 1.55; flex: 1; }
+.pg-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.pg-price { font-family: var(--font-hero); font-size: 18px; color: var(--text); }
+.pg-add {
+  font-size: 11px; color: var(--lime); font-family: var(--font-mono);
+  letter-spacing: 0.06em; cursor: pointer;
+  border: 1px solid rgba(178,255,0,0.25); border-radius: var(--r-pill);
+  padding: 5px 12px; transition: background 0.18s, box-shadow 0.18s;
+  background: none;
+}
+.pg-add:hover { background: rgba(178,255,0,0.10); box-shadow: 0 0 12px rgba(178,255,0,0.15); }
+
+/* Card shimmer */
+.pg-card::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.04) 50%, transparent 60%);
+  opacity: 0; transition: opacity .3s; pointer-events: none;
+}
+.pg-card:hover::after { opacity: 1; }
+
+/* ═══════════════════════════════════════════════
+   PRODUCT DETAIL
+═══════════════════════════════════════════════ */
+.detail-layout { display: grid; grid-template-columns: 1fr 380px; flex: 1; min-height: 0; }
+.detail-main { padding: 36px 40px; border-right: 1px solid var(--line); overflow-y: auto; }
+.detail-sidebar {
+  padding: 32px 28px;
+  background: rgba(8,8,28,0.45); backdrop-filter: blur(32px) saturate(1.3);
+  border-left: 1px solid rgba(255,255,255,0.10);
+  overflow-y: auto; display: flex; flex-direction: column;
+}
+.detail-hero-img {
+  width: 100%; height: 320px; object-fit: cover;
+  border-radius: var(--r3); filter: brightness(0.68) saturate(0.85);
+  margin-bottom: 20px; display: block;
+}
+.thumb-row { display: flex; gap: 10px; margin-bottom: 28px; }
+.thumb {
+  width: 78px; height: 58px; object-fit: cover; border-radius: var(--r2);
+  filter: brightness(0.52); cursor: pointer; flex-shrink: 0;
+  border: 1px solid transparent; transition: filter 0.2s, border-color 0.18s;
+}
+.thumb:hover, .thumb.on { filter: brightness(0.80); border-color: var(--lime); }
+.detail-breadcrumb {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.12em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 10px;
+}
+.detail-title { font-family: var(--font-hero); font-size: 42px; letter-spacing: 0.02em; color: var(--text); margin-bottom: 14px; line-height: 1.05; }
+.detail-desc { font-size: 14px; color: var(--text2); line-height: 1.75; margin-bottom: 26px; }
+
+/* Terminal-style spec grid */
+.spec-bento { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 24px; }
+.spec-cell {
+  background: rgba(178,255,0,0.04); border: 1px solid rgba(178,255,0,0.12);
+  border-radius: var(--r2); padding: 14px 16px;
+  backdrop-filter: blur(12px);
+}
+.spec-k {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.10em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 4px; opacity: 0.8;
+}
+.spec-v { font-size: 14px; font-weight: 500; color: var(--text); font-family: var(--font-mono); }
+
+/* Detail sidebar purchase */
+.ds-price-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.ds-price { font-family: var(--font-hero); font-size: 42px; color: var(--text); letter-spacing: -0.01em; text-shadow: 0 0 20px rgba(178,255,0,0.15); }
+.ds-period { font-size: 13px; color: var(--text2); }
+.ds-note { font-size: 12px; color: var(--text3); margin-bottom: 22px; font-family: var(--font-mono); }
+.ds-add {
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  width: 100%; padding: 15px; border-radius: var(--r);
+  background: var(--lime); color: var(--void); border: none;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700;
+  letter-spacing: 0.04em; cursor: pointer; transition: opacity 0.18s, transform 0.18s;
+  margin-bottom: 10px; box-shadow: 0 0 24px rgba(178,255,0,0.25);
+}
+.ds-add:hover { opacity: 0.87; transform: translateY(-1px); }
+.ds-save {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; padding: 13px; border-radius: var(--r);
+  background: rgba(255,255,255,0.04); color: var(--text2);
+  border: 1px solid rgba(255,255,255,0.10);
+  font-family: var(--font-body); font-size: 12px; cursor: pointer;
+  transition: color 0.18s, border-color 0.18s; margin-bottom: 22px;
+  backdrop-filter: blur(12px);
+}
+.ds-save:hover { color: var(--red); border-color: rgba(255,68,85,0.30); }
+.ds-divider { height: 1px; background: var(--line); margin: 16px 0; }
+.ds-similar-title {
+  font-family: var(--font-mono); font-size: 9px; letter-spacing: 0.14em;
+  color: var(--text3); text-transform: uppercase; margin-bottom: 14px;
+}
+.sim-list { display: flex; flex-direction: column; gap: 10px; }
+.sim-item {
+  display: flex; gap: 12px; cursor: pointer; padding: 10px;
+  border-radius: var(--r2); border: 1px solid transparent;
+  transition: background 0.18s, border-color 0.18s; text-decoration: none;
+}
+.sim-item:hover { background: rgba(255,255,255,0.05); border-color: var(--line); }
+.sim-thumb {
+  width: 50px; height: 40px; object-fit: cover; border-radius: var(--r2);
+  filter: brightness(0.55); flex-shrink: 0; transition: filter 0.2s;
+}
+.sim-item:hover .sim-thumb { filter: brightness(0.80); }
+.sim-name { font-size: 12px; font-weight: 500; color: var(--text); }
+.sim-price { font-size: 11px; color: var(--text2); margin-top: 2px; font-family: var(--font-mono); }
+
+/* ═══════════════════════════════════════════════
+   CART
+═══════════════════════════════════════════════ */
+.cart-layout { display: grid; grid-template-columns: 1fr 360px; gap: 32px; padding: 36px; flex: 1; align-items: start; }
+.cart-h { font-family: var(--font-hero); font-size: 46px; letter-spacing: 0.02em; margin-bottom: 6px; }
+.cart-sub { font-size: 13px; color: var(--text2); margin-bottom: 32px; }
+.cart-sub a { color: var(--lime); cursor: pointer; }
+.cart-item-card {
+  display: flex; gap: 16px; padding: 20px;
+  background: var(--card); backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r); margin-bottom: 12px;
+  transition: border-color 0.2s;
+  box-shadow: var(--glass-shadow);
+}
+.cart-item-card:hover { border-color: rgba(255,255,255,0.14); }
+.ci-thumb { width: 110px; height: 90px; object-fit: cover; border-radius: var(--r2); filter: brightness(0.62); flex-shrink: 0; }
+.ci-body { flex: 1; }
+.ci-name { font-family: var(--font-hero); font-size: 19px; letter-spacing: 0.04em; margin-bottom: 6px; }
+.ci-desc { font-size: 12px; color: var(--text2); line-height: 1.5; margin-bottom: 12px; }
+.ci-actions { display: flex; gap: 16px; align-items: center; }
+.ci-rm { font-size: 11px; color: var(--text3); cursor: pointer; font-family: var(--font-mono); letter-spacing: 0.06em; transition: color 0.15s; }
+.ci-rm:hover { color: var(--red); }
+.ci-price { font-family: var(--font-hero); font-size: 22px; color: var(--text); flex-shrink: 0; }
+
+/* Order card — frosted glass */
+.order-card {
+  background: var(--card2); backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r); padding: 24px; position: sticky; top: 80px;
+  box-shadow: var(--glass-shadow);
+}
+.oc-h { font-family: var(--font-hero); font-size: 22px; letter-spacing: 0.04em; margin-bottom: 18px; }
+.promo-row { display: flex; gap: 8px; margin-bottom: 20px; }
+.promo-inp {
+  flex: 1; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r2); padding: 9px 13px; font-size: 12px; color: var(--text);
+  font-family: var(--font-mono); outline: none; transition: border-color 0.18s;
+}
+.promo-inp:focus { border-color: rgba(178,255,0,0.40); }
+.promo-inp::placeholder { color: var(--text3); }
+.promo-apply {
+  background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--r2); font-size: 11px; color: var(--text2);
+  padding: 9px 14px; cursor: pointer; font-family: var(--font-mono);
+  letter-spacing: 0.06em; white-space: nowrap; transition: color 0.15s;
+}
+.promo-apply:hover { color: var(--lime); }
+.li-rows { display: flex; flex-direction: column; gap: 10px; margin-bottom: 6px; }
+.li-r { display: flex; justify-content: space-between; font-size: 13px; }
+.li-lbl { color: var(--text2); }
+.li-val { color: var(--text); font-weight: 500; }
+.li-total { border-top: 1px solid var(--line); padding-top: 14px; margin-top: 8px; }
+.li-total .li-lbl { color: var(--text); font-weight: 600; font-size: 14px; }
+.li-total .li-val { color: var(--lime); font-family: var(--font-hero); font-size: 22px; }
+.checkout-cta {
+  width: 100%; padding: 15px; background: var(--lime); color: var(--void);
+  border: none; border-radius: var(--r); cursor: pointer; margin-top: 18px;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  transition: opacity 0.18s; box-shadow: 0 0 20px rgba(178,255,0,0.22);
+}
+.checkout-cta:hover { opacity: 0.88; }
+
+/* ═══════════════════════════════════════════════
+   CHECKOUT
+═══════════════════════════════════════════════ */
+.co-layout { display: grid; grid-template-columns: 1fr 380px; gap: 32px; padding: 36px; flex: 1; align-items: start; }
+.co-h { font-family: var(--font-hero); font-size: 38px; letter-spacing: 0.02em; margin-bottom: 24px; }
+.form-section-title {
+  font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.14em;
+  color: var(--lime); text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.form-section-title::before { content: '> '; opacity: 0.7; }
+.form-section-title::after { content: ''; flex: 1; height: 1px; background: var(--line); }
+.pay-tabs { display: flex; gap: 8px; margin-bottom: 22px; }
+.pay-tab {
+  flex: 1; padding: 11px; border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r2);
+  font-size: 12px; font-weight: 500; cursor: pointer;
+  background: rgba(255,255,255,0.04); color: var(--text2);
+  font-family: var(--font-body); backdrop-filter: blur(12px);
+  transition: border-color 0.18s, background 0.18s, color 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.pay-tab.on { border-color: var(--lime); background: rgba(178,255,0,0.08); color: var(--lime); }
+.fgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+.ff {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r2); padding: 11px 14px; font-size: 13px; color: var(--text);
+  font-family: var(--font-body); outline: none; transition: border-color 0.18s; width: 100%;
+  backdrop-filter: blur(12px);
+}
+.ff:focus { border-color: rgba(178,255,0,0.40); }
+.ff::placeholder { color: var(--text3); }
+.ff.full { grid-column: 1 / -1; }
+.save-row { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 22px; }
+.save-lbl { font-size: 12px; color: var(--text2); }
+.toggle-sw {
+  width: 38px; height: 22px; background: var(--lime); border-radius: 100px;
+  position: relative; cursor: pointer; box-shadow: 0 0 10px rgba(178,255,0,0.25);
+}
+.toggle-sw::after {
+  content: ''; position: absolute; right: 3px; top: 3px;
+  width: 16px; height: 16px; border-radius: 50%; background: var(--void);
+}
+.accordion { border: 1px solid rgba(255,255,255,0.08); border-radius: var(--r); overflow: hidden; margin-bottom: 22px; backdrop-filter: blur(12px); }
+.acc-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.06);
+  cursor: pointer; transition: background 0.15s;
+}
+.acc-row:last-child { border-bottom: none; }
+.acc-row:hover { background: rgba(255,255,255,0.04); }
+.acc-lbl { font-size: 12px; color: var(--text2); }
+.acc-ico { color: var(--text3); font-size: 16px; }
+.pay-final {
+  width: 100%; padding: 15px; background: var(--lime); color: var(--void);
+  border: none; border-radius: var(--r); cursor: pointer;
+  font-family: var(--font-body); font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  transition: opacity 0.18s; margin-top: 4px;
+  box-shadow: 0 0 20px rgba(178,255,0,0.22);
+}
+.pay-final:hover { opacity: 0.88; }
+
+/* ═══════════════════════════════════════════════
+   SUBSCRIPTION PLANS
+═══════════════════════════════════════════════ */
+.sub-page { padding: 60px 36px; flex: 1; }
+.sub-header { text-align: center; max-width: 580px; margin: 0 auto 52px; }
+.sub-header h1 { font-family: var(--font-hero); font-size: 62px; letter-spacing: 0.02em; margin-bottom: 14px; line-height: 1; }
+.sub-header h1 em { color: var(--lime); font-style: normal; }
+.sub-header p { font-size: 15px; color: var(--text2); line-height: 1.7; }
+
+.bill-toggle { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 44px; }
+.bt-lbl { font-size: 13px; color: var(--text2); font-family: var(--font-mono); }
+.bt-switch {
+  width: 56px; height: 30px; border-radius: 100px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+  position: relative; cursor: pointer; transition: background 0.2s;
+}
+.bt-switch.on { background: var(--lime); border-color: var(--lime); }
+.bt-switch::after {
+  content: ''; position: absolute; top: 4px; left: 4px;
+  width: 20px; height: 20px; border-radius: 50%;
+  background: var(--text2); transition: transform 0.2s, background 0.2s;
+}
+.bt-switch.on::after { transform: translateX(26px); background: var(--void); }
+.bt-save {
+  font-size: 11px; color: var(--lime); background: rgba(178,255,0,0.08);
+  border: 1px solid rgba(178,255,0,0.25); border-radius: var(--r-pill);
+  padding: 3px 10px; font-family: var(--font-mono); letter-spacing: 0.06em;
+}
+
+/* Plans — frosted glass */
+.plans { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.plan {
+  background: var(--card); backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--r3); padding: 28px 22px;
+  display: flex; flex-direction: column;
+  transition: border-color 0.22s, transform 0.20s ease, box-shadow 0.22s;
+  box-shadow: var(--glass-shadow);
+}
+.plan:hover { border-color: rgba(255,255,255,0.16); transform: translateY(-3px); box-shadow: var(--glass-shadow-hover); }
+.plan.featured {
+  background: var(--card2); border-color: rgba(178,255,0,0.30);
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 0 1px rgba(178,255,0,0.20), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.plan-pop-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: var(--lime); color: var(--void); font-family: var(--font-mono);
+  font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 4px 14px; border-radius: var(--r-pill);
+  box-shadow: 0 0 16px rgba(178,255,0,0.35);
+}
+.plan-name { font-family: var(--font-hero); font-size: 22px; letter-spacing: 0.05em; margin-bottom: 12px; }
+.plan-price { font-family: var(--font-hero); font-size: 44px; letter-spacing: -0.01em; line-height: 1; }
+.plan-price em { font-size: 13px; color: var(--text2); font-style: normal; font-weight: 400; }
+.plan-for { font-size: 11px; color: var(--text3); margin-top: 4px; margin-bottom: 22px; font-family: var(--font-mono); letter-spacing: 0.06em; }
+.plan-feats { flex: 1; display: flex; flex-direction: column; gap: 9px; margin-bottom: 24px; list-style: none; }
+.plan-feats li { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--text2); line-height: 1.4; }
+.pf-check {
+  width: 16px; height: 16px; border-radius: 3px; flex-shrink: 0;
+  display: grid; place-items: center;
+}
+.pf-check.on { background: var(--lime); box-shadow: 0 0 8px rgba(178,255,0,0.30); }
+.pf-check.on::after { content: '✓'; font-size: 9px; color: var(--void); font-weight: 700; }
+.pf-check.off { border: 1px solid rgba(255,255,255,0.12); }
+.plan-feat-off { opacity: 0.35; }
+.plan-cta {
+  width: 100%; padding: 12px; border-radius: var(--r2); cursor: pointer;
+  font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  border: 1px solid rgba(255,255,255,0.12); background: rgba(255,255,255,0.05);
+  color: var(--text2); transition: color 0.18s, border-color 0.18s, background 0.18s;
+}
+.plan-cta:hover { color: var(--text); border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.08); }
+.plan.featured .plan-cta { background: var(--lime); color: var(--void); border-color: var(--lime); box-shadow: 0 0 16px rgba(178,255,0,0.25); }
+.plan.featured .plan-cta:hover { opacity: 0.87; }
+
+/* ═══════════════════════════════════════════════
+   MODALS
+═══════════════════════════════════════════════ */
+.modal-bg {
+  position: fixed; inset: 0;
+  background: rgba(4,4,14,0.65);
+  backdrop-filter: blur(24px) saturate(1.3); z-index: 500;
+  display: none; align-items: center; justify-content: center;
+}
+.modal-bg.show { display: flex; }
+.modal-box {
+  background: rgba(12,12,36,0.48);
+  backdrop-filter: blur(48px) saturate(1.8) brightness(1.12);
+  -webkit-backdrop-filter: blur(48px) saturate(1.8) brightness(1.12);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--r3); padding: 40px 36px;
+  max-width: 400px; width: 90%; text-align: center;
+  position: relative; overflow: hidden;
+  animation: modalIn 0.32s cubic-bezier(0.22,1,0.36,1) both;
+  box-shadow:
+    0 32px 80px rgba(0,0,0,0.75),
+    inset 0 1px 0 rgba(255,255,255,0.32),
+    inset 0 0 0 1px rgba(255,255,255,0.08),
+    0 0 80px rgba(178,255,0,0.06);
+}
+.modal-box::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.14) 0%,
+    rgba(255,255,255,0.04) 30%,
+    transparent 60%,
+    rgba(178,255,0,0.04) 100%
+  );
+  border-radius: var(--r3);
+}
+.modal-box::after {
+  content: '';
+  position: absolute; top: 0; left: -60%; width: 40%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: skewX(-20deg);
+  animation: modalSheen 4s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes modalSheen {
+  0%,100% { left: -60%; opacity: 0; }
+  20% { opacity: 1; }
+  50% { left: 130%; opacity: 1; }
+  60%,100% { opacity: 0; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.93) translateY(16px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+.modal-icon { font-size: 52px; margin-bottom: 18px; display: block; }
+.modal-h { font-family: var(--font-hero); font-size: 28px; letter-spacing: 0.04em; margin-bottom: 8px; }
+.modal-sub { font-size: 13px; color: var(--text2); line-height: 1.65; margin-bottom: 26px; }
+.modal-cta {
+  display: block; width: 100%; padding: 14px;
+  background: var(--lime); color: var(--void); border: none;
+  border-radius: var(--r); cursor: pointer; font-family: var(--font-body);
+  font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+  margin-bottom: 10px; transition: opacity 0.18s;
+}
+.modal-cta:hover { opacity: 0.88; }
+.modal-sec {
+  display: block; width: 100%; padding: 13px;
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.10);
+  border-radius: var(--r); cursor: pointer; font-size: 13px;
+  color: var(--text2); font-family: var(--font-body); transition: color 0.18s;
+}
+.modal-sec:hover { color: var(--text); }
+.spinner {
+  width: 46px; height: 46px; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.10); border-top-color: var(--lime);
+  animation: spin 0.75s linear infinite; margin: 0 auto 18px;
+  box-shadow: 0 0 12px rgba(178,255,0,0.20);
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  background: rgba(8,8,28,0.70); backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(255,255,255,0.07);
+  padding: 22px 36px;
+  display: flex; align-items: center; justify-content: space-between;
+  position: relative; z-index: 2;
+}
+.footer-l { display: flex; flex-direction: column; gap: 3px; }
+.footer-logo { font-family: var(--font-hero); font-size: 16px; letter-spacing: 0.14em; color: var(--lime); }
+.footer-by { font-size: 10px; color: var(--text3); font-family: var(--font-mono); letter-spacing: 0.06em; }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-size: 11px; color: var(--text3); text-decoration: none; cursor: pointer; transition: color 0.15s; font-family: var(--font-mono); letter-spacing: 0.06em; }
+.footer-links a:hover { color: var(--text2); }
+.footer-r { font-size: 11px; color: var(--text3); font-family: var(--font-mono); }
+
+/* ═══════════════════════════════════════════════
+   SCROLL ANIMATIONS
+═══════════════════════════════════════════════ */
+.fade-up { opacity: 0; transform: translateY(24px); animation: fadeUp 0.65s cubic-bezier(0.22,1,0.36,1) forwards; }
+@keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+.d1 { animation-delay: 0.05s; } .d2 { animation-delay: 0.12s; }
+.d3 { animation-delay: 0.20s; } .d4 { animation-delay: 0.28s; }
+.d5 { animation-delay: 0.36s; } .d6 { animation-delay: 0.44s; }
+
+/* ═══════════════════════════════════════════════
+   UTILITY & EXTRAS
+═══════════════════════════════════════════════ */
+.clickable { cursor: pointer; }
+.mono { font-family: var(--font-mono); }
+
+/* Hero grid + glow */
+.hero-grid-overlay {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    linear-gradient(rgba(0,220,200,0.022) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,220,200,0.022) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 80% at 50% 50%, black 30%, transparent 80%);
+}
+.hero-lime-glow {
+  position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
+  width: 70%; height: 180px; pointer-events: none; z-index: 1;
+  background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(178,255,0,0.10) 0%, transparent 70%);
+  filter: blur(20px);
+}
+
+/* Floating orbit */
+@keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+.hgc-orbit { animation: floatY 3.5s ease-in-out infinite; }
+
+/* Favourite button */
+.fav-btn {
+  position: absolute; top: 10px; right: 10px; z-index: 4;
+  width: 30px; height: 30px; border-radius: 50%;
+  background: rgba(5,5,18,0.72); backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.12);
+  display: grid; place-items: center; cursor: pointer;
+  font-size: 14px; line-height: 1;
+  transition: background .2s, border-color .2s, transform .15s, color .2s;
+  color: var(--text3);
+}
+.fav-btn:hover { border-color: rgba(255,68,85,0.45); color: #ff6b7a; transform: scale(1.12); }
+.fav-btn.on { background: rgba(255,68,85,0.15); border-color: rgba(255,68,85,0.50); color: #ff4455; }
+.fav-btn.on:hover { transform: scale(1.12); }
+@keyframes heartPop { 0% { transform: scale(1); } 40% { transform: scale(1.45); } 80% { transform: scale(0.92); } 100% { transform: scale(1); } }
+.fav-btn.pop { animation: heartPop 0.38s ease forwards; }
+
+/* Prod-cell fav */
+.prod-cell { position: relative; }
+.prod-cell .fav-btn { top: 8px; right: 8px; width: 26px; height: 26px; font-size: 12px; }
+
+/* Image radii */
+.tr-thumb { border-radius: var(--r2); }
+.sim-thumb { border-radius: var(--r2); }
+.bc-img { border-radius: 0; }
+
+/* ═══════════════════════════════════════════════
+   THEME VARIANTS
+═══════════════════════════════════════════════ */
+[data-theme="violet"] {
+  --lime: #c084fc;
+  --lime-dim: rgba(192,132,252,0.10);
+  --lime-glow: rgba(192,132,252,0.22);
+  --void: #03020a; --ink: #080613;
+  --card: rgba(255,255,255,0.055);
+  --card2: rgba(255,255,255,0.082);
+  --card3: rgba(255,255,255,0.11);
+}
+[data-theme="amber"] {
+  --lime: #fbbf24;
+  --lime-dim: rgba(251,191,36,0.10);
+  --lime-glow: rgba(251,191,36,0.22);
+  --void: #080500; --ink: #110900;
+  --card: rgba(255,255,255,0.055);
+  --card2: rgba(255,255,255,0.082);
+  --card3: rgba(255,255,255,0.11);
+}
+[data-theme="cyan"] {
+  --lime: #22d3ee;
+  --lime-dim: rgba(34,211,238,0.10);
+  --lime-glow: rgba(34,211,238,0.22);
+  --void: #00070c; --ink: #000e18;
+  --card: rgba(255,255,255,0.055);
+  --card2: rgba(255,255,255,0.082);
+  --card3: rgba(255,255,255,0.11);
+}
+[data-theme="rose"] {
+  --lime: #fb7185;
+  --lime-dim: rgba(251,113,133,0.10);
+  --lime-glow: rgba(251,113,133,0.22);
+  --void: #090203; --ink: #110407;
+  --card: rgba(255,255,255,0.055);
+  --card2: rgba(255,255,255,0.082);
+  --card3: rgba(255,255,255,0.11);
+}
+
+/* Auth */
+.auth-tab { background: transparent; color: var(--text2); }
+.auth-tab.on { background: rgba(255,255,255,0.10); color: var(--text); }
+.social-btn:hover { border-color: rgba(255,255,255,0.18) !important; color: var(--text) !important; }
+
+#auth-error {
+  display: none;
+  background: rgba(255,68,85,0.10);
+  border: 1px solid rgba(255,68,85,0.30);
+  color: #ff6b7a; border-radius: var(--r2);
+  padding: 10px 14px; font-size: 12px;
+  font-family: var(--font-mono); letter-spacing: 0.04em;
+  margin-bottom: 16px;
+}
+@keyframes authErrorShake {
+  0%,100% { transform: translateX(0); }
+  20% { transform: translateX(-6px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(4px); }
+}
+
+/* ── FOCUS VISIBLE ── */
+*:focus-visible { outline: 2px solid var(--lime); outline-offset: 3px; }
+
+/* ── TOUCH / MOBILE: hide custom cursor ── */
+@media (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none !important; }
+}
+
+/* ── SEARCH OVERLAY ── */
+.search-overlay {
+  position: fixed; inset: 0; z-index: 8000;
+  background: rgba(5,5,15,0.82);
+  backdrop-filter: blur(32px) saturate(1.4);
+  display: none; flex-direction: column; align-items: center;
+  padding-top: 14vh;
+}
+.search-overlay.show { display: flex; }
+.search-box {
+  width: 100%; max-width: 640px;
+  background: rgba(12,12,36,0.72);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: var(--r);
+  backdrop-filter: blur(40px);
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.22);
+  overflow: hidden;
+}
+.search-input-wrap {
+  display: flex; align-items: center; gap: 12px;
+  padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.search-input-wrap svg { opacity: 0.5; flex-shrink: 0; }
+#search-inp {
+  flex: 1; background: none; border: none; outline: none;
+  font-family: var(--font-body); font-size: 18px; color: var(--text);
+}
+#search-inp::placeholder { color: var(--text3); }
+.search-kbd { font-family: var(--font-mono); font-size: 10px; color: var(--text3); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 2px 6px; cursor: pointer; }
+.search-results {
+  max-height: 60vh; overflow-y: auto; padding: 10px;
+}
+.search-result-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 12px; border-radius: var(--r2); cursor: pointer;
+  transition: background 0.15s;
+}
+.search-result-item:hover { background: rgba(178,255,0,0.08); }
+.search-result-img { width: 48px; height: 40px; object-fit: cover; border-radius: var(--r2); flex-shrink: 0; }
+.search-result-name { font-family: var(--font-hero); font-size: 14px; letter-spacing: 0.04em; }
+.search-result-cat { font-size: 11px; color: var(--text2); font-family: var(--font-mono); margin-top: 2px; }
+.search-result-price { margin-left: auto; font-family: var(--font-mono); font-size: 12px; color: var(--lime); }
+.search-empty { text-align: center; padding: 32px; font-size: 13px; color: var(--text3); }
+
+/* ── ACCORDION CONTENT PANELS ── */
+.acc-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.28s ease, padding 0.18s;
+  font-size: 12px; color: var(--text2); line-height: 1.8;
+  font-family: var(--font-body); padding: 0 14px;
+  border-bottom: 1px solid var(--line);
+}
+.acc-body.open { max-height: 200px; padding: 12px 14px; }
+
+/* ── MOBILE BREAKPOINTS ── */
+@media (max-width: 768px) {
+  body { font-size: 14px; }
+  .hero { grid-template-columns: 1fr; min-height: auto; }
+  .hero-right { display: none; }
+  .hero-left { padding: 36px 20px 48px; }
+  .hero-h1 { font-size: clamp(56px, 14vw, 90px); }
+
+  nav { padding: 0 16px; }
+  .nav-center { display: none; }
+  .nav-right { gap: 8px; }
+  .search-trigger span:not(:first-child):not(kbd) { display: none; }
+
+  .bento-stores { grid-template-columns: 1fr !important; grid-template-rows: auto !important; }
+  .bento-card { height: 220px !important; }
+
+  .prod-grid-4 { grid-template-columns: 1fr 1fr !important; }
+  @media (max-width: 480px) { .prod-grid-4 { grid-template-columns: 1fr !important; } }
+
+  .hm-metrics { flex-wrap: wrap; gap: 12px; }
+
+  .plans { grid-template-columns: 1fr !important; }
+
+  .cart-layout { flex-direction: column !important; padding: 20px !important; }
+  .order-card { width: 100% !important; }
+
+  .co-layout { flex-direction: column !important; padding: 20px !important; }
+
+  .det-layout { flex-direction: column !important; padding: 20px !important; }
+  .det-sidebar { width: 100% !important; border-left: none !important; border-top: 1px solid var(--line); }
+
+  .sidebar { width: 100% !important; flex-shrink: 0; border-right: none !important; border-bottom: 1px solid var(--line); }
+
+  #s-login > div { grid-template-columns: 1fr !important; }
+  #s-login > div > div:first-child { display: none; }
+
+  .sub-page { padding: 24px 16px !important; }
+  .section { padding: 32px 16px !important; }
+  .page { padding: 58px 0 0 !important; }
+  .bc { padding: 10px 16px !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient + grain -->
+<div class="ambient"></div>
+<div class="grain"></div>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curRing"></div>
+
+<!-- ── SEARCH OVERLAY ── -->
+<div class="search-overlay" id="search-overlay" onclick="closeSearch(event)">
+  <div class="search-box" onclick="event.stopPropagation()">
+    <div class="search-input-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input id="search-inp" type="text" placeholder="Search assets, categories…" oninput="runSearch(this.value)" autocomplete="off">
+      <span class="search-kbd clickable" onclick="closeSearch()">ESC</span>
+    </div>
+    <div class="search-results" id="search-results">
+      <div class="search-empty">Start typing to search 300+ AIoT assets…</div>
+    </div>
+  </div>
+</div>
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: HOME
+████████████████████████████████████████████████ -->
+<div class="screen active" id="s-home">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')">
+      <div class="logo-mark">H</div>
+      <div>
+        <div class="logo-text">HALO</div>
+        <div class="logo-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div>
+      </div>
+    </a>
+    <div class="nav-center">
+      <button class="nav-tab on clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+      <button class="nav-tab clickable" onclick="go('s-store')">HALO × Store</button>
+    </div>
+    <div class="nav-right">
+      <div class="search-trigger clickable" onclick="openSearch()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Search assets
+        <kbd>⌘K</kbd>
+      </div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Saved
+        <div class="badge fav-count" style="display:none">0</div>
+      </button>
+      <button class="cart-badge-btn clickable" onclick="go('s-cart')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        Cart
+        <div class="badge" style="display:none">0</div>
+      </button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+
+  <div class="page">
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-left">
+        <div class="hero-bg-text">HALO</div>
+        <div class="hero-status fade-up d1">
+          <span class="status-dot"></span>
+          EDGE NATIVE · ZERO BLOAT
+        </div>
+        <h1 class="hero-h1">
+          <span class="kword kw1">EXPLORE</span>
+          <span class="kword kw2 hl">HALO</span>
+          <span class="kword kw3">STORES</span>
+        </h1>
+        <p class="hero-desc fade-up d3">
+          Orchestrate Smart Devices & the Autonomous Edge.
+          TinkerBloX eliminates execution bloat — 30× faster startup,
+          65% less memory, edge-native from silicon to cloud.
+        </p>
+        <div class="hero-cta-row fade-up d4">
+          <a class="btn-primary-lg clickable" onclick="go('s-store')">
+            Explore Stores
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <a class="btn-ghost-lg clickable" onclick="go('s-sub')">View Plans</a>
+        </div>
+        <div class="hero-metrics fade-up d5">
+          <div class="hm"><div class="hm-val">30<span>×</span></div><div class="hm-lbl">FASTER STARTUP</div></div>
+          <div class="hm"><div class="hm-val">65<span>%</span></div><div class="hm-lbl">LESS MEMORY</div></div>
+          <div class="hm"><div class="hm-val">3.8<span>×</span></div><div class="hm-lbl">SMALLER PACKAGE</div></div>
+          <div class="hm"><div class="hm-val">8<span>%+</span></div><div class="hm-lbl">ENERGY SAVED</div></div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <img class="hero-img-main" src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&q=85" alt="AIoT Edge Computing">
+        <div class="hero-grid-overlay"></div>
+        <div class="hero-lime-glow"></div>
+        <div class="hero-nav">
+          <button class="hn-btn clickable">&#8592;</button>
+          <button class="hn-btn clickable">&#8594;</button>
+        </div>
+        <div class="hero-glass-card hgc-orbit">
+          <div class="hgc-label">● FEATURED ASSET · TRENDING #1</div>
+          <div class="hgc-title">NEURO BOOST ENGINE</div>
+          <div class="hgc-desc">Neural acceleration runtime delivering sub-5ms inference across CPUs, GPUs & NPUs on TinkerBloX EdgeBloX fabric.</div>
+          <div class="hgc-stats">
+            <div class="hgc-stat"><div class="hgc-sval">0.019<em>s</em></div><div class="hgc-slbl">STARTUP TIME</div></div>
+            <div class="hgc-stat"><div class="hgc-sval">46<em>MB</em></div><div class="hgc-slbl">MEMORY USE</div></div>
+            <div class="hgc-stat"><div class="hgc-sval">$79<em>/mo</em></div><div class="hgc-slbl">STARTING AT</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TICKER -->
+    <div class="ticker">
+      <div class="ticker-inner" id="ticker">
+        <div class="ti"><span class="ti-dot"></span>Smart Home Middleware</div>
+        <div class="ti"><span class="ti-dot"></span>Neuro Boost Engine</div>
+        <div class="ti"><span class="ti-dot"></span>EdgeBloX Runtime</div>
+        <div class="ti"><span class="ti-dot"></span>Predictive Maintenance</div>
+        <div class="ti"><span class="ti-dot"></span>Blockchain Track & Trace</div>
+        <div class="ti"><span class="ti-dot"></span>SDV Cruise Control</div>
+        <div class="ti"><span class="ti-dot"></span>Digital Twin</div>
+        <div class="ti"><span class="ti-dot"></span>Sustainability Monitor @ Edge</div>
+        <div class="ti"><span class="ti-dot"></span>UltraEdge Inference</div>
+        <div class="ti"><span class="ti-dot"></span>5G Edge Router Logic</div>
+        <!-- dup -->
+        <div class="ti"><span class="ti-dot"></span>Smart Home Middleware</div>
+        <div class="ti"><span class="ti-dot"></span>Neuro Boost Engine</div>
+        <div class="ti"><span class="ti-dot"></span>EdgeBloX Runtime</div>
+        <div class="ti"><span class="ti-dot"></span>Predictive Maintenance</div>
+        <div class="ti"><span class="ti-dot"></span>Blockchain Track & Trace</div>
+        <div class="ti"><span class="ti-dot"></span>SDV Cruise Control</div>
+        <div class="ti"><span class="ti-dot"></span>Digital Twin</div>
+        <div class="ti"><span class="ti-dot"></span>Sustainability Monitor @ Edge</div>
+        <div class="ti"><span class="ti-dot"></span>UltraEdge Inference</div>
+        <div class="ti"><span class="ti-dot"></span>5G Edge Router Logic</div>
+      </div>
+    </div>
+
+    <!-- STORES SECTION -->
+    <div class="section">
+      <div class="sec-row">
+        <div>
+          <div class="sec-pre">Marketplace</div>
+          <h2 class="sec-h2">HALO <em>×</em> STORES</h2>
+          <p class="sec-sub">Extensive AIoT asset collections — lean, modular, built for real-time autonomous enterprise edge.</p>
+        </div>
+        <button class="btn-link clickable" onclick="go('s-store')">
+          Browse all stores <span class="arr">→</span>
+        </button>
+      </div>
+
+      <div class="sec-glow-rule"></div>
+      <div class="bento-stores">
+        <a class="bento-card clickable" onclick="showStore('app')">
+          <div class="bc-arrow">↗</div>
+          <img class="bc-img" src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80" alt="App Store">
+          <div class="bc-gradient"></div>
+          <div class="bc-body">
+            <div class="bc-tag">Microservices</div>
+            <div class="bc-name">APP STORE</div>
+            <div class="bc-desc">Plug-and-play containerized apps for edge-native deployment with zero startup bloat.</div>
+          </div>
+        </a>
+        <a class="bento-card clickable" onclick="showStore('ai')">
+          <div class="bc-arrow">↗</div>
+          <img class="bc-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80" alt="AI Store">
+          <div class="bc-gradient"></div>
+          <div class="bc-body">
+            <div class="bc-tag">Algorithms</div>
+            <div class="bc-name">AI ALGO STORE</div>
+            <div class="bc-desc">Production ML models & AI pipelines for real-time inference across CPUs, GPUs & NPUs.</div>
+          </div>
+        </a>
+        <a class="bento-card clickable" onclick="showStore('logic')">
+          <div class="bc-arrow">↗</div>
+          <img class="bc-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80" alt="Logic Store">
+          <div class="bc-gradient"></div>
+          <div class="bc-body">
+            <div class="bc-tag">Logic Blocks</div>
+            <div class="bc-name">LOGIC STORE</div>
+            <div class="bc-desc">Composable business logic for autonomous orchestration of heterogeneous device habitats.</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- NEW @ HALO — BENTO PRODUCT GRID -->
+    <div class="section" style="background:var(--ink); border-top:1px solid var(--line);">
+      <div class="sec-row">
+        <div>
+          <div class="sec-pre">Just Landed</div>
+          <h2 class="sec-h2">NEW <em>@</em> HALO</h2>
+          <p class="sec-sub">Latest AIoT assets for the enterprise — edge inference, device orchestration, sustainability.</p>
+        </div>
+        <button class="btn-link clickable" onclick="showStore('app')">Go to Store <span class="arr">→</span></button>
+      </div>
+      <div class="bento-products">
+        <!-- tall card -->
+        <a class="prod-cell w2h2 clickable" onclick="showDetail('neuro')" style="flex-direction:column">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80" alt="">
+          <div class="pcell-body">
+            <div class="pcell-tag">AI Store</div>
+            <div class="pcell-name">NEURO BOOST ENGINE</div>
+            <div class="pcell-price">from <strong>$79.99</strong>/mo</div>
+          </div>
+        </a>
+        <a class="prod-cell w2 clickable" onclick="showDetail('smarthome')">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="" style="height:120px;flex:none">
+          <div class="pcell-body">
+            <div class="pcell-tag">MicroService</div>
+            <div class="pcell-name">SMART HOME MIDDLEWARE</div>
+            <div class="pcell-price">from <strong>$59.99</strong>/mo</div>
+          </div>
+        </a>
+        <a class="prod-cell w2 clickable" onclick="showDetail('sustain')">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="" style="height:120px;flex:none">
+          <div class="pcell-body">
+            <div class="pcell-tag">AI Store</div>
+            <div class="pcell-name">SUSTAINABILITY MONITOR</div>
+            <div class="pcell-price">from <strong>$49.99</strong>/mo</div>
+          </div>
+        </a>
+        <!-- row 2 -->
+        <a class="prod-cell w3 clickable" onclick="showDetail('blockchain')">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80" alt="" style="height:130px;flex:none">
+          <div class="pcell-body">
+            <div class="pcell-tag">Logic Store</div>
+            <div class="pcell-name">BLOCKCHAIN TRACK & TRACE</div>
+            <div class="pcell-price">from <strong>$69.99</strong>/mo</div>
+          </div>
+        </a>
+        <a class="prod-cell w3 clickable" onclick="showDetail('digital-twin')">
+          <img class="pcell-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=500&q=80" alt="" style="height:130px;flex:none">
+          <div class="pcell-body">
+            <div class="pcell-tag">MicroService</div>
+            <div class="pcell-name">DIGITAL TWIN</div>
+            <div class="pcell-price">from <strong>$74.99</strong>/mo</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- TRENDING — table layout -->
+    <div class="section">
+      <div class="sec-row">
+        <div>
+          <div class="sec-pre">Popular Now</div>
+          <h2 class="sec-h2">TRENDING <em>@</em> ENTERPRISE</h2>
+          <p class="sec-sub">Most-deployed AIoT assets across enterprise edge networks this quarter.</p>
+        </div>
+        <button class="btn-link clickable" onclick="go('s-store')">See all <span class="arr">→</span></button>
+      </div>
+
+      <div class="trend-table-header">
+        <span>#</span>
+        <span>ASSET</span>
+        <span>STORE</span>
+        <span>POPULARITY</span>
+        <span style="text-align:right">PRICE</span>
+      </div>
+      <div class="trend-table">
+        <a class="trend-row clickable" onclick="showDetail('neuro')">
+          <div class="tr-num">01</div>
+          <div class="tr-info">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80" alt="">
+            <div><div class="tr-name">NEURO BOOST ENGINE</div><div class="tr-desc">Sub-5ms edge inference runtime</div></div>
+          </div>
+          <div class="tr-cat">AI Algo Store</div>
+          <div><div class="tr-bar-wrap"><div class="tr-bar" style="width:92%"></div></div></div>
+          <div class="tr-price">$79.99</div>
+        </a>
+        <a class="trend-row clickable" onclick="showDetail('blockchain')">
+          <div class="tr-num">02</div>
+          <div class="tr-info">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80" alt="">
+            <div><div class="tr-name">BLOCKCHAIN TRACK & TRACE</div><div class="tr-desc">Immutable supply chain logic</div></div>
+          </div>
+          <div class="tr-cat">Logic Store</div>
+          <div><div class="tr-bar-wrap"><div class="tr-bar" style="width:78%"></div></div></div>
+          <div class="tr-price">$69.99</div>
+        </a>
+        <a class="trend-row clickable" onclick="showDetail('sdv')">
+          <div class="tr-num">03</div>
+          <div class="tr-info">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=80" alt="">
+            <div><div class="tr-name">SDV CRUISE CONTROL</div><div class="tr-desc">Automotive AI workloads + OTA safety</div></div>
+          </div>
+          <div class="tr-cat">AI Algo Store</div>
+          <div><div class="tr-bar-wrap"><div class="tr-bar" style="width:65%"></div></div></div>
+          <div class="tr-price">$89.99</div>
+        </a>
+        <a class="trend-row clickable" onclick="showDetail('digital-twin')">
+          <div class="tr-num">04</div>
+          <div class="tr-info">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="">
+            <div><div class="tr-name">DIGITAL TWIN</div><div class="tr-desc">Real-time virtual replica engine</div></div>
+          </div>
+          <div class="tr-cat">MicroService</div>
+          <div><div class="tr-bar-wrap"><div class="tr-bar" style="width:54%"></div></div></div>
+          <div class="tr-price">$74.99</div>
+        </a>
+        <a class="trend-row clickable" onclick="showDetail('predictive')">
+          <div class="tr-num">05</div>
+          <div class="tr-info">
+            <img class="tr-thumb" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80" alt="">
+            <div><div class="tr-name">PREDICTIVE MAINTENANCE</div><div class="tr-desc">95%+ failure detection accuracy</div></div>
+          </div>
+          <div class="tr-cat">AI Algo Store</div>
+          <div><div class="tr-bar-wrap"><div class="tr-bar" style="width:48%"></div></div></div>
+          <div class="tr-price">$49.99</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-l">
+      <div class="footer-logo">HALO</div>
+      <div class="footer-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span> · EDGE INTELLIGENCE PLATFORM</div>
+    </div>
+    <div class="footer-links">
+      <a onclick="go('s-home')">Home</a>
+      <a onclick="go('s-store')">Store</a>
+      <a onclick="go('s-sub')">Pricing</a>
+      <a>Privacy</a><a>Terms</a><a>Support</a>
+    </div>
+    <div class="footer-r">© 2025 TinkerBloX Inc. All rights reserved.</div>
+  </footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: HALO × STORE OVERVIEW
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-store">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')">
+      <div class="logo-mark">H</div>
+      <div><div class="logo-text">HALO</div><div class="logo-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div></div>
+    </a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+      <button class="nav-tab on clickable">HALO × Store</button>
+    </div>
+    <div class="nav-right">
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search assets<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><span>HALO × Store</span></div>
+
+  <div class="page">
+    <!-- Hero strip -->
+    <div style="padding:52px 36px 44px; border-bottom:1px solid var(--line); display:flex; align-items:flex-end; justify-content:space-between">
+      <div>
+        <div class="sec-pre">AIoT Marketplace</div>
+        <h1 style="font-family:var(--font-hero);font-size:58px;letter-spacing:0.02em;line-height:1;margin-bottom:12px">HALO <em style="color:var(--lime);font-style:normal">×</em> STORE</h1>
+        <p style="font-size:14px;color:var(--text2);max-width:440px;line-height:1.7">Extensive collection of AIoT assets curated for the enterprise — lean, modular, edge-native execution across CPUs, GPUs and AI accelerators.</p>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn-ghost-lg clickable" onclick="showStore('app')">Browse App Store</button>
+        <button class="btn-primary-lg clickable" onclick="go('s-sub')">Subscribe to Access All</button>
+      </div>
+    </div>
+
+    <!-- APP section -->
+    <div class="section">
+      <div class="sec-row">
+        <div><div class="sec-pre">Apps</div><h2 class="sec-h2" style="font-size:36px">APP (MICROSERVICE) STORE</h2></div>
+        <button class="btn-link clickable" onclick="showStore('app')">Go to Store <span class="arr">→</span></button>
+      </div>
+      <div class="prod-grid-4">
+        <a class="pg-card clickable" onclick="showDetail('smart-diag')"><img class="pg-img" src="https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=80" alt="Smart Diagnostics — IoT anomaly detection dashboard"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART DIAGNOSTICS</div><div class="pg-desc">Continuously monitors IoT compute infrastructure to detect anomalies and predict failures.</div><div class="pg-footer"><span class="pg-price">$39.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('smart-diag')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('smarthome')"><img class="pg-img" src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80" alt="Smart Home Middleware — unified IoT device orchestration"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">SMART HOME MIDDLEWARE</div><div class="pg-desc">Unified device orchestration layer for heterogeneous smart home ecosystems.</div><div class="pg-footer"><span class="pg-price">$59.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('smarthome')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('digital-twin')"><img class="pg-img" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80" alt="Digital Twin — real-time virtual asset replica engine"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">DIGITAL TWIN</div><div class="pg-desc">Real-time virtual replica engine with sub-100ms asset state synchronization.</div><div class="pg-footer"><span class="pg-price">$74.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('digital-twin')">+ Add</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- AI section -->
+    <div class="section" style="background:var(--ink)">
+      <div class="sec-row">
+        <div><div class="sec-pre">Algorithms</div><h2 class="sec-h2" style="font-size:36px">AI ALGO STORE</h2></div>
+        <button class="btn-link clickable" onclick="showStore('ai')">Go to Store <span class="arr">→</span></button>
+      </div>
+      <div class="prod-grid-4">
+        <a class="pg-card clickable" onclick="showDetail('neuro')"><img class="pg-img" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80" alt="Neuro Boost Engine — neural acceleration for edge AI inference"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">NEURO BOOST ENGINE</div><div class="pg-desc">Neural acceleration runtime for sub-5ms inference on constrained edge hardware.</div><div class="pg-footer"><span class="pg-price">$79.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('neuro')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('predictive')"><img class="pg-img" src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80" alt="Predictive Maintenance — industrial IoT failure forecasting"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">PREDICTIVE MAINTENANCE</div><div class="pg-desc">Analyzes industrial asset telemetry to forecast potential failures with 95%+ accuracy.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('predictive')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sdv')"><img class="pg-img" src="https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=80" alt="SDV Cruise Control — AI runtime for software-defined vehicles"><div class="pg-body"><div class="pg-tag">Algorithm</div><div class="pg-name">SDV CRUISE CONTROL</div><div class="pg-desc">AI inference for Software-Defined Vehicles running mission-critical workloads with OTA safety.</div><div class="pg-footer"><span class="pg-price">$89.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sdv')">+ Add</button></div></div></a>
+      </div>
+    </div>
+
+    <!-- Logic section -->
+    <div class="section">
+      <div class="sec-row">
+        <div><div class="sec-pre">Logic</div><h2 class="sec-h2" style="font-size:36px">LOGIC STORE</h2></div>
+        <button class="btn-link clickable" onclick="showStore('logic')">Go to Store <span class="arr">→</span></button>
+      </div>
+      <div class="prod-grid-4">
+        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Blockchain Track & Trace — immutable supply chain audit trail"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain audit trail with 10,000+ TPS and cryptographic provenance.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('blockchain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80" alt="Sustainability Monitor — edge carbon tracking and energy optimization"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Real-time carbon tracking and energy optimization at the network edge.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sustain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80" alt="EdgeBloX Runtime — lean edge orchestration fabric"><div class="pg-body"><div class="pg-tag">Logic Block</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">TinkerBloX flagship edge orchestration suite — lean, self-aware, green by design.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('edge-runtime')">+ Add</button></div></div></a>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a>Privacy</a><a>Terms</a><a>Support</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: CATEGORY STORE
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-category">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')"><div class="logo-mark">H</div><div><div class="logo-text">HALO</div><div class="logo-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div></a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" id="ntab-app" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" id="ntab-ai" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" id="ntab-logic" onclick="showStore('logic')">Logic Store</button>
+    </div>
+    <div class="nav-right">
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><a onclick="go('s-store')">HALO × Store</a><span class="bc-sep">/</span><span id="cat-bc">Store</span></div>
+
+  <div style="display:flex;flex:1;min-height:0">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="sb-section">
+        <div class="sb-label" style="display:flex;justify-content:space-between"><span>Filters</span><span style="cursor:pointer;color:var(--lime);font-size:10px" onclick="clearFilters()">Clear</span></div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb on"></div> All assets<span class="filter-count">24</span></div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Inference<span class="filter-count">8</span></div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Orchestration<span class="filter-count">6</span></div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Analytics<span class="filter-count">5</span></div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Security<span class="filter-count">5</span></div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">Hardware Target</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> CPU Only</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> GPU Accelerated</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> NPU Optimized</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Multi-Accelerator</div>
+      </div>
+      <div class="sb-section">
+        <div class="sb-label">Pricing Model</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> Free Tier</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb"></div> One-time License</div>
+        <div class="filter-row clickable" onclick="toggleFilter(this)"><div class="cb on"></div> Subscription</div>
+      </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="store-main">
+      <div class="store-top">
+        <div>
+          <div class="store-pg-title" id="cat-title">App Store</div>
+          <p class="store-pg-sub" id="cat-sub">Plug-and-play apps for edge-native deployment.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">SORT BY</span>
+          <select class="sort-select"><option>Most Popular</option><option>Newest</option><option>Price: Low</option><option>Price: High</option></select>
+        </div>
+      </div>
+      <div class="prod-grid-4" id="cat-grid"></div>
+      <div style="text-align:center;margin-top:32px;padding-top:20px;border-top:1px solid var(--line)">
+        <button class="btn-ghost-lg clickable" style="margin:0 auto">Load more assets →</button>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a>Privacy</a><a>Terms</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: PRODUCT DETAIL
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-detail">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')"><div class="logo-mark">H</div><div><div class="logo-text">HALO</div><div class="logo-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div></a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+    </div>
+    <div class="nav-right">
+      <div class="search-trigger clickable" onclick="openSearch()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>Search<kbd>⌘K</kbd></div>
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Saved<div class="badge fav-count" style="display:none">0</div></button><button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><a onclick="go('s-store')">Store</a><span class="bc-sep">/</span><span id="det-bc">Product</span></div>
+
+  <div class="detail-layout page">
+    <div class="detail-main">
+      <img class="detail-hero-img" id="det-img" src="" alt="">
+      <div class="thumb-row" id="det-thumbs"></div>
+      <div class="detail-breadcrumb" id="det-cat">AI Store</div>
+      <h1 class="detail-title" id="det-name">Product</h1>
+      <p class="detail-desc" id="det-desc"></p>
+      <div class="spec-bento" id="det-specs"></div>
+
+      <!-- Similar -->
+      <div style="margin-top:36px;padding-top:28px;border-top:1px solid var(--line)">
+        <div style="font-family:var(--font-hero);font-size:22px;letter-spacing:0.05em;margin-bottom:20px">YOU MAY ALSO LIKE</div>
+        <div class="prod-grid-4" id="det-similar" style="grid-template-columns:repeat(3,1fr)"></div>
+      </div>
+    </div>
+
+    <div class="detail-sidebar">
+      <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:0.14em;color:var(--text3);text-transform:uppercase;margin-bottom:16px">Purchase</div>
+      <div class="ds-price-row">
+        <div class="ds-price" id="det-price">$79</div>
+        <div class="ds-period">/ month</div>
+      </div>
+      <div class="ds-note">Billed monthly. Cancel anytime.</div>
+      <button class="ds-add clickable" onclick="addToCart(currentDetail);go('s-cart')">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+        Add to Cart
+      </button>
+      <button class="ds-save clickable" onclick="toggleFav(currentDetail); go('s-favorites')">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Save to Favourites
+      </button>
+      <div class="ds-divider"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Runtime</span><span style="color:var(--text);font-family:var(--font-mono);font-size:10px">EdgeBloX</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">License</span><span style="color:var(--text);font-family:var(--font-mono);font-size:10px">Commercial SaaS</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:12px"><span style="color:var(--text2)">Support</span><span style="color:var(--text);font-family:var(--font-mono);font-size:10px">Enterprise SLA</span></div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a>Privacy</a><a>Terms</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: CART
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-cart">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')"><div class="logo-mark">H</div><div><div class="logo-text">HALO</div><div class="logo-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div></a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><span>Cart</span></div>
+
+  <div class="cart-layout page">
+    <div>
+      <h1 class="cart-h">YOUR CART</h1>
+      <p class="cart-sub">Not ready? <a onclick="go('s-store')">Continue Shopping →</a></p>
+
+      <!-- Empty state -->
+      <div id="cart-empty" style="display:none;text-align:center;padding:60px 0">
+        <div style="font-size:44px;opacity:0.25;margin-bottom:16px">🛒</div>
+        <div style="font-family:var(--font-hero);font-size:24px;letter-spacing:0.04em;color:var(--text2);margin-bottom:10px">YOUR CART IS EMPTY</div>
+        <p style="font-size:13px;color:var(--text3);margin-bottom:24px">Browse the HALO store and add assets to get started.</p>
+        <button class="btn-primary-lg clickable" onclick="go('s-store')" style="margin:0 auto">Browse Assets →</button>
+      </div>
+
+      <!-- Dynamic cart items -->
+      <div id="cart-items"></div>
+
+      <h2 style="font-family:var(--font-hero);font-size:26px;letter-spacing:0.04em;margin:36px 0 18px">RECOMMENDED FOR YOU</h2>
+      <div class="prod-grid-4">
+        <a class="pg-card clickable" onclick="showDetail('blockchain')"><img class="pg-img" src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80" alt="Blockchain Track & Trace"><div class="pg-body"><div class="pg-tag">Logic Store</div><div class="pg-name">BLOCKCHAIN TRACK & TRACE</div><div class="pg-desc">Immutable supply chain logic blocks.</div><div class="pg-footer"><span class="pg-price">$69.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('blockchain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('sustain')"><img class="pg-img" src="https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80" alt="Sustainability Monitor"><div class="pg-body"><div class="pg-tag">AI Store</div><div class="pg-name">SUSTAINABILITY MONITOR</div><div class="pg-desc">Edge carbon tracking & energy optimization.</div><div class="pg-footer"><span class="pg-price">$49.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('sustain')">+ Add</button></div></div></a>
+        <a class="pg-card clickable" onclick="showDetail('edge-runtime')"><img class="pg-img" src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80" alt="EdgeBloX Runtime"><div class="pg-body"><div class="pg-tag">MicroService</div><div class="pg-name">EDGEBLOX RUNTIME</div><div class="pg-desc">Zero-bloat edge orchestration fabric.</div><div class="pg-footer"><span class="pg-price">$99.99</span><button class="pg-add clickable" onclick="event.stopPropagation();addToCart('edge-runtime')">+ Add</button></div></div></a>
+      </div>
+    </div>
+
+    <div>
+      <div class="order-card">
+        <div class="oc-h">ORDER SUMMARY</div>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:16px">
+          Want unlimited access? <a style="color:var(--lime);cursor:pointer" onclick="go('s-sub')">View Subscription Plans →</a>
+        </div>
+        <div class="promo-row">
+          <input class="promo-inp" type="text" placeholder="Promo code">
+          <button class="promo-apply clickable">APPLY</button>
+        </div>
+        <div class="li-rows">
+          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val" id="cart-subtotal">$0.00</span></div>
+          <div class="li-r"><span class="li-lbl">Platform fee</span><span class="li-val" style="color:var(--text2);font-size:11px;font-family:var(--font-mono)">INCLUDED</span></div>
+          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val" id="cart-total">$0.00</span></div>
+        </div>
+        <button class="checkout-cta clickable" onclick="go('s-checkout')">Proceed to Checkout →</button>
+        <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:12px;font-family:var(--font-mono)">SECURED BY TINKERBLO<span style="color:var(--lime)">X</span> PLATFORM</div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a>Privacy</a><a>Terms</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: CHECKOUT
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-checkout">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')"><div class="logo-mark">H</div><div><div class="logo-text">HALO</div><div class="logo-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div></a>
+    <div class="nav-right">
+      <button class="btn-ghost-sm clickable" onclick="go('s-cart')">← Back to Cart</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><a onclick="go('s-cart')">Cart</a><span class="bc-sep">/</span><span>Checkout</span></div>
+
+  <div class="co-layout page">
+    <div>
+      <h1 class="co-h">CHECKOUT</h1>
+
+      <div class="form-section-title">Payment Method</div>
+      <div class="pay-tabs">
+        <button class="pay-tab on clickable" onclick="selectPayTab(this)">💳 Credit Card</button>
+        <button class="pay-tab clickable" onclick="selectPayTab(this)">🅿 PayPal</button>
+        <button class="pay-tab clickable" onclick="selectPayTab(this)"> Apple Pay</button>
+      </div>
+
+      <div class="form-section-title">Card Details</div>
+      <div class="fgrid">
+        <input class="ff full" type="text" placeholder="Card number">
+        <input class="ff full" type="text" placeholder="Name on card">
+        <input class="ff" type="text" placeholder="Expiry MM/YY">
+        <input class="ff" type="text" placeholder="CVV">
+      </div>
+      <div class="save-row">
+        <span class="save-lbl">Save card for future payments</span>
+        <div class="toggle-sw on clickable" id="save-card-sw" onclick="this.classList.toggle('on')"></div>
+      </div>
+
+      <div class="form-section-title">Billing Address</div>
+      <div class="fgrid">
+        <input class="ff" type="text" placeholder="First name">
+        <input class="ff" type="text" placeholder="Last name">
+        <input class="ff full" type="text" placeholder="Company (optional)">
+        <input class="ff full" type="text" placeholder="Street address">
+        <input class="ff" type="text" placeholder="City">
+        <input class="ff" type="text" placeholder="ZIP / Postal code">
+      </div>
+
+      <div class="form-section-title">Order Information</div>
+      <div class="accordion">
+        <div class="acc-row clickable"><span class="acc-lbl">Refund Policy</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">Subscriptions may be cancelled within 7 days of purchase for a full refund. One-time licence purchases are non-refundable once the asset has been deployed. Contact support@tinkerbloX.io for all refund requests.</div>
+        <div class="acc-row clickable"><span class="acc-lbl">Terms of Service</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">By purchasing you agree to the TinkerBloX Platform Terms of Service. Assets are licensed for use on authorised edge devices only. Redistribution, reverse-engineering or sub-licensing is strictly prohibited.</div>
+        <div class="acc-row clickable"><span class="acc-lbl">Privacy Policy</span><span class="acc-ico">+</span></div>
+        <div class="acc-body">TinkerBloX collects only the data necessary to fulfil your order and operate the platform. We do not sell personal data to third parties. All telemetry is anonymised and processed on TinkerBloX edge infrastructure. See privacy.tinkerbloX.io for full details.</div>
+      </div>
+
+      <button class="pay-final clickable" id="pay-btn" onclick="startPayment()">Pay $0.00 →</button>
+      <div style="font-size:10px;color:var(--text3);text-align:center;margin-top:10px;font-family:var(--font-mono)">256-BIT SSL SECURED · POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div>
+    </div>
+
+    <div>
+      <div class="order-card" style="position:sticky;top:80px">
+        <div class="oc-h" style="font-size:18px">YOUR ORDER</div>
+        <div style="height:1px;background:var(--line);margin:14px 0"></div>
+        <div id="co-items"></div>
+        <div style="height:1px;background:var(--line);margin:14px 0"></div>
+        <div class="li-rows">
+          <div class="li-r"><span class="li-lbl">Subtotal</span><span class="li-val" id="co-subtotal">$0.00</span></div>
+          <div class="li-r li-total"><span class="li-lbl">Total</span><span class="li-val" id="co-total">$0.00</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a>Privacy</a><a>Terms</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: SUBSCRIPTION
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-sub">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')"><div class="logo-mark">H</div><div><div class="logo-text">HALO</div><div class="logo-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div></a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+    </div>
+    <div class="nav-right">
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-ghost-sm clickable" onclick="go('s-home')">← Home</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><span>Subscription</span></div>
+
+  <div class="sub-page page">
+    <div class="sub-header">
+      <div class="sec-pre" style="justify-content:center">Pricing</div>
+      <h1>SUBSCRIBE<br>TO <em>HALO</em></h1>
+      <p>Perfectly tailored for every stage of your AIoT journey. No bloat, no lock-in. Start free, scale on demand.</p>
+    </div>
+
+    <div class="bill-toggle">
+      <span class="bt-lbl">Monthly</span>
+      <div class="bt-switch clickable" id="bill-sw" onclick="toggleBilling()"></div>
+      <span class="bt-lbl">Annual</span>
+      <span class="bt-save">SAVE 20%</span>
+    </div>
+
+    <div class="plans">
+      <div class="plan">
+        <div class="plan-name">FREE</div>
+        <div class="plan-price" data-monthly="0" data-annual="0">$0 <em>/ mo</em></div>
+        <div class="plan-for">FOR INDIVIDUALS & EXPLORATION</div>
+        <ul class="plan-feats">
+          <li><div class="pf-check on"></div> 3 microservice deployments</li>
+          <li><div class="pf-check on"></div> Community AI models</li>
+          <li><div class="pf-check on"></div> SandBloX access</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> Priority edge nodes</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> OTA update support</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> 99.9% SLA guarantee</li>
+        </ul>
+        <button class="plan-cta clickable" onclick="pickPlan(this,'free')">Get Started Free</button>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">BASIC</div>
+        <div class="plan-price" data-monthly="49" data-annual="39">$49 <em>/ mo</em></div>
+        <div class="plan-for">FOR SMALL TEAMS & STARTUPS</div>
+        <ul class="plan-feats">
+          <li><div class="pf-check on"></div> 20 microservice deployments</li>
+          <li><div class="pf-check on"></div> Full Algo Store access</li>
+          <li><div class="pf-check on"></div> EdgeBloX runtime</li>
+          <li><div class="pf-check on"></div> Priority edge nodes</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> OTA update support</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> 99.9% SLA guarantee</li>
+        </ul>
+        <button class="plan-cta clickable" onclick="pickPlan(this,'basic')">Get Basic →</button>
+      </div>
+
+      <div class="plan featured">
+        <div class="plan-pop-badge">MOST POPULAR</div>
+        <div class="plan-name" style="color:var(--lime)">PRO</div>
+        <div class="plan-price" data-monthly="79" data-annual="63">$79 <em>/ mo</em></div>
+        <div class="plan-for">FOR GROWING ENTERPRISES</div>
+        <ul class="plan-feats">
+          <li><div class="pf-check on"></div> Unlimited deployments</li>
+          <li><div class="pf-check on"></div> All stores + Logic library</li>
+          <li><div class="pf-check on"></div> EdgeBloX + UltraEdge</li>
+          <li><div class="pf-check on"></div> OTA update orchestration</li>
+          <li><div class="pf-check on"></div> 99.9% SLA guarantee</li>
+          <li class="plan-feat-off"><div class="pf-check off"></div> Dedicated support eng.</li>
+        </ul>
+        <button class="plan-cta clickable" onclick="go('s-checkout')">Get Pro →</button>
+      </div>
+
+      <div class="plan">
+        <div class="plan-name">ENTERPRISE</div>
+        <div class="plan-price" data-monthly="99" data-annual="79">$99 <em>/ mo</em></div>
+        <div class="plan-for">FOR LARGE-SCALE DEPLOYMENTS</div>
+        <ul class="plan-feats">
+          <li><div class="pf-check on"></div> Everything in Pro</li>
+          <li><div class="pf-check on"></div> Custom model training</li>
+          <li><div class="pf-check on"></div> Multi-accelerator fabric</li>
+          <li><div class="pf-check on"></div> OTA + safety certification</li>
+          <li><div class="pf-check on"></div> 99.99% SLA guarantee</li>
+          <li><div class="pf-check on"></div> Dedicated support engineer</li>
+        </ul>
+        <button class="plan-cta clickable" onclick="go('s-checkout')">Contact Sales →</button>
+      </div>
+    </div>
+
+    <!-- Comparison note -->
+    <div style="margin-top:52px;padding:28px;background:var(--card);border:1px solid var(--line);border-radius:var(--r3);display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:var(--lime);text-transform:uppercase;margin-bottom:8px">TinkerBloX Advantage</div>
+        <div style="font-family:var(--font-hero);font-size:22px;letter-spacing:.04em;margin-bottom:6px">30× FASTER STARTUP</div>
+        <div style="font-size:12px;color:var(--text2)">vs standard runtimes. EdgeBloX starts in 0.019s — no cold-start penalty.</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:var(--lime);text-transform:uppercase;margin-bottom:8px">Memory Efficiency</div>
+        <div style="font-family:var(--font-hero);font-size:22px;letter-spacing:.04em;margin-bottom:6px">65% LESS MEMORY</div>
+        <div style="font-size:12px;color:var(--text2)">46–50MB vs 67–135MB. Deploy more models per edge node, reduce infrastructure spend.</div>
+      </div>
+      <div>
+        <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.14em;color:var(--lime);text-transform:uppercase;margin-bottom:8px">Green Computing</div>
+        <div style="font-family:var(--font-hero);font-size:22px;letter-spacing:.04em;margin-bottom:6px">8%+ ENERGY SAVED</div>
+        <div style="font-size:12px;color:var(--text2)">947mW vs 1050–1200mW. Part of TinkerBloX ShadesOfGreen sustainability initiative.</div>
+      </div>
+    </div>
+  </div>
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a onclick="go('s-store')">Store</a><a>Privacy</a><a>Terms</a><a>Support</a></div><div class="footer-r">© 2025 TinkerBloX Inc. All rights reserved.</div></footer>
+</div>
+
+
+<!-- MODALS -->
+<div class="modal-bg" id="m-processing">
+  <div class="modal-box">
+    <div class="spinner"></div>
+    <div class="modal-h">PROCESSING…</div>
+    <p class="modal-sub">Securely authorizing your transaction via TinkerBloX edge-native payment fabric.</p>
+  </div>
+</div>
+<div class="modal-bg" id="m-success">
+  <div class="modal-box">
+    <span class="modal-icon">⚡</span>
+    <div class="modal-h">PAYMENT SUCCESSFUL</div>
+    <p class="modal-sub">Your AIoT assets are now live on the edge. Access them instantly from your dashboard — zero cold-start, zero bloat.</p>
+    <button class="modal-cta clickable" onclick="closeModals();go('s-home')">Back to Home</button>
+    <button class="modal-sec clickable" onclick="closeModals()">View Order Details</button>
+  </div>
+</div>
+
+
+<script>
+/* ── CURSOR ── */
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('curRing');
+let mx = 0, my = 0, rx = 0, ry = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cur.style.left = mx+'px'; cur.style.top = my+'px'; });
+(function animRing() {
+  rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+  curRing.style.left = rx+'px'; curRing.style.top = ry+'px';
+  requestAnimationFrame(animRing);
+})();
+
+/* ── PRODUCT DATA ── */
+const PD = {
+  smarthome: { name:'SMART HOME MIDDLEWARE', cat:'MicroService Store', price:'$59', img:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80', desc:'Unified control layer for heterogeneous smart device ecosystems. Enables real-time orchestration across diverse IoT device habitats with TinkerBloX zero-bloat architecture. Supports 100+ device protocols.', specs:[{k:'Runtime',v:'EdgeBloX'},{k:'Latency',v:'<3ms'},{k:'Protocols',v:'100+'},{k:'Package',v:'240MB'}] },
+  neuro: { name:'NEURO BOOST ENGINE', cat:'AI Algo Store', price:'$79', img:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=500&q=80', desc:'Neural acceleration runtime delivering sub-5ms inference on constrained edge hardware. Eliminates execution bloat across CPUs, GPUs and AI accelerators. 30× faster startup than standard runtimes.', specs:[{k:'Startup',v:'0.019s'},{k:'Memory',v:'46MB'},{k:'Package',v:'240MB'},{k:'Power',v:'947mW'}] },
+  sustain: { name:'SUSTAINABILITY MONITOR @ EDGE', cat:'AI Algo Store', price:'$49', img:'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80', desc:'Real-time carbon footprint tracking and energy optimization deployed directly at the network edge. Part of TinkerBloX ShadesOfGreen initiative with live power analytics.', specs:[{k:'Tracking',v:'Real-time'},{k:'Metrics',v:'CO₂+kWh'},{k:'Refresh',v:'100ms'},{k:'Deploy',v:'Edge-native'}] },
+  blockchain: { name:'BLOCKCHAIN TRACK & TRACE', cat:'Logic Store', price:'$69', img:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80', desc:'Immutable supply chain audit trail for industrial IoT. Cryptographic provenance tracking across the full product lifecycle with edge-native write throughput and zero latency.', specs:[{k:'Ledger',v:'Distributed'},{k:'TPS',v:'10,000+'},{k:'Latency',v:'<10ms'},{k:'Audit',v:'Immutable'}] },
+  sdv: { name:'SDV CRUISE CONTROL', cat:'AI Algo Store', price:'$89', img:'https://images.unsplash.com/photo-1493238792000-8113da705763?w=500&q=80', desc:'AI inference runtime for Software-Defined Vehicles running mission-critical workloads alongside OTA safety guarantees. AUTOSAR-compatible, ISO 26262 certified.', specs:[{k:'Safety',v:'ISO 26262'},{k:'OTA',v:'Supported'},{k:'RTOS',v:'AUTOSAR'},{k:'Targets',v:'HPC+MCU'}] },
+  'digital-twin': { name:'DIGITAL TWIN', cat:'MicroService Store', price:'$74', img:'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=500&q=80', desc:'Real-time virtual replica engine for physical assets. Predictive simulation, remote monitoring and what-if scenario modeling with sub-100ms state synchronization at scale.', specs:[{k:'Sync',v:'<100ms'},{k:'Models',v:'Physics-based'},{k:'Scale',v:'1M+ assets'},{k:'API',v:'REST+gRPC'}] },
+  predictive: { name:'PREDICTIVE MAINTENANCE', cat:'AI Algo Store', price:'$49', img:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500&q=80', desc:'Analyzes industrial asset telemetry to forecast potential failures before they occur. Prevents costly downtime with 95%+ detection accuracy on TinkerBloX edge hardware.', specs:[{k:'Accuracy',v:'95%+'},{k:'Horizon',v:'72hr'},{k:'Sensors',v:'Vibration+Heat'},{k:'Deploy',v:'Edge-native'}] },
+  'smart-diag': { name:'SMART DIAGNOSTICS', cat:'MicroService Store', price:'$39', img:'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=500&q=80', desc:'Continuously monitors IoT compute infrastructure to detect anomalies and predict failures in real time. TinkerBloX execution fabric ensures <6ms alert latency across the full stack.', specs:[{k:'Latency',v:'<6ms'},{k:'Coverage',v:'Full stack'},{k:'Anomaly',v:'ML-based'},{k:'Alerts',v:'Real-time'}] },
+  'edge-runtime': { name:'EDGEBLOX RUNTIME', cat:'MicroService Store', price:'$99', img:'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80', desc:'TinkerBloX flagship edge orchestration suite. Lean, self-aware, nimble, interoperable and green — built from first principles for heterogeneous device habitats at the edge of tomorrow.', specs:[{k:'Startup',v:'30× faster'},{k:'Memory',v:'65% less'},{k:'Size',v:'3.8× smaller'},{k:'Power',v:'>8% saved'}] }
+};
+
+const IMGS = {
+  smarthome:'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80',
+  neuro:'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
+  sustain:'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80',
+  blockchain:'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=80',
+  sdv:'https://images.unsplash.com/photo-1493238792000-8113da705763?w=800&q=80',
+  'digital-twin':'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=80',
+  predictive:'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',
+  'smart-diag':'https://images.unsplash.com/photo-1563770660941-20978e870e26?w=800&q=80',
+  'edge-runtime':'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80'
+};
+
+const CATS = {
+  app: { title:'APP (MICROSERVICE) STORE', sub:'Plug-and-play containerized apps for edge-native deployment with zero bloat.', items:['smart-diag','smarthome','digital-twin','edge-runtime','predictive','blockchain'] },
+  ai: { title:'AI ALGO STORE', sub:'Production-ready ML models and AI pipelines for real-time inference across CPUs, GPUs & NPUs.', items:['neuro','predictive','sustain','sdv','digital-twin','smarthome'] },
+  logic: { title:'LOGIC STORE', sub:'Composable business logic blocks for autonomous orchestration of heterogeneous device habitats.', items:['blockchain','sustain','edge-runtime','smarthome','neuro','predictive'] }
+};
+
+/* ── NAVIGATION ── */
+function go(id) {
+  if (id === 's-favorites') renderFavourites();
+  if (id === 's-cart' || id === 's-checkout') renderCart();
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(initFavButtons, 0);
+}
+
+function showStore(cat) {
+  const d = CATS[cat];
+  document.getElementById('cat-title').textContent = d.title;
+  document.getElementById('cat-sub').textContent = d.sub;
+  document.getElementById('cat-bc').textContent = d.title;
+  // highlight nav tab
+  ['app','ai','logic'].forEach(c => {
+    const el = document.getElementById('ntab-'+c);
+    if(el) el.classList.toggle('on', c===cat);
+  });
+  // build grid
+  const grid = document.getElementById('cat-grid');
+  grid.innerHTML = d.items.map(id => {
+    const p = PD[id] || {};
+    return `<a class="pg-card clickable" onclick="showDetail('${id}')">
+      ${favBtnHtml(id)}
+      <img class="pg-img" src="${IMGS[id]}" alt="">
+      <div class="pg-body">
+        <div class="pg-tag">${p.cat||''}</div>
+        <div class="pg-name">${p.name||id}</div>
+        <div class="pg-desc">${(p.desc||'').slice(0,90)}…</div>
+        <div class="pg-footer">
+          <span class="pg-price">${p.price||'–'}</span>
+          <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${id}')">+ Add</button>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+  go('s-category');
+  setTimeout(initFavButtons, 20);
+}
+
+function showDetail(id) {
+  const p = PD[id];
+  if(!p) { go('s-detail'); return; }
+  window.currentDetail = id;
+  document.getElementById('det-img').src = p.img;
+  document.getElementById('det-name').textContent = p.name;
+  document.getElementById('det-cat').textContent = p.cat;
+  document.getElementById('det-desc').textContent = p.desc;
+  document.getElementById('det-price').textContent = p.price;
+  document.getElementById('det-bc').textContent = p.name;
+
+  // specs
+  document.getElementById('det-specs').innerHTML = (p.specs||[]).map(s=>
+    `<div class="spec-cell"><div class="spec-k">${s.k}</div><div class="spec-v">${s.v}</div></div>`
+  ).join('');
+
+  // gallery thumbs
+  const thumbImgs = [p.img,
+    'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80',
+    'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80',
+    'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80'
+  ];
+  document.getElementById('det-thumbs').innerHTML = thumbImgs.map((u,i)=>
+    `<img class="thumb${i===0?' on':''} clickable" src="${u}" onclick="swapImg('${u}',this)" alt="">`
+  ).join('');
+
+  // You may also like — card grid below detail
+  const related = Object.keys(PD).filter(k=>k!==id).slice(0,3);
+  document.getElementById('det-similar').innerHTML = related.map(k => {
+    const q = PD[k];
+    return `<a class="pg-card clickable" onclick="showDetail('${k}')">
+      ${favBtnHtml(k)}
+      <img class="pg-img" src="${IMGS[k]}" alt="${q.name||k}">
+      <div class="pg-body">
+        <div class="pg-tag">${q.cat||''}</div>
+        <div class="pg-name">${q.name||k}</div>
+        <div class="pg-desc">${(q.desc||'').slice(0,80)}…</div>
+        <div class="pg-footer">
+          <span class="pg-price">${q.price||'–'}</span>
+          <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${k}')">+ Add</button>
+        </div>
+      </div>
+    </a>`;
+  }).join('');
+
+  go('s-detail');
+  setTimeout(initFavButtons, 20);
+}
+
+function swapImg(src, el) {
+  document.getElementById('det-img').src = src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+}
+
+/* ── PAYMENT FLOW ── */
+function startPayment() {
+  document.getElementById('m-processing').classList.add('show');
+  setTimeout(() => {
+    document.getElementById('m-processing').classList.remove('show');
+    document.getElementById('m-success').classList.add('show');
+  }, 2400);
+}
+function closeModals() {
+  document.querySelectorAll('.modal-bg').forEach(m => m.classList.remove('show'));
+}
+
+/* ── CART SYSTEM ── */
+var cart = JSON.parse(localStorage.getItem('halo_cart') || '[]');
+
+const PRICES = {
+  smarthome:59.99, neuro:79.99, sustain:49.99, blockchain:69.99,
+  sdv:89.99, 'digital-twin':74.99, predictive:49.99, 'smart-diag':39.99, 'edge-runtime':99.99
+};
+
+function addToCart(id) {
+  if (cart.indexOf(id) === -1) cart.push(id);
+  localStorage.setItem('halo_cart', JSON.stringify(cart));
+  updateCartBadge();
+  renderCart();
+  document.querySelectorAll('[onclick*="addToCart(\'' + id + '\')"]').forEach(function(btn) {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Added';
+    btn.style.background = 'var(--lime)'; btn.style.color = 'var(--void)';
+    setTimeout(function() { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; }, 1200);
+  });
+}
+
+function removeFromCart(id) {
+  cart = cart.filter(function(i) { return i !== id; });
+  localStorage.setItem('halo_cart', JSON.stringify(cart));
+  updateCartBadge();
+  renderCart();
+}
+
+function updateCartBadge() {
+  document.querySelectorAll('.cart-badge-btn .badge:not(.fav-count)').forEach(function(el) {
+    el.textContent = cart.length;
+    el.style.display = cart.length > 0 ? 'grid' : 'none';
+  });
+}
+
+function cartTotal() {
+  return cart.reduce(function(sum, id) { return sum + (PRICES[id] || 0); }, 0);
+}
+function fmt(n) { return '$' + n.toFixed(2); }
+
+function renderCart() {
+  var itemsEl = document.getElementById('cart-items');
+  var emptyEl = document.getElementById('cart-empty');
+  var subtotal = document.getElementById('cart-subtotal');
+  var total    = document.getElementById('cart-total');
+  var coItems  = document.getElementById('co-items');
+  var coSub    = document.getElementById('co-subtotal');
+  var coTot    = document.getElementById('co-total');
+  var payBtn   = document.getElementById('pay-btn');
+  if (!itemsEl) return;
+  var t = cartTotal();
+  if (cart.length === 0) {
+    if (emptyEl) emptyEl.style.display = 'block';
+    itemsEl.innerHTML = '';
+  } else {
+    if (emptyEl) emptyEl.style.display = 'none';
+    itemsEl.innerHTML = cart.map(function(id) {
+      var p = PD[id] || {}; var price = PRICES[id] || 0;
+      return '<div class="cart-item-card">' +
+        '<img class="ci-thumb" src="' + (IMGS[id]||'') + '" alt="' + (p.name||id) + '">' +
+        '<div class="ci-body">' +
+          '<div class="ci-name">' + (p.name||id) + '</div>' +
+          '<div class="ci-desc">' + (p.desc||'').slice(0,80) + '… · Subscription · 1 month</div>' +
+          '<div class="ci-actions">' +
+            '<span class="ci-rm clickable" onclick="removeFromCart(\'' + id + '\')">Remove</span>' +
+            '<span style="font-size:11px;color:var(--text3);font-family:var(--font-mono)">QTY: 1</span>' +
+          '</div></div><div class="ci-price">' + fmt(price) + '</div></div>';
+    }).join('');
+  }
+  if (subtotal) subtotal.textContent = fmt(t);
+  if (total)    total.textContent    = fmt(t);
+  if (coItems) {
+    coItems.innerHTML = cart.length === 0
+      ? '<p style="font-size:12px;color:var(--text3);margin-bottom:12px">No items in cart.</p>'
+      : cart.map(function(id) {
+          var p = PD[id]||{}; var price = PRICES[id]||0;
+          return '<div style="display:flex;gap:12px;margin-bottom:16px">' +
+            '<img style="width:80px;height:64px;object-fit:cover;border-radius:var(--r2);filter:brightness(.65);flex-shrink:0" src="' + (IMGS[id]||'') + '" alt="' + (p.name||id) + '">' +
+            '<div><div style="font-family:var(--font-hero);font-size:15px;letter-spacing:.04em;margin-bottom:4px">' + (p.name||id) + '</div>' +
+            '<div style="font-size:11px;color:var(--text2)">Subscription · 1 month<br>' + fmt(price) + '</div></div></div>';
+        }).join('');
+  }
+  if (coSub)  coSub.textContent  = fmt(t);
+  if (coTot)  coTot.textContent  = fmt(t);
+  if (payBtn) payBtn.textContent = 'Pay ' + fmt(t) + ' →';
+}
+
+/* ── FILTER TOGGLE ── */
+function toggleFilter(row) {
+  const cb = row.querySelector('.cb');
+  cb.classList.toggle('on');
+}
+function clearFilters() {
+  document.querySelectorAll('.cb.on').forEach(cb => cb.classList.remove('on'));
+}
+
+/* ── BILLING TOGGLE ── */
+let billingAnnual = false;
+function toggleBilling() {
+  billingAnnual = !billingAnnual;
+  document.getElementById('bill-sw').classList.toggle('on', billingAnnual);
+  document.querySelectorAll('.plan-price[data-monthly]').forEach(function(el) {
+    var v = billingAnnual ? el.dataset.annual : el.dataset.monthly;
+    el.innerHTML = (v === '0' ? 'Free' : '$' + v) + ' <em>/ mo</em>';
+  });
+}
+
+/* ── PLAN PICKER ── */
+function pickPlan(btn, name) {
+  document.querySelectorAll('.plan').forEach(function(p) { p.style.outline = ''; });
+  btn.closest('.plan').style.outline = '2px solid var(--lime)';
+  if (name === 'free') {
+    var orig = btn.textContent;
+    btn.textContent = '✓ Selected';
+    btn.style.background = 'var(--lime)'; btn.style.color = 'var(--void)';
+    setTimeout(function() { btn.textContent = orig; btn.style.background = ''; btn.style.color = ''; go('s-home'); }, 900);
+  } else {
+    go('s-checkout');
+  }
+}
+
+/* ── PAY TAB SELECT ── */
+function selectPayTab(btn) {
+  btn.closest('.pay-tabs').querySelectorAll('.pay-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+}
+
+/* ── ACCORDION ── */
+document.querySelectorAll('.acc-row').forEach(row => {
+  row.addEventListener('click', () => {
+    const ico  = row.querySelector('.acc-ico');
+    const body = row.nextElementSibling;
+    const isOpen = body && body.classList.contains('open');
+    document.querySelectorAll('.acc-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.acc-ico').forEach(i => i.textContent = '+');
+    if (!isOpen && body) { body.classList.add('open'); ico.textContent = '−'; }
+  });
+});
+
+/* ── SEARCH ── */
+function openSearch() {
+  document.getElementById('search-overlay').classList.add('show');
+  setTimeout(function() { document.getElementById('search-inp').focus(); }, 60);
+}
+function closeSearch(e) {
+  if (!e || e.target === document.getElementById('search-overlay')) {
+    document.getElementById('search-overlay').classList.remove('show');
+    document.getElementById('search-inp').value = '';
+    document.getElementById('search-results').innerHTML = '<div class="search-empty">Start typing to search 300+ AIoT assets…</div>';
+  }
+}
+function runSearch(q) {
+  const res = document.getElementById('search-results');
+  if (!q.trim()) { res.innerHTML = '<div class="search-empty">Start typing to search 300+ AIoT assets…</div>'; return; }
+  const matches = Object.keys(PD).filter(function(id) {
+    const p = PD[id];
+    return (p.name + ' ' + p.cat + ' ' + (p.desc||'')).toLowerCase().indexOf(q.toLowerCase()) > -1;
+  });
+  if (!matches.length) { res.innerHTML = '<div class="search-empty">No assets matched "' + q + '"</div>'; return; }
+  res.innerHTML = matches.map(function(id) {
+    const p = PD[id];
+    return '<div class="search-result-item clickable" onclick="closeSearch();showDetail(\'' + id + '\')">' +
+      '<img class="search-result-img" src="' + IMGS[id] + '" alt="' + p.name + '">' +
+      '<div><div class="search-result-name">' + p.name + '</div><div class="search-result-cat">' + p.cat + '</div></div>' +
+      '<div class="search-result-price">' + (p.price||'') + '/mo</div></div>';
+  }).join('');
+}
+document.addEventListener('keydown', function(e) {
+  if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); openSearch(); }
+  if (e.key === 'Escape') closeSearch({ target: document.getElementById('search-overlay') });
+});
+
+/* ── AUTH TAB SWITCH ── */
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(b => b.classList.remove('on'));
+  document.querySelectorAll('.auth-tab').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes(tab)) b.classList.add('on');
+  });
+  document.getElementById('form-login').style.display  = tab === 'login'    ? '' : 'none';
+  document.getElementById('form-register').style.display = tab === 'register' ? '' : 'none';
+  ['auth-error','auth-error-reg'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
+  });
+}
+
+/* ── PASSWORD TOGGLE ── */
+function togglePw() {
+  const f   = document.getElementById('pw-field');
+  const btn = f ? f.parentElement.querySelector('button') : null;
+  if (!f) return;
+  f.type = f.type === 'password' ? 'text' : 'password';
+  if (btn) btn.textContent = f.type === 'password' ? 'SHOW' : 'HIDE';
+}
+
+/* ── AUTH ERROR ── */
+function showAuthError(msg) {
+  const isReg = document.getElementById('form-register').style.display !== 'none';
+  const el = document.getElementById(isReg ? 'auth-error-reg' : 'auth-error');
+  if (!el) return;
+  el.textContent = msg;
+  el.style.display = 'block';
+  el.style.animation = 'none';
+  el.offsetWidth;
+  el.style.animation = 'authErrorShake 0.35s ease';
+}
+
+/* ── UPDATE NAV USER STATE ── */
+function updateNavUser(user) {
+  document.querySelectorAll('.nav-login-btn').forEach(btn => {
+    if (user) {
+      const initials = user.name ? user.name.slice(0,2).toUpperCase() : '??';
+      btn.textContent = initials;
+      btn.title = `Signed in as ${user.email} — click to sign out`;
+      btn.style.background = 'var(--lime)';
+      btn.style.color = 'var(--void)';
+      btn.style.fontWeight = '700';
+      btn.onclick = () => { localStorage.removeItem('halo_user'); updateNavUser(null); };
+    } else {
+      btn.textContent = 'Login';
+      btn.title = '';
+      btn.style.background = '';
+      btn.style.color = '';
+      btn.style.fontWeight = '';
+      btn.onclick = () => go('s-login');
+    }
+  });
+}
+
+/* ── HANDLE LOGIN / REGISTER ── */
+function handleLogin() {
+  const isReg = document.getElementById('form-register').style.display !== 'none';
+  const form  = document.getElementById(isReg ? 'form-register' : 'form-login');
+  const emailEl = form.querySelector('input[type="email"]');
+  const nameEl  = isReg ? form.querySelector('input[type="text"]') : null;
+
+  const rawEmail = emailEl ? emailEl.value.trim() : '';
+  const rawName  = nameEl  ? nameEl.value.trim()  : '';
+
+  // Accept whatever is in the fields — no blocking validation
+  const user = {
+    email: rawEmail || 'guest@tinkerbloX.io',
+    name:  rawName  || (rawEmail ? rawEmail.split('@')[0] : 'Edge User'),
+    ts: Date.now()
+  };
+  localStorage.setItem('halo_user', JSON.stringify(user));
+  updateNavUser(user);
+
+  const btn = document.querySelector('#' + (isReg ? 'form-register' : 'form-login') + ' .btn-primary-lg');
+  if (btn) {
+    const orig = btn.textContent;
+    btn.textContent = '✓ Welcome!';
+    btn.style.background = 'var(--lime)';
+    btn.style.color = '#050D0E';
+    setTimeout(() => { btn.textContent = orig; btn.style.background = ''; go('s-home'); }, 800);
+  } else {
+    go('s-home');
+  }
+}
+
+
+/* ── RESTORE SESSION ── */
+(function() {
+  try {
+    const u = localStorage.getItem('halo_user');
+    if (u) updateNavUser(JSON.parse(u));
+  } catch(e) {}
+})();
+
+/* ── FAVOURITES / WISHLIST ── */
+var favs = JSON.parse(localStorage.getItem('halo_favs') || '[]');
+
+function isFav(id) { return favs.indexOf(id) > -1; }
+
+function favBtnHtml(id) {
+  return '<button class="fav-btn' + (isFav(id) ? ' on' : '') + ' clickable" data-id="' + id + '" onclick="toggleFav(\'' + id + '\',event)" title="' + (isFav(id) ? 'Remove from wishlist' : 'Add to wishlist') + '">♥</button>';
+}
+
+function toggleFav(id, e) {
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  var idx = favs.indexOf(id);
+  if (idx > -1) favs.splice(idx, 1);
+  else favs.push(id);
+  localStorage.setItem('halo_favs', JSON.stringify(favs));
+
+  // Update all visible fav buttons for this id
+  document.querySelectorAll('.fav-btn[data-id="' + id + '"]').forEach(function(btn) {
+    btn.classList.toggle('on', isFav(id));
+    btn.title = isFav(id) ? 'Remove from wishlist' : 'Add to wishlist';
+    // Pop animation
+    btn.classList.remove('pop');
+    void btn.offsetWidth;
+    btn.classList.add('pop');
+    btn.addEventListener('animationend', function() { btn.classList.remove('pop'); }, { once: true });
+  });
+  updateFavBadge();
+}
+
+function updateFavBadge() {
+  document.querySelectorAll('.fav-count').forEach(function(el) {
+    el.textContent = favs.length;
+    el.style.display = favs.length > 0 ? 'grid' : 'none';
+  });
+}
+
+function initFavButtons() {
+  document.querySelectorAll('.pg-card, .prod-cell').forEach(function(card) {
+    if (card.querySelector('.fav-btn')) return;
+    var onclick = card.getAttribute('onclick') || '';
+    var match = onclick.match(/showDetail\('([^']+)'\)/);
+    if (!match) return;
+    var id = match[1];
+    var btn = document.createElement('button');
+    btn.className = 'fav-btn' + (isFav(id) ? ' on' : '') + ' clickable';
+    btn.setAttribute('data-id', id);
+    btn.title = isFav(id) ? 'Remove from wishlist' : 'Add to wishlist';
+    btn.textContent = '♥';
+    btn.onclick = function(e) { toggleFav(id, e); };
+    card.insertBefore(btn, card.firstChild);
+  });
+}
+
+// Run on DOMContentLoaded and after screen changes
+document.addEventListener('DOMContentLoaded', function() {
+  initFavButtons();
+  updateFavBadge();
+  updateCartBadge();
+  renderCart();
+});
+
+/* ── FAVOURITES SCREEN ── */
+function renderFavourites() {
+  const grid = document.getElementById('fav-grid');
+  const empty = document.getElementById('fav-empty');
+  if (!grid) return;
+  if (favs.length === 0) {
+    grid.innerHTML = '';
+    if (empty) empty.style.display = 'block';
+  } else {
+    if (empty) empty.style.display = 'none';
+    grid.innerHTML = favs.map(id => {
+      const p = PD[id] || {};
+      return `<a class="pg-card clickable" onclick="showDetail('${id}')">
+        ${favBtnHtml(id)}
+        <img class="pg-img" src="${IMGS[id]||''}" alt="${p.name||id}">
+        <div class="pg-body">
+          <div class="pg-tag">${p.cat||''}</div>
+          <div class="pg-name">${p.name||id}</div>
+          <div class="pg-desc">${(p.desc||'').slice(0,90)}…</div>
+          <div class="pg-footer">
+            <span class="pg-price">${p.price||'–'}</span>
+            <button class="pg-add clickable" onclick="event.stopPropagation();addToCart('${id}')">+ Add</button>
+          </div>
+        </div>
+      </a>`;
+    }).join('');
+  }
+}
+
+// ── Hover Tilt Effect ──────────────────────────────────────────────
+(function() {
+  const MAX_TILT = 12;
+  const PERSPECTIVE = 600;
+
+  function applyTilt(el) {
+    el.addEventListener('mousemove', function(e) {
+      const rect = el.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = (e.clientX - cx) / (rect.width / 2);
+      const dy = (e.clientY - cy) / (rect.height / 2);
+      const rx = -dy * MAX_TILT;
+      const ry = dx * MAX_TILT;
+      el.style.transform = `perspective(${PERSPECTIVE}px) rotateX(${rx}deg) rotateY(${ry}deg) scale(1.025)`;
+    });
+    el.addEventListener('mouseleave', function() {
+      el.style.transform = '';
+    });
+  }
+
+  function initTilt() {
+    document.querySelectorAll('.pg-card, .bento-card, .plan').forEach(applyTilt);
+  }
+
+  // init on load + re-init after navigation (cards may be injected dynamically)
+  document.addEventListener('DOMContentLoaded', initTilt);
+  const _go = window.go;
+  window.go = function(id) {
+    _go(id);
+    setTimeout(initTilt, 120);
+  };
+})();
+</script>
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: LOGIN / REGISTER
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-login">
+  <div style="display:grid;grid-template-columns:1fr 1fr;min-height:100vh">
+    <!-- LEFT: Visual panel -->
+    <div style="position:relative;overflow:hidden;background:var(--ink)">
+      <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1200&q=85"
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.35) saturate(.7)"
+        alt="Edge Computing" onerror="this.style.display='none'">
+      <!-- Grid overlay -->
+      <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(178,255,0,.022) 1px,transparent 1px),linear-gradient(90deg,rgba(178,255,0,.022) 1px,transparent 1px);background-size:48px 48px"></div>
+      <!-- Gradient fade -->
+      <div style="position:absolute;inset:0;background:linear-gradient(135deg,rgba(5,13,14,.75) 0%,transparent 60%,rgba(5,13,14,.85) 100%)"></div>
+      <!-- Content -->
+      <div style="position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;height:100%;padding:48px">
+        <div>
+          <a class="logo-wrap clickable" onclick="go('s-home')" style="text-decoration:none;display:flex;align-items:center;gap:10px">
+            <div class="logo-mark">H</div>
+            <div>
+              <div class="logo-text">HALO</div>
+              <div class="logo-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div>
+            </div>
+          </a>
+        </div>
+        <div>
+          <div style="font-family:var(--font-hero);font-size:56px;line-height:1;letter-spacing:0.02em;color:var(--text);margin-bottom:16px">THE EDGE<br>STARTS<br><span style="color:var(--lime)">HERE.</span></div>
+          <p style="font-size:14px;color:var(--text2);line-height:1.75;max-width:320px;margin-bottom:32px">Access 300+ AIoT assets built for real-time, zero-bloat execution across every edge device habitat.</p>
+          <!-- Stats row -->
+          <div style="display:flex;gap:28px;padding-top:20px;border-top:1px solid var(--line)">
+            <div>
+              <div style="font-family:var(--font-hero);font-size:28px;color:var(--text)">300<span style="color:var(--lime)">+</span></div>
+              <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);letter-spacing:.08em">ASSETS</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-hero);font-size:28px;color:var(--text)">30<span style="color:var(--lime)">×</span></div>
+              <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);letter-spacing:.08em">FASTER</div>
+            </div>
+            <div>
+              <div style="font-family:var(--font-hero);font-size:28px;color:var(--text)">65<span style="color:var(--lime)">%</span></div>
+              <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono);letter-spacing:.08em">LESS MEMORY</div>
+            </div>
+          </div>
+        </div>
+        <div style="font-size:10px;color:var(--text3);font-family:var(--font-mono)">© 2025 TINKERBLO<span style="color:var(--lime)">X</span> INC.</div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Auth form -->
+    <div style="display:flex;flex-direction:column;justify-content:center;align-items:center;padding:48px;background:var(--void);position:relative;overflow:hidden">
+      <!-- Ambient glow -->
+      <div style="position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,220,200,.05) 0%,transparent 70%);pointer-events:none"></div>
+
+      <div style="width:100%;max-width:380px">
+        <!-- Tab switcher -->
+        <div style="display:flex;gap:0;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:4px;margin-bottom:36px" id="auth-tabs">
+          <button class="auth-tab on clickable" onclick="switchAuthTab('login')" style="flex:1;padding:9px;border-radius:var(--r2);font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .18s,color .18s;font-family:var(--font-body)">Sign In</button>
+          <button class="auth-tab clickable" onclick="switchAuthTab('register')" style="flex:1;padding:9px;border-radius:var(--r2);font-size:12px;font-weight:600;border:none;cursor:pointer;transition:background .18s,color .18s;font-family:var(--font-body)">Create Account</button>
+        </div>
+
+        <!-- LOGIN FORM -->
+        <div id="form-login">
+          <div style="margin-bottom:28px">
+            <div style="font-family:var(--font-hero);font-size:32px;letter-spacing:.04em;margin-bottom:6px">WELCOME BACK</div>
+            <div style="font-size:13px;color:var(--text2)">Sign in to your TinkerBloX account</div>
+          </div>
+
+          <!-- Social login -->
+          <div style="display:flex;gap:10px;margin-bottom:22px">
+            <button class="social-btn clickable" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r2);font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-body);transition:border-color .18s,color .18s">
+              <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Google
+            </button>
+            <button class="social-btn clickable" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r2);font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-body);transition:border-color .18s,color .18s">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--text2)"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.767.91-1.44 0-2.477-1.24-3.45-2.52C4.009 17.98 2.97 14.68 2.97 11.52c0-4.14 2.69-6.33 5.338-6.33 1.4 0 2.71.91 3.63.91.89 0 2.28-.95 3.88-.95.624 0 2.406.06 3.655 1.83zm-2.955-4.63c.042-.12.086-.25.086-.38 0-.84-.38-1.62-.97-2.15-.506-.46-1.224-.74-1.96-.74-.107 0-.188.02-.25.03.04.13.04.25.04.38 0 .85.38 1.62.97 2.16.497.46 1.224.74 1.96.74.108 0 .188-.02.25-.04z"/></svg>
+              Apple
+            </button>
+          </div>
+
+          <!-- Divider -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+            <span style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.1em">OR CONTINUE WITH EMAIL</span>
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+            <div style="position:relative">
+              <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <input class="ff" type="email" placeholder="Email address" style="width:100%;padding-left:38px">
+            </div>
+            <div style="position:relative">
+              <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <input class="ff" type="password" placeholder="Password" id="pw-field" style="width:100%;padding-left:38px;padding-right:42px">
+              <button onclick="togglePw()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--text3);font-size:12px;font-family:var(--font-mono)">SHOW</button>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:24px">
+            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:var(--text2)">
+              <div class="cb clickable" id="remember-cb" onclick="this.classList.toggle('on')"></div>
+              Remember me
+            </label>
+            <span style="font-size:12px;color:var(--lime);cursor:pointer;font-family:var(--font-mono);letter-spacing:.04em">FORGOT PASSWORD?</span>
+          </div>
+
+          <div id="auth-error"></div>
+          <button onclick="handleLogin()" class="btn-primary-lg clickable" style="width:100%;justify-content:center;margin-bottom:14px">
+            Sign In →
+          </button>
+          <div style="text-align:center;font-size:12px;color:var(--text2)">
+            Don't have an account? <span style="color:var(--lime);cursor:pointer" onclick="switchAuthTab('register')">Create one free</span>
+          </div>
+        </div>
+
+        <!-- REGISTER FORM -->
+        <div id="form-register" style="display:none">
+          <div style="margin-bottom:28px">
+            <div style="font-family:var(--font-hero);font-size:32px;letter-spacing:.04em;margin-bottom:6px">JOIN HALO</div>
+            <div style="font-size:13px;color:var(--text2)">Create your TinkerBloX account — free forever</div>
+          </div>
+
+          <!-- Social -->
+          <div style="display:flex;gap:10px;margin-bottom:22px">
+            <button class="social-btn clickable" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r2);font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-body)">
+              <svg width="14" height="14" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              Google
+            </button>
+            <button class="social-btn clickable" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:11px;background:var(--card);border:1px solid var(--line2);border-radius:var(--r2);font-size:12px;color:var(--text2);cursor:pointer;font-family:var(--font-body)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--text2)"><path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.744.9-1.99 1.57-2.987 1.57-.12 0-.23-.02-.3-.03-.01-.06-.04-.22-.04-.39 0-1.15.572-2.27 1.206-2.98.804-.94 2.142-1.64 3.248-1.68.03.13.05.28.05.43zm4.565 15.71c-.03.07-.463 1.58-1.518 3.12-.945 1.34-1.94 2.71-3.43 2.71-1.517 0-1.9-.88-3.63-.88-1.698 0-2.302.91-3.767.91-1.44 0-2.477-1.24-3.45-2.52C4.009 17.98 2.97 14.68 2.97 11.52c0-4.14 2.69-6.33 5.338-6.33 1.4 0 2.71.91 3.63.91.89 0 2.28-.95 3.88-.95.624 0 2.406.06 3.655 1.83zm-2.955-4.63c.042-.12.086-.25.086-.38 0-.84-.38-1.62-.97-2.15-.506-.46-1.224-.74-1.96-.74-.107 0-.188.02-.25.03.04.13.04.25.04.38 0 .85.38 1.62.97 2.16.497.46 1.224.74 1.96.74.108 0 .188-.02.25-.04z"/></svg>
+              Apple
+            </button>
+          </div>
+
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:22px">
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+            <span style="font-family:var(--font-mono);font-size:9px;color:var(--text3);letter-spacing:.1em">OR WITH EMAIL</span>
+            <div style="flex:1;height:1px;background:var(--line)"></div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:16px">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <input class="ff" type="text" placeholder="First name">
+              <input class="ff" type="text" placeholder="Last name">
+            </div>
+            <div style="position:relative">
+              <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+              <input class="ff" type="email" placeholder="Work email address" style="width:100%;padding-left:38px">
+            </div>
+            <div style="position:relative">
+              <div style="position:absolute;left:14px;top:50%;transform:translateY(-50%);pointer-events:none;opacity:.4"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+              <input class="ff" type="password" placeholder="Create password" style="width:100%;padding-left:38px">
+            </div>
+            <!-- Plan select -->
+            <div>
+              <div style="font-family:var(--font-mono);font-size:9px;letter-spacing:.12em;color:var(--text3);text-transform:uppercase;margin-bottom:8px">Choose your plan</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px" id="plan-sel">
+                <div class="plan-pick clickable on" data-plan="free" onclick="pickPlan(this)" style="padding:10px 6px;border:1px solid rgba(0,220,200,.4);border-radius:var(--r2);text-align:center;cursor:pointer;background:rgba(0,220,200,.07);transition:all .18s">
+                  <div style="font-family:var(--font-hero);font-size:14px;color:var(--lime)">FREE</div>
+                  <div style="font-size:10px;color:var(--text3);margin-top:2px">$0/mo</div>
+                </div>
+                <div class="plan-pick clickable" data-plan="basic" onclick="pickPlan(this)" style="padding:10px 6px;border:1px solid var(--line);border-radius:var(--r2);text-align:center;cursor:pointer;transition:all .18s">
+                  <div style="font-family:var(--font-hero);font-size:14px">BASIC</div>
+                  <div style="font-size:10px;color:var(--text3);margin-top:2px">$49/mo</div>
+                </div>
+                <div class="plan-pick clickable" data-plan="pro" onclick="pickPlan(this)" style="padding:10px 6px;border:1px solid var(--line);border-radius:var(--r2);text-align:center;cursor:pointer;transition:all .18s">
+                  <div style="font-family:var(--font-hero);font-size:14px">PRO</div>
+                  <div style="font-size:10px;color:var(--text3);margin-top:2px">$79/mo</div>
+                </div>
+                <div class="plan-pick clickable" data-plan="ent" onclick="pickPlan(this)" style="padding:10px 6px;border:1px solid var(--line);border-radius:var(--r2);text-align:center;cursor:pointer;transition:all .18s">
+                  <div style="font-family:var(--font-hero);font-size:14px">ENT.</div>
+                  <div style="font-size:10px;color:var(--text3);margin-top:2px">$99/mo</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:12px;color:var(--text2);margin-bottom:22px">
+            <div class="cb clickable" style="margin-top:1px;flex-shrink:0" onclick="this.classList.toggle('on')"></div>
+            <span>I agree to the <span style="color:var(--lime)">Terms of Service</span> and <span style="color:var(--lime)">Privacy Policy</span> of TinkerBloX Inc.</span>
+          </label>
+
+          <button onclick="handleLogin()" class="btn-primary-lg clickable" style="width:100%;justify-content:center;margin-bottom:14px">
+            Create Free Account →
+          </button>
+          <div style="text-align:center;font-size:12px;color:var(--text2)">
+            Already have an account? <span style="color:var(--lime);cursor:pointer" onclick="switchAuthTab('login')">Sign in</span>
+          </div>
+          <div id="auth-error-reg" style="display:none;background:rgba(255,68,85,0.12);border:1px solid rgba(255,68,85,0.35);color:#ff6b7a;border-radius:var(--r2);padding:10px 14px;font-size:12px;font-family:var(--font-mono);letter-spacing:.04em;margin-top:12px"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ████████████████████████████████████████████████
+     SCREEN: FAVOURITES
+████████████████████████████████████████████████ -->
+<div class="screen" id="s-favorites">
+  <nav>
+    <a class="logo-wrap clickable" onclick="go('s-home')">
+      <div class="logo-mark">H</div>
+      <div><div class="logo-text">HALO</div><div class="logo-by">POWERED BY TINKERBLO<span style="color:var(--lime)">X</span></div></div>
+    </a>
+    <div class="nav-center">
+      <button class="nav-tab clickable" onclick="go('s-home')">Home</button>
+      <button class="nav-tab clickable" onclick="showStore('app')">App Store</button>
+      <button class="nav-tab clickable" onclick="showStore('ai')">AI Store</button>
+      <button class="nav-tab clickable" onclick="showStore('logic')">Logic Store</button>
+    </div>
+    <div class="nav-right">
+      <button class="cart-badge-btn clickable" onclick="go('s-favorites')" title="Favourites" style="border-color:rgba(178,255,0,0.35);color:var(--lime)">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="var(--lime)" stroke="var(--lime)" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        Saved
+        <div class="badge fav-count" style="display:none">0</div>
+      </button>
+      <button class="cart-badge-btn clickable" onclick="go('s-cart')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>Cart<div class="badge" style="display:none">0</div></button>
+      <button class="btn-ghost-sm nav-login-btn clickable" onclick="go('s-login')">Login</button>
+      <button class="btn-lime clickable" onclick="go('s-sub')">Subscribe</button>
+    </div>
+  </nav>
+  <div class="bc"><a onclick="go('s-home')">Home</a><span class="bc-sep">/</span><span>Saved</span></div>
+
+  <div class="page" style="padding:52px 36px">
+    <div style="margin-bottom:40px">
+      <div class="sec-pre">Wishlist</div>
+      <h1 style="font-family:var(--font-hero);font-size:52px;letter-spacing:0.02em;line-height:1;margin-bottom:10px">YOUR SAVED <em style="color:var(--lime);font-style:normal">ASSETS</em></h1>
+      <p style="font-size:14px;color:var(--text2);line-height:1.7">Assets you've hearted — ready to add to your cart or subscribe.</p>
+    </div>
+
+    <!-- Empty state -->
+    <div id="fav-empty" style="text-align:center;padding:80px 0;display:none">
+      <div style="font-size:52px;margin-bottom:20px;opacity:0.3">♥</div>
+      <div style="font-family:var(--font-hero);font-size:28px;letter-spacing:0.04em;margin-bottom:10px;color:var(--text2)">NOTHING SAVED YET</div>
+      <p style="font-size:14px;color:var(--text3);margin-bottom:28px">Hit the ♥ on any asset to save it here.</p>
+      <button class="btn-primary-lg clickable" onclick="go('s-store')" style="margin:0 auto">Browse Assets →</button>
+    </div>
+
+    <!-- Grid -->
+    <div class="prod-grid-4" id="fav-grid" style="grid-template-columns:repeat(3,1fr)"></div>
+  </div>
+
+  <footer><div class="footer-l"><div class="footer-logo">HALO</div><div class="footer-by">TINKERBLO<span style="color:var(--lime)">X</span></div></div><div class="footer-links"><a onclick="go('s-home')">Home</a><a onclick="go('s-store')">Store</a><a>Privacy</a><a>Terms</a></div><div class="footer-r">© 2025 TinkerBloX Inc.</div></footer>
+</div>
+
+</body>
+</html>
