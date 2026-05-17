@@ -1,7 +1,7 @@
 {
   "redirects": [
     {
-      "has": [{ "type": "host", "value": "halo-marketplace.vercel.app" }],
+      "has": [{ "type": "host", "value": "halomarketplace.vercel.app" }],
       "source": "/",
       "destination": "/halo-site/",
       "permanent": false
@@ -9,7 +9,7 @@
   ],
   "rewrites": [
     {
-      "has": [{ "type": "host", "value": "halo-marketplace.vercel.app" }],
+      "has": [{ "type": "host", "value": "halomarketplace.vercel.app" }],
       "source": "/halo-site/",
       "destination": "/halo-site/index.html"
     },
