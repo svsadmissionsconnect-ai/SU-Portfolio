@@ -296,7 +296,7 @@ nav {
   from { opacity: 0; transform: translateY(48px) skewY(4deg); filter: blur(8px); }
   to   { opacity: 1; transform: translateY(0)    skewY(0deg); filter: blur(0); }
 }
-.kword { display: inline-block; opacity: 0; animation: wordIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards; }
+.kword { display: block; opacity: 0; animation: wordIn 0.7s cubic-bezier(0.22,1,0.36,1) forwards; line-height: 0.88; margin-bottom: -0.06em; }
 .kw1 { animation-delay: 0.10s; }
 .kw2 { animation-delay: 0.32s; }
 .kw3 { animation-delay: 0.54s; }
@@ -1353,8 +1353,8 @@ footer {
           EDGE NATIVE · ZERO BLOAT
         </div>
         <h1 class="hero-h1">
-          <span class="kword kw1">EXPLORE</span><br>
-          <span class="kword kw2 hl">HALO</span><br>
+          <span class="kword kw1">EXPLORE</span>
+          <span class="kword kw2 hl">HALO</span>
           <span class="kword kw3">STORES</span>
         </h1>
         <p class="hero-desc fade-up d3">
