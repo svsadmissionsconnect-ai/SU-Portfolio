@@ -1,5 +1,18 @@
 {
+  "redirects": [
+    {
+      "has": [{ "type": "host", "value": "halo-marketplace.vercel.app" }],
+      "source": "/",
+      "destination": "/halo-site/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
+    {
+      "has": [{ "type": "host", "value": "halo-marketplace.vercel.app" }],
+      "source": "/halo-site/",
+      "destination": "/halo-site/index.html"
+    },
     { "source": "/", "destination": "/portfolio cs1 v9.html" }
   ],
   "headers": [
