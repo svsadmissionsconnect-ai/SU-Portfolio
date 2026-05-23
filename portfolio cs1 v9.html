@@ -1820,6 +1820,58 @@ a.ch-stat-link { display: inline-flex; align-items: center; gap: 8px; font-famil
 a.ch-stat-link::before { content: "★"; color: var(--case-accent); }
 a.ch-stat-link:hover { opacity: 0.82; }
 
+/* ── TL;DR SUMMARY CARD ── */
+.tldr-card {
+  margin: 40px 0 56px;
+  padding: 22px 26px 26px;
+  border: 1.5px solid var(--case-accent);
+  border-left: 3px solid var(--case-deep);
+  background: rgba(0,0,0,0.02);
+  position: relative;
+}
+.tldr-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--case-deep);
+  font-weight: 800;
+  margin-bottom: 18px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tldr-label::before { content: "✦"; font-size: 8px; }
+.tldr-items { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.tldr-item { display: grid; grid-template-columns: 100px 1fr; gap: 14px; align-items: baseline; }
+.tldr-key {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--case-deep);
+  opacity: 0.6;
+  line-height: 1.5;
+  padding-top: 2px;
+}
+.tldr-val {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--case-text);
+}
+.tldr-val strong { font-weight: 600; }
+@media (max-width: 900px) {
+  .tldr-item { grid-template-columns: 80px 1fr; gap: 10px; }
+  .tldr-val { font-size: 13px; }
+}
+@media (max-width: 640px) {
+  .tldr-card { padding: 16px 18px 20px; }
+  .tldr-item { grid-template-columns: 1fr; gap: 2px; }
+  .tldr-key { opacity: 1; }
+}
+
 /* ── CHAPTER BREAKS — full-bleed dark story beats ── */
 .chapter-break {
   margin: 80px -80px 0;
@@ -4607,6 +4659,29 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <a class="ch-stat-link" href="https://svsschool.net/" target="_blank" rel="noopener">live · svsschool.net ↗</a>
               </div>
 
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">26-year-old school invisible online, losing admissions to competitor imposters with the same name.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Solo end-to-end — research, personas, design system, build and ship in exactly 30 days.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Used Claude as build collaborator, briefing AI with designer-level precision to execute typographic and motion decisions.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>Page 1 Google ranking</strong> for their own name. 20% of new applicants found them online. 8 enquiries in 4 weeks from zero.</span>
+                  </li>
+                </ul>
+              </div>
+
               <!-- STAT STRIP -->
               <div class="svs-stats">
                 <div class="svs-stat">
@@ -6425,8 +6500,31 @@ body.quick-mode .halo-h2 { display:none !important; }
 
 
 
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">LightBurn offered a 20% upgrade discount — most users had no idea it existed.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Given 1 email brief, delivered 9 touchpoints across email, in-app, website and forum — most entirely my own initiative.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Redesigned existing emails nobody asked me to touch, flagged every issue with annotations, got full team approval.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>1 brief. 9 deliverables. All approved.</strong> Built a visual design system from zero for a product that had none.</span>
+                  </li>
+                </ul>
+              </div>
+
               <!-- ── CONTEXT CARD ── -->
-              
+
 <section class="svs-section" id="lb-s-context">
                 <div class="svs-eyebrow">★ the context</div>
                 <div class="qm-card" data-section="lb-s-context"><p>LightBurn is laser-cutting software used by ~300K makers worldwide. I joined as an intern to redesign their email communications — 3 existing triggered emails, then a full upgrade campaign from scratch.</p></div>
@@ -7138,6 +7236,29 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <h1>HALO × <em>TinkerBloX</em></h1>
                 <div class="ch-deck">A fully interactive Edge AI IoT marketplace for TinkerBloX — designed, prototyped and shipped in a single day. Eight screens. Real interactions. Made for an investor pitch, handed to the dev team. I had one day and I made it count.</div>
                 <a class="ch-stat-link" href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener">view live prototype ↗</a>
+              </div>
+
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">TinkerBloX needed an investor-grade AIoT marketplace prototype before a pitch meeting — with one day to deliver.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Designed 8 fully interactive screens from scratch — design system, IA, wireframes, UX audit, live prototype.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Designed everything in Figma first, then directed Claude Code with exact specifications — no vague prompts, no guessing.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>Went to the investor meeting.</strong> Then handed to the dev team as the build reference. Delivered in 1 day.</span>
+                  </li>
+                </ul>
               </div>
 
               <!-- STATS -->
