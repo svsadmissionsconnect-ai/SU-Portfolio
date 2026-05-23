@@ -9572,7 +9572,13 @@ function scrollToCase(id, behavior) {
   if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   state.caseOpen = id;
-  setTimeout(() => { target.scrollTop = 0; target.dispatchEvent(new Event('scroll')); }, 100);
+  setTimeout(() => {
+    target.scrollTop = 0;
+    // Trigger scrollspy to set initial active state for this case
+    if (typeof _sidenav_updaters !== 'undefined' && _sidenav_updaters[target.id]) {
+      _sidenav_updaters[target.id]();
+    }
+  }, 120);
 }
 // arrow key navigation between cases
 document.addEventListener('keydown', e => {
@@ -10172,6 +10178,8 @@ function svsSetBuiltView(view) {
     }
 
     /* ── Sidebar scroll-spy ── */
+    const _sidenav_updaters = [];
+
     function initSidenav(caseId) {
       const selector = caseId === 'svs'
         ? '#caseSvs .svs-section[id]'
@@ -10189,12 +10197,15 @@ function svsSetBuiltView(view) {
 
       function updateActive() {
         const spreadRect = spread.getBoundingClientRect();
-        const zone = spreadRect.top + spreadRect.height * 0.35;
+        // Only run when this case is horizontally in view
+        if (spreadRect.left > window.innerWidth || spreadRect.right < 0) return;
+        const zone = spreadRect.top + spreadRect.height * 0.33;
         let activeSection = sections[0];
         for (const s of sections) {
           if (s.getBoundingClientRect().top <= zone) activeSection = s;
         }
-        if (!activeSection || activeSection.id === currentActiveId) return;
+        if (!activeSection) return;
+        if (activeSection.id === currentActiveId) return;
         currentActiveId = activeSection.id;
         const href = '#' + activeSection.id;
         nav.querySelectorAll('.cs-sidenav-item').forEach(a =>
@@ -10203,7 +10214,14 @@ function svsSetBuiltView(view) {
         if (activeLink) activeLink.scrollIntoView({ block: 'nearest' });
       }
 
-      spread.addEventListener('scroll', updateActive, { passive: true });
+      // Store updater so scrollToCase can trigger it on case open
+      _sidenav_updaters[spreadId] = updateActive;
+
+      // Capture-phase listener catches scroll on case-spread, lo-page, or any ancestor
+      spread.addEventListener('scroll', updateActive, { passive: true, capture: false });
+      // Also listen directly on the lo-page scroll container as a fallback
+      const loPage = document.getElementById('loCases');
+      if (loPage) loPage.addEventListener('scroll', updateActive, { passive: true });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
