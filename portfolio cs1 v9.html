@@ -6402,7 +6402,7 @@ body.quick-mode .halo-h2 { display:none !important; }
 
               <!-- ── HEAD ── -->
               <div class="case-head">
-                <div class="ch-meta">case 02 · ux writing + design · cx by design · 2024</div>
+                <div class="ch-meta">case 02 · ux writing + design · cx by design · 2025</div>
                 <div class="lb-intro-row">
                   <div>
                     <h1>They asked for <em>one email.</em><br>I built a system.</h1>
@@ -6437,6 +6437,29 @@ body.quick-mode .halo-h2 { display:none !important; }
                     </svg>
                   </div>
                 </div>
+              </div>
+
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">LightBurn offered a 20% upgrade discount — most users had no idea it existed.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Given 1 email brief, delivered 9 touchpoints across email, in-app, website and forum — most entirely my own initiative.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Redesigned existing emails nobody asked me to touch, flagged every issue with annotations, got full team approval.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>1 brief. 9 deliverables. All approved.</strong> Built a visual design system from zero for a product that had none.</span>
+                  </li>
+                </ul>
               </div>
 
               <!-- ── COLLAGE HERO ── -->
@@ -6499,29 +6522,6 @@ body.quick-mode .halo-h2 { display:none !important; }
               </div>
 
 
-
-              <!-- TL;DR CARD -->
-              <div class="tldr-card">
-                <div class="tldr-label">tl;dr · at a glance</div>
-                <ul class="tldr-items">
-                  <li class="tldr-item">
-                    <span class="tldr-key">Problem</span>
-                    <span class="tldr-val">LightBurn offered a 20% upgrade discount — most users had no idea it existed.</span>
-                  </li>
-                  <li class="tldr-item">
-                    <span class="tldr-key">What I did</span>
-                    <span class="tldr-val">Given 1 email brief, delivered 9 touchpoints across email, in-app, website and forum — most entirely my own initiative.</span>
-                  </li>
-                  <li class="tldr-item">
-                    <span class="tldr-key">The twist</span>
-                    <span class="tldr-val">Redesigned existing emails nobody asked me to touch, flagged every issue with annotations, got full team approval.</span>
-                  </li>
-                  <li class="tldr-item">
-                    <span class="tldr-key">Result</span>
-                    <span class="tldr-val"><strong>1 brief. 9 deliverables. All approved.</strong> Built a visual design system from zero for a product that had none.</span>
-                  </li>
-                </ul>
-              </div>
 
               <!-- ── CONTEXT CARD ── -->
 
@@ -9572,7 +9572,7 @@ function scrollToCase(id, behavior) {
   if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   state.caseOpen = id;
-  setTimeout(() => { target.scrollTop = 0; }, 80);
+  setTimeout(() => { target.scrollTop = 0; target.dispatchEvent(new Event('scroll')); }, 100);
 }
 // arrow key navigation between cases
 document.addEventListener('keydown', e => {
@@ -10213,8 +10213,17 @@ function svsSetBuiltView(view) {
       initScrollReveal();
 document.querySelectorAll('.cs-sidenav-item').forEach(a => {
         a.addEventListener('click', e => {
-          const target = document.querySelector(a.getAttribute('href'));
-          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+          e.preventDefault();
+          const section = document.querySelector(a.getAttribute('href'));
+          if (!section) return;
+          // Find the nearest scrollable ancestor (the case-spread)
+          let container = section.parentElement;
+          while (container && !['auto','scroll'].includes(getComputedStyle(container).overflowY)) {
+            container = container.parentElement;
+          }
+          if (!container) return;
+          const offset = section.getBoundingClientRect().top - container.getBoundingClientRect().top;
+          container.scrollBy({ top: offset, behavior: 'smooth' });
         });
       });
     });
