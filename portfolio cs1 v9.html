@@ -9558,7 +9558,8 @@ function scrollToCase(id, behavior) {
   // Use index-based positioning — each case-spread is exactly 100% wide
   const caseIdx = ['svs','lightburn','halo'].indexOf(id);
   const left = caseIdx * caseTrack.offsetWidth;
-  if (behavior === 'auto' || behavior === 'instant') {
+  const isInstant = behavior === 'auto' || behavior === 'instant';
+  if (isInstant) {
     caseTrack.scrollLeft = left;
   } else {
     caseTrack.scrollTo({ left, behavior: 'smooth' });
@@ -9572,13 +9573,14 @@ function scrollToCase(id, behavior) {
   if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   state.caseOpen = id;
+  // After animation completes, refresh scrollspy active state.
+  // Don't reset scrollTop here — openCase handles that separately.
+  const delay = isInstant ? 60 : 520;
   setTimeout(() => {
-    target.scrollTop = 0;
-    // Trigger scrollspy to set initial active state for this case
     if (typeof _sidenav_updaters !== 'undefined' && _sidenav_updaters[target.id]) {
       _sidenav_updaters[target.id]();
     }
-  }, 120);
+  }, delay);
 }
 // arrow key navigation between cases
 document.addEventListener('keydown', e => {
@@ -10217,11 +10219,10 @@ function svsSetBuiltView(view) {
       // Store updater so scrollToCase can trigger it on case open
       _sidenav_updaters[spreadId] = updateActive;
 
-      // Capture-phase listener catches scroll on case-spread, lo-page, or any ancestor
-      spread.addEventListener('scroll', updateActive, { passive: true, capture: false });
-      // Also listen directly on the lo-page scroll container as a fallback
-      const loPage = document.getElementById('loCases');
-      if (loPage) loPage.addEventListener('scroll', updateActive, { passive: true });
+      // Use capture phase on document: scroll events don't bubble, so this is
+      // the only way to catch scroll from case-spread, lo-body, lo-page, or any
+      // other element that might be the actual scroll container at runtime.
+      document.addEventListener('scroll', updateActive, { passive: true, capture: true });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
