@@ -177,6 +177,8 @@ body.case-open .magazine-mast { display: flex; pointer-events: auto; opacity: 1;
 .magazine-mast .mm-nav-btn:hover { background: var(--ink); color: var(--bg); }
 .magazine-mast .mm-nav-btn:disabled { opacity: 0.28; cursor: default; pointer-events: none; }
 .magazine-mast .mm-close { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid var(--ink); padding: 5px 12px; cursor: pointer; transition: all .2s; margin-left: 6px; }
+.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 14px; }
+.magazine-mast .mm-case-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); font-weight: 800; white-space: nowrap; }
 
 /* push case content down to make room for masthead */
 .lo-body { padding-top: 56px; }
@@ -4644,11 +4646,6 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <a class="cs-sidenav-item" href="#svs-s-next">What's next</a>
                 </div>
               </div>
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-next-case" onclick="event.preventDefault();scrollToCase('lightburn')" href="#">
-                  Case 02 · LightBurn →
-                </a>
-              </div>
             </div>
             <div class="case-spread-inner svs-spread">
               <!-- HERO HEAD -->
@@ -6389,14 +6386,6 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
               </div>
             
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-prev-case" onclick="event.preventDefault();scrollToCase('svs')" href="#">
-                  ← Case 01 · SVS School
-                </a>
-                <a class="cs-sidenav-next-case" onclick="event.preventDefault();scrollToCase('halo')" href="#" style="margin-top:8px;display:block;">
-                  Case 03 · HALO →
-                </a>
-              </div>
             </div>
             <div class="case-spread-inner">
 
@@ -7219,11 +7208,6 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <a class="cs-sidenav-item" href="#halo-s-impact">Impact</a>
                   <a class="cs-sidenav-item" href="#halo-s-lessons">Reflections</a>
                 </div>
-              </div>
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-prev-case" onclick="event.preventDefault();scrollToCase('lightburn')" href="#">
-                  ← Case 02 · Lightburn
-                </a>
               </div>
             </div>
 
@@ -9498,20 +9482,24 @@ const CASE_ORDER = ['svs', 'lightburn', 'halo']; // TDM blocked (locked case)
 function mmNavigate(dir) {
   if (!state.caseOpen) return;
   const idx = CASE_ORDER.indexOf(state.caseOpen);
-  const next = CASE_ORDER[idx + dir];
-  if (next) scrollToCase(next);
+  const nextIdx = (idx + dir + CASE_ORDER.length) % CASE_ORDER.length;
+  scrollToCase(CASE_ORDER[nextIdx]);
 }
 
 function mmUpdateNav(id) {
-  const count = document.getElementById('mmNavCount');
-  const prev  = document.getElementById('mmNavPrev');
-  const next  = document.getElementById('mmNavNext');
-  if (!count || !prev || !next) return;
+  const prevBtn   = document.getElementById('mmNavPrev');
+  const nextBtn   = document.getElementById('mmNavNext');
+  const prevLabel = document.getElementById('mmPrevLabel');
+  const nextLabel = document.getElementById('mmNextLabel');
+  const title     = document.getElementById('mmCaseTitle');
+  if (!prevBtn || !nextBtn) return;
+  const names = { svs: 'SVS School', lightburn: 'LightBurn', halo: 'HALO' };
   const idx = CASE_ORDER.indexOf(id);
-  const num = String(idx + 1).padStart(2, '0');
-  count.textContent = num + ' / 0' + CASE_ORDER.length;
-  prev.disabled = idx === 0;
-  next.disabled = idx === CASE_ORDER.length - 1;
+  const prevId = CASE_ORDER[(idx - 1 + CASE_ORDER.length) % CASE_ORDER.length];
+  const nextId = CASE_ORDER[(idx + 1) % CASE_ORDER.length];
+  if (prevLabel) prevLabel.textContent = names[prevId];
+  if (nextLabel) nextLabel.textContent = names[nextId];
+  if (title) title.textContent = names[id];
 }
 
 
@@ -9532,11 +9520,6 @@ function openCase(id) {
   loCases.classList.remove('hidden');
   if (loBack) loBack.style.display = 'none';
   if (loBreadcrumb) loBreadcrumb.textContent = 'case ' + (id === 'svs' ? '01' : id === 'lightburn' ? '02' : id === 'halo' ? '03' : '04');
-  // initial masthead
-  const labels = { svs: ['CASE 01', 'SVS SCHOOL'], lightburn: ['CASE 02', 'LIGHTBURN'], halo: ['CASE 03', 'HALO × TINKERBLOХ'], tdm: ['CASE 04', 'LA TDM CALCULATOR'] };
-  const m = document.getElementById('mmCaseLabel');
-  const t = document.getElementById('mmCaseTitle');
-  if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   setTimeout(() => {
     scrollToCase(id, 'auto');
@@ -9566,11 +9549,6 @@ function scrollToCase(id, behavior) {
   }
   // update breadcrumb (if exists)
   if (typeof loBreadcrumb !== 'undefined' && loBreadcrumb) loBreadcrumb.textContent = 'case ' + (id === 'svs' ? '01' : id === 'lightburn' ? '02' : id === 'halo' ? '03' : '04');
-  // update magazine masthead
-  const labels = { svs: ['CASE 01', 'SVS SCHOOL'], lightburn: ['CASE 02', 'LIGHTBURN'], halo: ['CASE 03', 'HALO × TINKERBLOХ'], tdm: ['CASE 04', 'LA TDM CALCULATOR'] };
-  const m = document.getElementById('mmCaseLabel');
-  const t = document.getElementById('mmCaseTitle');
-  if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   state.caseOpen = id;
   // After animation completes, refresh scrollspy active state.
@@ -10150,7 +10128,11 @@ function svsSetBuiltView(view) {
 <!-- ── MAGAZINE MASTHEAD ── -->
 <div class="magazine-mast">
   <div class="mm-brand" onclick="closeLaptopOverlay()">Supritha's <em>Room</em> ↗</div>
-  <div class="mm-meta">★ THE WORK · <strong id="mmCaseLabel">CASE 01</strong> · <span id="mmCaseTitle">SVS SCHOOL</span></div>
+  <div class="mm-case-nav">
+    <button class="mm-nav-btn" id="mmNavPrev" onclick="mmNavigate(-1)">← <span id="mmPrevLabel">HALO</span></button>
+    <span class="mm-case-title" id="mmCaseTitle">SVS SCHOOL</span>
+    <button class="mm-nav-btn" id="mmNavNext" onclick="mmNavigate(1)"><span id="mmNextLabel">LIGHTBURN</span> →</button>
+  </div>
 </div>
 
     <script>
