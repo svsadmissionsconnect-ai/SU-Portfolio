@@ -10185,27 +10185,25 @@ function svsSetBuiltView(view) {
       const spread = document.getElementById(spreadId);
       if (!sections.length || !nav || !spread) return;
 
-      let currentActive = null;
+      let currentActiveId = null;
 
       function updateActive() {
-        // Activate the last section whose top is within the upper 30% of the spread
         const spreadRect = spread.getBoundingClientRect();
-        const zone = spreadRect.top + spreadRect.height * 0.30;
-        let active = sections[0];
+        const zone = spreadRect.top + spreadRect.height * 0.35;
+        let activeSection = sections[0];
         for (const s of sections) {
-          if (s.getBoundingClientRect().top <= zone) active = s;
+          if (s.getBoundingClientRect().top <= zone) activeSection = s;
         }
-        if (!active || active === currentActive) return;
-        currentActive = active;
-        const href = '#' + active.id;
+        if (!activeSection || activeSection.id === currentActiveId) return;
+        currentActiveId = activeSection.id;
+        const href = '#' + activeSection.id;
         nav.querySelectorAll('.cs-sidenav-item').forEach(a =>
           a.classList.toggle('active', a.getAttribute('href') === href));
         const activeLink = nav.querySelector('.cs-sidenav-item.active');
-        if (activeLink) activeLink.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        if (activeLink) activeLink.scrollIntoView({ block: 'nearest' });
       }
 
       spread.addEventListener('scroll', updateActive, { passive: true });
-      updateActive();
     }
 
     document.addEventListener('DOMContentLoaded', () => {
