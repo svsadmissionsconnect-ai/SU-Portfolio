@@ -10613,51 +10613,43 @@ document.querySelectorAll('.cs-sidenav-item').forEach(a => {
 /* ── Case Study Audio Narration (Web Speech API) ── */
 (function () {
   const SCRIPTS = {
-    svs: `If you asked me what project I'm most proud of, I'd tell you about SVS School.
+    svs: `SVS School has been around for 26 years. Twenty-six years of kids learning, growing up, and going on to do remarkable things — and for all that time, the school existed only in the memories of the families it touched. No website. No way to find them unless someone who knew someone told you about them.
 
-SVS is a 26-year-old school in Bangalore. They had no website. No social presence. Nothing online. For 26 years, they survived entirely on word of mouth — which meant families who genuinely needed them simply couldn't find them.
+That's what I walked into.
 
-The brief was: build the website. And I took that to mean everything.
+The ask was to build a website. But before I opened Figma or wrote a single line of code, I sat down with the people who knew the school best — the staff, the parents — and just listened. What did families need to understand before they'd trust a school with their child? What does this place feel like, and how do you translate that into a screen?
 
-I ran the full discovery process. Stakeholder interviews to understand what parents actually needed to know before enrolling. I mapped the information architecture — figuring out what a parent needs to see in the first five seconds versus the first five minutes. I wrote every line of copy. Designed every screen across every breakpoint. And then I built it. HTML, CSS, JavaScript. And I deployed it myself.
+From those conversations, I built the whole thing. The structure of the site, every section, every word of copy — all of it came from what I learned in those early conversations. Then I designed it, built it in HTML and CSS and JavaScript, and deployed it myself.
 
-I made a deliberate choice to handle deployment rather than hand off to a developer. I wanted to own the gap between design and production — to understand what breaks when it goes live, not just in Figma.
+I chose to handle the deployment personally. Not because I had to, but because I wanted to understand the full distance between a design file and a live URL. What breaks, what doesn't, what the real experience is for someone finding the site for the first time on their phone.
 
-The school now has a live, responsive website. Parents can find them on Google. A school that shaped hundreds of kids over 26 years finally shows up when you search for it.
+The school is online now. Parents can find it. A 26-year story finally has somewhere to live.`,
 
-That's the kind of end-to-end ownership I bring. Not just design — the full ship.`,
+    lightburn: `This one started with a single email.
 
-    lightburn: `Let me tell you about my LightBurn internship, because it's the project that best shows how I work when nobody's watching.
+I was interning at CX by Design, a UX consultancy, and they'd been brought in to help LightBurn — laser-cutting software with around 300,000 users worldwide. The brief landed in my inbox: redesign their upgrade email. One email. That was it.
 
-I was a UX writing intern at CX by Design. My brief was specific: redesign one upgrade email for LightBurn — laser-cutting software used by 300,000 makers worldwide.
+But when I actually looked at LightBurn's communications — all of them, not just the one I'd been asked about — I couldn't unsee the problems. Three transactional emails that users received at critical moments: when they bought, when their license updated, when it was delivered. All of them were doing the job, technically. None of them were doing it well. The copy was stiff. The calls to action were buried. The design had no personality.
 
-I delivered nine touchpoints.
+Nobody asked me to fix those. I fixed them anyway. Rebuilt each one from scratch, annotated every decision, and brought it to the team.
 
-Not because I was asked to. Because I read the brief, looked at their existing communications, and saw problems that needed fixing. Three triggered emails — purchase confirmation, license delivery, license update — had unclear calls to action, copy that talked at users rather than with them, and visual design that felt generic. Nobody asked me to fix them. I fixed them anyway. I annotated every decision, built a before-and-after comparison for each one, and presented it to the team.
+And then I kept going. The upgrade campaign — the reason I'd been brought in — became six more pieces: emails, an in-app nudge, a website banner, a forum post. And because none of this communication had a consistent visual language, I designed a system for it.
 
-Then I built the upgrade campaign from scratch. Six more designs across email, in-app messages, a website banner, and a community forum post. And because LightBurn had no visual design system for their communications, I created one.
+Nine pieces of work came out of one brief. All of it was approved.
 
-Every single deliverable was approved.
+I'm proud of this project because it taught me something about how I work. I don't stop at the edges of what I've been asked. I keep looking until I understand the whole picture.`,
 
-What I want hiring managers to take away from this: I don't wait to be told what the problem is. I find it. I document it. I propose the fix. And then I execute it.
+    halo: `TinkerBloX came to me with a very specific problem. They were building HALO — a marketplace connecting makers with the hardware they need, laser cutters, 3D printers, CNC machines — and they had an investor meeting coming up. They needed something people could actually click through. Not a deck. Not a mockup. A real, interactive experience.
 
-One brief. Nine deliverables. Full team sign-off.`,
+They had one day.
 
-    halo: `HALO is the project that showed me what I'm capable of when time is the real constraint.
+I've thought a lot about what made that day work, and honestly it came down to two things running in parallel: a clear process, and the right tools.
 
-TinkerBloX builds Edge AI software — the kind that runs directly on hardware, no cloud needed. They were building a B2B marketplace called HALO, connecting makers with vetted hardware suppliers: laser cutters, 3D printers, CNC machines. They had an investor meeting coming up. They needed a fully interactive prototype to show.
+In the morning I did the research — looked at how similar marketplaces were structured, mapped out the information architecture, sketched the user flows. By the afternoon I was in Figma building out the screens, eight of them, with the kind of detail that makes something feel real rather than designed. In the evening I built the prototype in React, using Claude Code to move at a pace that would normally take weeks.
 
-The timeline: one day.
+The investors could navigate it like a real product. After the meeting, the engineering team took it as their build reference.
 
-I know what you're thinking. One day isn't enough. And you're right — in the traditional sense. But I used Claude Code, Anthropic's AI development tool, to work at a pace that would normally take two to three weeks.
-
-Here's how the day actually went: I ran the UX process in the morning — user research, competitive analysis, information architecture, user flows. I designed high-fidelity screens in Figma in the afternoon. And then I built the live, clickable prototype in React using Claude Code in the evening.
-
-Eight screens. Six micro-interactions. A complete buying journey from discovery through to purchase inquiry — fully clickable, real interactions, nothing faked.
-
-The prototype went to the investor meeting the next day. Then it was handed directly to the engineering team as their build reference. End-to-end. One day.
-
-This project matters to me because it proves something I believe about great UX work: strong process and smart tooling aren't in competition. The process made the prototype real. The tooling made it fast. The result was the same standard — it just got there faster.`
+What I learned from HALO is that speed and quality don't have to trade off against each other — but only if the process underneath is solid. The tools let me go faster. The thinking at the start is what made it worth going fast toward.`
   };
 
   let _activeId = null;
