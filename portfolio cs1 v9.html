@@ -1874,6 +1874,24 @@ a.ch-stat-link:hover { opacity: 0.82; }
   .tldr-key { opacity: 1; }
 }
 
+/* ── AUDIO PLAYER ── */
+.case-audio-player { display: flex; align-items: center; gap: 14px; margin: -8px 0 44px; }
+.cap-btn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-deep); background: none; border: 1px solid var(--case-deep); padding: 7px 14px; cursor: pointer; transition: all .2s; opacity: 0.7; }
+.cap-btn:hover, .cap-btn.cap-playing { background: var(--case-deep); color: #fff; opacity: 1; }
+.cap-wave { display: none; align-items: center; gap: 3px; height: 14px; }
+.cap-btn.cap-playing .cap-wave { display: flex; }
+.cap-btn.cap-playing .cap-play-label { display: none; }
+.cap-wave span { display: block; width: 2px; background: #fff; border-radius: 2px; animation: capWave 0.8s ease-in-out infinite; }
+.cap-wave span:nth-child(1) { height: 4px; animation-delay: 0s; }
+.cap-wave span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+.cap-wave span:nth-child(3) { height: 6px; animation-delay: 0.3s; }
+.cap-wave span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+.cap-wave span:nth-child(5) { height: 4px; animation-delay: 0.25s; }
+@keyframes capWave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.8); } }
+.cap-stop { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-text); background: none; border: none; cursor: pointer; opacity: 0.4; padding: 4px 2px; transition: opacity .2s; }
+.cap-stop:hover { opacity: 0.9; }
+@media (max-width: 640px) { .case-audio-player { flex-wrap: wrap; gap: 10px; } }
+
 /* ── CHAPTER BREAKS — full-bleed dark story beats ── */
 .chapter-break {
   margin: 80px -80px 0;
@@ -4679,6 +4697,15 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </ul>
               </div>
 
+              <!-- AUDIO PLAYER -->
+              <div class="case-audio-player">
+                <button class="cap-btn" onclick="caseSpeech('svs',this)">
+                  <span class="cap-play-label">🔊 listen to this case</span>
+                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
+                </button>
+                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-svs">⏹ stop</button>
+              </div>
+
               <!-- STAT STRIP -->
               <div class="svs-stats">
                 <div class="svs-stat">
@@ -6451,6 +6478,15 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </ul>
               </div>
 
+              <!-- AUDIO PLAYER -->
+              <div class="case-audio-player">
+                <button class="cap-btn" onclick="caseSpeech('lightburn',this)">
+                  <span class="cap-play-label">🔊 listen to this case</span>
+                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
+                </button>
+                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-lightburn">⏹ stop</button>
+              </div>
+
               <!-- ── COLLAGE HERO ── -->
               <div class="lb-collage">
                 <div class="lb-col-item lb-zoomable">
@@ -7243,6 +7279,15 @@ body.quick-mode .halo-h2 { display:none !important; }
                     <span class="tldr-val"><strong>Went to the investor meeting.</strong> Then handed to the dev team as the build reference. Delivered in 1 day.</span>
                   </li>
                 </ul>
+              </div>
+
+              <!-- AUDIO PLAYER -->
+              <div class="case-audio-player">
+                <button class="cap-btn" onclick="caseSpeech('halo',this)">
+                  <span class="cap-play-label">🔊 listen to this case</span>
+                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
+                </button>
+                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-halo">⏹ stop</button>
               </div>
 
               <!-- STATS -->
@@ -10494,6 +10539,134 @@ document.querySelectorAll('.cs-sidenav-item').forEach(a => {
   });
 
   loop();
+})();
+</script>
+
+<script>
+/* ── Case Study Audio Narration (Web Speech API) ── */
+(function () {
+  const SCRIPTS = {
+    svs: `Hi, I'm Supritha. Let me walk you through my SVS School project.
+
+SVS School has 26 years of history, but until recently — zero web presence. Parents discovered them only through word of mouth. My job was to change that, working completely solo.
+
+I handled everything. Strategy, UX, visual design, copywriting, and front-end development. The brief was simple: build a site that actually reflects the warmth of a school that has shaped hundreds of kids.
+
+I designed a scrollable single-page experience with three deep-dive overlays. The whole thing was built for parents discovering the school on their phones at night — so every decision, every word, was written for that moment.
+
+The result? The school went from no online presence to a live, responsive website in under four weeks. All pages, all breakpoints, all content. Solo. Shipped.`,
+
+    lightburn: `Hi, I'm Supritha. Here's my LightBurn case study.
+
+LightBurn is laser-cutting software used by around 300 thousand makers worldwide. I joined as a UX writing intern at a consultancy called CX by Design. My brief: redesign a single upgrade email.
+
+I ended up delivering nine touchpoints. Not because I was asked to — because I saw the problems and fixed them anyway.
+
+Three existing transactional emails were redesigned from scratch, unprompted. I annotated every issue, every fix, and presented it all with a rationale. Then I built a full upgrade campaign — six more designs across email, in-app messages, a website banner, and a forum post. And because LightBurn had no visual design system, I created one from nothing.
+
+Every deliverable was approved by the full team. One brief. Nine touchpoints. All shipped.`,
+
+    halo: `Hi, I'm Supritha. This is my HALO project.
+
+TinkerBloX builds Edge AI software — the kind that runs directly on hardware, no cloud needed. They were building a B2B marketplace called HALO, connecting makers with vetted hardware suppliers. They needed a fully interactive prototype for an investor meeting.
+
+The timeline was one day. Real screens. Real interactions. Nothing fake.
+
+I ran the full UX process in that single day — competitor research, information architecture, user flows, wireframes, and high-fidelity prototypes in Figma. Then I built the live prototype in React so investors could actually click through it.
+
+The prototype went to the investor meeting. It was then handed directly to the dev team as the build reference. Designed, prototyped, and handed off — in one day.`
+  };
+
+  let _activeBtn = null;
+  let _activeId = null;
+
+  function selectFemaleVoice(voices) {
+    const preferred = [
+      'Samantha', 'Karen', 'Moira', 'Tessa', 'Victoria', 'Ava', 'Allison',
+      'Susan', 'Zira', 'Hazel', 'Linda', 'Eva', 'Alice',
+      'Google US English', 'Microsoft Zira'
+    ];
+    for (const name of preferred) {
+      const v = voices.find(v => v.name.includes(name));
+      if (v) return v;
+    }
+    const female = voices.find(v => /female/i.test(v.name));
+    if (female) return female;
+    return voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0] || null;
+  }
+
+  window.caseSpeech = async function (caseId, btn) {
+    if (!window.speechSynthesis) {
+      btn.querySelector('.cap-play-label').textContent = 'not supported';
+      return;
+    }
+    // If same case already playing — stop
+    if (_activeId === caseId && window.speechSynthesis.speaking) {
+      stopSpeech();
+      return;
+    }
+    stopSpeech();
+
+    // Wait for voices to load (especially first call)
+    let voices = window.speechSynthesis.getVoices();
+    if (!voices.length) {
+      await new Promise(r => {
+        window.speechSynthesis.onvoiceschanged = r;
+        setTimeout(r, 600);
+      });
+      voices = window.speechSynthesis.getVoices();
+    }
+
+    const text = SCRIPTS[caseId];
+    if (!text) return;
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    const voice = selectFemaleVoice(voices);
+    if (voice) utterance.voice = voice;
+    utterance.lang = 'en-US';
+    utterance.rate = 0.9;
+    utterance.pitch = 1.08;
+
+    // Update UI — playing state
+    _activeBtn = btn;
+    _activeId = caseId;
+    btn.classList.add('cap-playing');
+    const stopBtn = document.getElementById('capStop-' + caseId);
+    if (stopBtn) stopBtn.style.display = '';
+
+    utterance.onend = resetSpeechUI;
+    utterance.onerror = resetSpeechUI;
+
+    window.speechSynthesis.speak(utterance);
+  };
+
+  window.stopSpeech = function () {
+    window.speechSynthesis.cancel();
+    resetSpeechUI();
+  };
+
+  function resetSpeechUI() {
+    if (_activeBtn) {
+      _activeBtn.classList.remove('cap-playing');
+      _activeBtn = null;
+    }
+    if (_activeId) {
+      const stopBtn = document.getElementById('capStop-' + _activeId);
+      if (stopBtn) stopBtn.style.display = 'none';
+      _activeId = null;
+    }
+  }
+
+  // Stop speech when navigating away from a case
+  document.addEventListener('scroll', () => {
+    if (_activeId && window.speechSynthesis.speaking) {
+      const spread = document.getElementById(_activeId === 'svs' ? 'caseSvs' : _activeId === 'lightburn' ? 'caseLightburn' : 'caseHalo');
+      if (spread) {
+        const rect = spread.getBoundingClientRect();
+        if (rect.left > window.innerWidth || rect.right < 0) stopSpeech();
+      }
+    }
+  }, { passive: true, capture: true });
 })();
 </script>
 
