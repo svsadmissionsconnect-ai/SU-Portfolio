@@ -10613,38 +10613,53 @@ document.querySelectorAll('.cs-sidenav-item').forEach(a => {
 /* ── Case Study Audio Narration (Web Speech API) ── */
 (function () {
   const SCRIPTS = {
-    svs: `Hi, I'm Supritha. Let me walk you through my SVS School project.
+    svs: `If you asked me what project I'm most proud of, I'd tell you about SVS School.
 
-SVS School has 26 years of history, but until recently — zero web presence. Parents discovered them only through word of mouth. My job was to change that, working completely solo.
+SVS is a 26-year-old school in Bangalore. They had no website. No social presence. Nothing online. For 26 years, they survived entirely on word of mouth — which meant families who genuinely needed them simply couldn't find them.
 
-I handled everything. Strategy, UX, visual design, copywriting, and front-end development. The brief was simple: build a site that actually reflects the warmth of a school that has shaped hundreds of kids.
+The brief was: build the website. And I took that to mean everything.
 
-I designed a scrollable single-page experience with three deep-dive overlays. The whole thing was built for parents discovering the school on their phones at night — so every decision, every word, was written for that moment.
+I ran the full discovery process. Stakeholder interviews to understand what parents actually needed to know before enrolling. I mapped the information architecture — figuring out what a parent needs to see in the first five seconds versus the first five minutes. I wrote every line of copy. Designed every screen across every breakpoint. And then I built it. HTML, CSS, JavaScript. And I deployed it myself.
 
-The result? The school went from no online presence to a live, responsive website in under four weeks. All pages, all breakpoints, all content. Solo. Shipped.`,
+I made a deliberate choice to handle deployment rather than hand off to a developer. I wanted to own the gap between design and production — to understand what breaks when it goes live, not just in Figma.
 
-    lightburn: `Hi, I'm Supritha. Here's my LightBurn case study.
+The school now has a live, responsive website. Parents can find them on Google. A school that shaped hundreds of kids over 26 years finally shows up when you search for it.
 
-LightBurn is laser-cutting software used by around 300 thousand makers worldwide. I joined as a UX writing intern at a consultancy called CX by Design. My brief: redesign a single upgrade email.
+That's the kind of end-to-end ownership I bring. Not just design — the full ship.`,
 
-I ended up delivering nine touchpoints. Not because I was asked to — because I saw the problems and fixed them anyway.
+    lightburn: `Let me tell you about my LightBurn internship, because it's the project that best shows how I work when nobody's watching.
 
-Three existing transactional emails were redesigned from scratch, unprompted. I annotated every issue, every fix, and presented it all with a rationale. Then I built a full upgrade campaign — six more designs across email, in-app messages, a website banner, and a forum post. And because LightBurn had no visual design system, I created one from nothing.
+I was a UX writing intern at CX by Design. My brief was specific: redesign one upgrade email for LightBurn — laser-cutting software used by 300,000 makers worldwide.
 
-Every deliverable was approved by the full team. One brief. Nine touchpoints. All shipped.`,
+I delivered nine touchpoints.
 
-    halo: `Hi, I'm Supritha. This is my HALO project.
+Not because I was asked to. Because I read the brief, looked at their existing communications, and saw problems that needed fixing. Three triggered emails — purchase confirmation, license delivery, license update — had unclear calls to action, copy that talked at users rather than with them, and visual design that felt generic. Nobody asked me to fix them. I fixed them anyway. I annotated every decision, built a before-and-after comparison for each one, and presented it to the team.
 
-TinkerBloX builds Edge AI software — the kind that runs directly on hardware, no cloud needed. They were building a B2B marketplace called HALO, connecting makers with vetted hardware suppliers. They needed a fully interactive prototype for an investor meeting.
+Then I built the upgrade campaign from scratch. Six more designs across email, in-app messages, a website banner, and a community forum post. And because LightBurn had no visual design system for their communications, I created one.
 
-The timeline was one day. Real screens. Real interactions. Nothing fake.
+Every single deliverable was approved.
 
-I ran the full UX process in that single day — competitor research, information architecture, user flows, wireframes, and high-fidelity prototypes in Figma. Then I built the live prototype in React so investors could actually click through it.
+What I want hiring managers to take away from this: I don't wait to be told what the problem is. I find it. I document it. I propose the fix. And then I execute it.
 
-The prototype went to the investor meeting. It was then handed directly to the dev team as the build reference. Designed, prototyped, and handed off — in one day.`
+One brief. Nine deliverables. Full team sign-off.`,
+
+    halo: `HALO is the project that showed me what I'm capable of when time is the real constraint.
+
+TinkerBloX builds Edge AI software — the kind that runs directly on hardware, no cloud needed. They were building a B2B marketplace called HALO, connecting makers with vetted hardware suppliers: laser cutters, 3D printers, CNC machines. They had an investor meeting coming up. They needed a fully interactive prototype to show.
+
+The timeline: one day.
+
+I know what you're thinking. One day isn't enough. And you're right — in the traditional sense. But I used Claude Code, Anthropic's AI development tool, to work at a pace that would normally take two to three weeks.
+
+Here's how the day actually went: I ran the UX process in the morning — user research, competitive analysis, information architecture, user flows. I designed high-fidelity screens in Figma in the afternoon. And then I built the live, clickable prototype in React using Claude Code in the evening.
+
+Eight screens. Six micro-interactions. A complete buying journey from discovery through to purchase inquiry — fully clickable, real interactions, nothing faked.
+
+The prototype went to the investor meeting the next day. Then it was handed directly to the engineering team as their build reference. End-to-end. One day.
+
+This project matters to me because it proves something I believe about great UX work: strong process and smart tooling aren't in competition. The process made the prototype real. The tooling made it fast. The result was the same standard — it just got there faster.`
   };
 
-  let _activeBtn = null;
   let _activeId = null;
 
   function selectFemaleVoice(voices) {
@@ -10657,30 +10672,24 @@ The prototype went to the investor meeting. It was then handed directly to the d
       const v = voices.find(v => v.name.includes(name));
       if (v) return v;
     }
-    const female = voices.find(v => /female/i.test(v.name));
-    if (female) return female;
-    return voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0] || null;
+    return voices.find(v => /female/i.test(v.name))
+      || voices.find(v => v.lang && v.lang.startsWith('en'))
+      || voices[0] || null;
   }
 
-  window.caseSpeech = async function (caseId, btn) {
-    if (!window.speechSynthesis) {
-      btn.querySelector('.cap-play-label').textContent = 'not supported';
-      return;
-    }
-    // If same case already playing — stop
-    if (_activeId === caseId && window.speechSynthesis.speaking) {
-      stopSpeech();
-      return;
-    }
+  window.caseSpeech = async function (caseId) {
+    if (!window.speechSynthesis) return;
+    if (_activeId === caseId && window.speechSynthesis.speaking) { stopSpeech(); return; }
     stopSpeech();
 
-    // Wait for voices to load (especially first call)
+    // Stop background music if playing
+    if (window._musicIsPlaying && window._musicIsPlaying()) {
+      window._musicStop && window._musicStop();
+    }
+
     let voices = window.speechSynthesis.getVoices();
     if (!voices.length) {
-      await new Promise(r => {
-        window.speechSynthesis.onvoiceschanged = r;
-        setTimeout(r, 600);
-      });
+      await new Promise(r => { window.speechSynthesis.onvoiceschanged = r; setTimeout(r, 600); });
       voices = window.speechSynthesis.getVoices();
     }
 
@@ -10691,19 +10700,19 @@ The prototype went to the investor meeting. It was then handed directly to the d
     const voice = selectFemaleVoice(voices);
     if (voice) utterance.voice = voice;
     utterance.lang = 'en-US';
-    utterance.rate = 0.9;
+    utterance.rate = 0.88;
     utterance.pitch = 1.08;
 
-    // Update UI — playing state
-    _activeBtn = btn;
     _activeId = caseId;
-    btn.classList.add('cap-playing');
-    const stopBtn = document.getElementById('capStop-' + caseId);
-    if (stopBtn) stopBtn.style.display = '';
+    const container = document.getElementById('cap-' + caseId);
+    if (container) {
+      container.classList.add('cap-active');
+      const stopBtn = document.getElementById('capStop-' + caseId);
+      if (stopBtn) stopBtn.style.display = '';
+    }
 
     utterance.onend = resetSpeechUI;
     utterance.onerror = resetSpeechUI;
-
     window.speechSynthesis.speak(utterance);
   };
 
@@ -10713,26 +10722,39 @@ The prototype went to the investor meeting. It was then handed directly to the d
   };
 
   function resetSpeechUI() {
-    if (_activeBtn) {
-      _activeBtn.classList.remove('cap-playing');
-      _activeBtn = null;
-    }
     if (_activeId) {
-      const stopBtn = document.getElementById('capStop-' + _activeId);
-      if (stopBtn) stopBtn.style.display = 'none';
+      const container = document.getElementById('cap-' + _activeId);
+      if (container) {
+        container.classList.remove('cap-active');
+        const stopBtn = document.getElementById('capStop-' + _activeId);
+        if (stopBtn) stopBtn.style.display = 'none';
+      }
       _activeId = null;
     }
   }
 
-  // Stop speech when navigating away from a case
+  window._showAudioPrompt = function (caseId) {
+    const existing = document.getElementById('cap-toast');
+    if (existing) existing.remove();
+    const toast = document.createElement('div');
+    toast.id = 'cap-toast';
+    toast.className = 'cap-toast';
+    toast.innerHTML =
+      '<span class="cap-toast-msg">♪ music paused — want a walkthrough?</span>' +
+      '<button class="cap-toast-listen" onclick="caseSpeech(\'' + caseId + '\');this.closest(\'#cap-toast\').remove()">listen ▶</button>' +
+      '<button class="cap-toast-x" onclick="this.closest(\'#cap-toast\').remove()">×</button>';
+    document.body.appendChild(toast);
+    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 6000);
+  };
+
+  // Stop speech when case horizontally scrolled out of view
   document.addEventListener('scroll', () => {
-    if (_activeId && window.speechSynthesis.speaking) {
-      const spread = document.getElementById(_activeId === 'svs' ? 'caseSvs' : _activeId === 'lightburn' ? 'caseLightburn' : 'caseHalo');
-      if (spread) {
-        const rect = spread.getBoundingClientRect();
-        if (rect.left > window.innerWidth || rect.right < 0) stopSpeech();
-      }
-    }
+    if (!_activeId || !window.speechSynthesis.speaking) return;
+    const spreadId = _activeId === 'svs' ? 'caseSvs' : _activeId === 'lightburn' ? 'caseLightburn' : 'caseHalo';
+    const spread = document.getElementById(spreadId);
+    if (!spread) return;
+    const rect = spread.getBoundingClientRect();
+    if (rect.left > window.innerWidth || rect.right < 0) stopSpeech();
   }, { passive: true, capture: true });
 })();
 </script>
