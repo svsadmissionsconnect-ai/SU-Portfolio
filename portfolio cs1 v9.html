@@ -173,12 +173,11 @@ body.case-open .magazine-mast { display: flex; pointer-events: auto; opacity: 1;
 .magazine-mast .mm-close:hover { background: var(--c-pink); transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--ink); }
 .magazine-mast .mm-nav { display: flex; align-items: center; gap: 10px; }
 .magazine-mast .mm-nav-count { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--ink-soft); margin-right: 4px; }
-.magazine-mast .mm-nav-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid rgba(30,10,60,0.3); padding: 5px 10px; cursor: pointer; transition: all .2s; }
-.magazine-mast .mm-nav-btn:hover { background: var(--ink); color: var(--bg); }
-.magazine-mast .mm-nav-btn:disabled { opacity: 0.28; cursor: default; pointer-events: none; }
+.magazine-mast .mm-nav-btn { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); background: none; border: none; padding: 4px 8px; cursor: pointer; transition: all .2s; opacity: 0.42; }
+.magazine-mast .mm-nav-btn:hover { opacity: 0.9; color: var(--ink); }
 .magazine-mast .mm-close { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid var(--ink); padding: 5px 12px; cursor: pointer; transition: all .2s; margin-left: 6px; }
-.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 14px; }
-.magazine-mast .mm-case-title { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink); font-weight: 800; white-space: nowrap; }
+.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 16px; }
+.magazine-mast .mm-case-title { font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 800; white-space: nowrap; }
 
 /* push case content down to make room for masthead */
 .lo-body { padding-top: 56px; }
@@ -1874,23 +1873,42 @@ a.ch-stat-link:hover { opacity: 0.82; }
   .tldr-key { opacity: 1; }
 }
 
-/* ── AUDIO PLAYER ── */
-.case-audio-player { display: flex; align-items: center; gap: 14px; margin: -8px 0 44px; }
-.cap-btn { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-deep); background: none; border: 1px solid var(--case-deep); padding: 7px 14px; cursor: pointer; transition: all .2s; opacity: 0.7; }
-.cap-btn:hover, .cap-btn.cap-playing { background: var(--case-deep); color: #fff; opacity: 1; }
-.cap-wave { display: none; align-items: center; gap: 3px; height: 14px; }
-.cap-btn.cap-playing .cap-wave { display: flex; }
-.cap-btn.cap-playing .cap-play-label { display: none; }
-.cap-wave span { display: block; width: 2px; background: #fff; border-radius: 2px; animation: capWave 0.8s ease-in-out infinite; }
-.cap-wave span:nth-child(1) { height: 4px; animation-delay: 0s; }
-.cap-wave span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-.cap-wave span:nth-child(3) { height: 6px; animation-delay: 0.3s; }
-.cap-wave span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
-.cap-wave span:nth-child(5) { height: 4px; animation-delay: 0.25s; }
+/* ── AUDIO PLAYER (headphone) ── */
+.case-audio-player { display: flex; align-items: flex-end; gap: 16px; margin: -8px 0 44px; }
+.cap-headphone { position: relative; width: 54px; flex-shrink: 0; cursor: pointer; transition: transform .25s; }
+.cap-headphone:hover { transform: rotate(-10deg) scale(1.1); }
+.case-audio-player.cap-active .cap-headphone { animation: capHpBob 1.4s ease-in-out infinite; }
+@keyframes capHpBob { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-4deg); } }
+.cap-hp-svg { width: 100%; height: auto; display: block; }
+.cap-hp-cup { fill: var(--case-deep); opacity: 0.7; transition: fill .3s, opacity .3s; }
+.cap-headphone:hover .cap-hp-cup,
+.case-audio-player.cap-active .cap-hp-cup { opacity: 1; fill: var(--case-accent); }
+.cap-hp-led { position: absolute; bottom: 16px; left: 5px; width: 5px; height: 5px; border-radius: 50%; background: transparent; transition: background .3s, box-shadow .3s; pointer-events: none; }
+.case-audio-player.cap-active .cap-hp-led { background: var(--case-deep); box-shadow: 0 0 8px var(--case-deep); animation: led 1.8s ease-in-out infinite; }
+.cap-meta { display: flex; flex-direction: column; gap: 5px; padding-bottom: 6px; }
+.cap-label-idle { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-text); opacity: 0.4; transition: opacity .2s; }
+.cap-headphone:hover ~ .cap-meta .cap-label-idle { opacity: 0.8; }
+.cap-label-playing { display: none; align-items: center; gap: 3px; height: 14px; }
+.case-audio-player.cap-active .cap-label-playing { display: flex; }
+.case-audio-player.cap-active .cap-label-idle { display: none; }
+.cap-label-playing span { display: block; width: 2px; background: var(--case-deep); border-radius: 2px; animation: capWave 0.8s ease-in-out infinite; }
+.cap-label-playing span:nth-child(1) { height: 4px; animation-delay: 0s; }
+.cap-label-playing span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
+.cap-label-playing span:nth-child(3) { height: 6px; animation-delay: 0.3s; }
+.cap-label-playing span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+.cap-label-playing span:nth-child(5) { height: 4px; animation-delay: 0.25s; }
 @keyframes capWave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.8); } }
-.cap-stop { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-text); background: none; border: none; cursor: pointer; opacity: 0.4; padding: 4px 2px; transition: opacity .2s; }
+.cap-stop { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--case-text); background: none; border: none; cursor: pointer; opacity: 0.4; padding: 2px 0; transition: opacity .2s; }
 .cap-stop:hover { opacity: 0.9; }
-@media (max-width: 640px) { .case-audio-player { flex-wrap: wrap; gap: 10px; } }
+/* Toast prompt */
+.cap-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; padding: 12px 20px; display: flex; align-items: center; gap: 14px; z-index: 10001; animation: capToastIn .35s ease; white-space: nowrap; box-shadow: 4px 4px 0 rgba(0,0,0,0.18); }
+@keyframes capToastIn { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+.cap-toast-msg { opacity: 0.8; }
+.cap-toast-listen { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--bg); color: var(--ink); border: none; padding: 5px 12px; cursor: pointer; transition: background .15s; }
+.cap-toast-listen:hover { background: var(--c-pink); }
+.cap-toast-x { background: none; border: none; color: var(--bg); opacity: 0.45; cursor: pointer; font-size: 16px; padding: 0 2px; line-height: 1; transition: opacity .15s; }
+.cap-toast-x:hover { opacity: 1; }
+@media (max-width: 640px) { .cap-toast { white-space: normal; left: 16px; right: 16px; transform: none; bottom: 16px; } }
 
 /* ── CHAPTER BREAKS — full-bleed dark story beats ── */
 .chapter-break {
@@ -4698,12 +4716,27 @@ body.quick-mode .halo-h2 { display:none !important; }
               </div>
 
               <!-- AUDIO PLAYER -->
-              <div class="case-audio-player">
-                <button class="cap-btn" onclick="caseSpeech('svs',this)">
-                  <span class="cap-play-label">🔊 listen to this case</span>
-                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
-                </button>
-                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-svs">⏹ stop</button>
+              <div class="case-audio-player" id="cap-svs">
+                <div class="cap-headphone" onclick="caseSpeech('svs')" title="Hear my story">
+                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
+                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
+                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
+                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
+                  </svg>
+                  <span class="cap-hp-led"></span>
+                </div>
+                <div class="cap-meta">
+                  <div class="cap-label-idle">hear my story</div>
+                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
+                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-svs">⏹ stop</button>
+                </div>
               </div>
 
               <!-- STAT STRIP -->
@@ -6479,12 +6512,27 @@ body.quick-mode .halo-h2 { display:none !important; }
               </div>
 
               <!-- AUDIO PLAYER -->
-              <div class="case-audio-player">
-                <button class="cap-btn" onclick="caseSpeech('lightburn',this)">
-                  <span class="cap-play-label">🔊 listen to this case</span>
-                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
-                </button>
-                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-lightburn">⏹ stop</button>
+              <div class="case-audio-player" id="cap-lightburn">
+                <div class="cap-headphone" onclick="caseSpeech('lightburn')" title="Hear my story">
+                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
+                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
+                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
+                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
+                  </svg>
+                  <span class="cap-hp-led"></span>
+                </div>
+                <div class="cap-meta">
+                  <div class="cap-label-idle">hear my story</div>
+                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
+                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-lightburn">⏹ stop</button>
+                </div>
               </div>
 
               <!-- ── COLLAGE HERO ── -->
@@ -7282,12 +7330,27 @@ body.quick-mode .halo-h2 { display:none !important; }
               </div>
 
               <!-- AUDIO PLAYER -->
-              <div class="case-audio-player">
-                <button class="cap-btn" onclick="caseSpeech('halo',this)">
-                  <span class="cap-play-label">🔊 listen to this case</span>
-                  <span class="cap-wave"><span></span><span></span><span></span><span></span><span></span></span>
-                </button>
-                <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-halo">⏹ stop</button>
+              <div class="case-audio-player" id="cap-halo">
+                <div class="cap-headphone" onclick="caseSpeech('halo')" title="Hear my story">
+                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
+                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
+                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
+                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
+                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
+                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
+                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
+                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
+                  </svg>
+                  <span class="cap-hp-led"></span>
+                </div>
+                <div class="cap-meta">
+                  <div class="cap-label-idle">hear my story</div>
+                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
+                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-halo">⏹ stop</button>
+                </div>
               </div>
 
               <!-- STATS -->
@@ -9561,6 +9624,9 @@ function openCase(id) {
     document.body.classList.add('case-open');
   }
   state.caseOpen = id;
+  // Stop music if playing; show audio prompt
+  const _musicWasOn = window._musicIsPlaying && window._musicIsPlaying();
+  if (_musicWasOn) window._musicStop && window._musicStop();
   loIndex.classList.add('hidden');
   loCases.classList.remove('hidden');
   if (loBack) loBack.style.display = 'none';
@@ -9575,6 +9641,7 @@ function openCase(id) {
     const spread = document.querySelector(`[data-id="${id}"]`);
     if (spread) spread.scrollTop = 0;
   }, 250);
+  if (_musicWasOn) setTimeout(() => window._showAudioPrompt && window._showAudioPrompt(id), 600);
 }
 function closeCase() {
   state.caseOpen = null;
