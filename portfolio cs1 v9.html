@@ -1873,43 +1873,10 @@ a.ch-stat-link:hover { opacity: 0.82; }
   .tldr-key { opacity: 1; }
 }
 
-/* ── AUDIO PLAYER (headphone) ── */
-.case-audio-player { display: flex; align-items: flex-end; gap: 16px; margin: -8px 0 44px; }
-.cap-headphone { position: relative; width: 54px; flex-shrink: 0; cursor: pointer; transition: transform .25s; }
-.cap-headphone:hover { transform: rotate(-10deg) scale(1.1); }
-.case-audio-player.cap-active .cap-headphone { animation: capHpBob 1.4s ease-in-out infinite; }
-@keyframes capHpBob { 0%,100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-4px) rotate(-4deg); } }
-.cap-hp-svg { width: 100%; height: auto; display: block; }
-.cap-hp-cup { fill: var(--case-deep); opacity: 0.7; transition: fill .3s, opacity .3s; }
-.cap-headphone:hover .cap-hp-cup,
-.case-audio-player.cap-active .cap-hp-cup { opacity: 1; fill: var(--case-accent); }
-.cap-hp-led { position: absolute; bottom: 16px; left: 5px; width: 5px; height: 5px; border-radius: 50%; background: transparent; transition: background .3s, box-shadow .3s; pointer-events: none; }
-.case-audio-player.cap-active .cap-hp-led { background: var(--case-deep); box-shadow: 0 0 8px var(--case-deep); animation: led 1.8s ease-in-out infinite; }
-.cap-meta { display: flex; flex-direction: column; gap: 5px; padding-bottom: 6px; }
-.cap-label-idle { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--case-text); opacity: 0.4; transition: opacity .2s; }
-.cap-headphone:hover ~ .cap-meta .cap-label-idle { opacity: 0.8; }
-.cap-label-playing { display: none; align-items: center; gap: 3px; height: 14px; }
-.case-audio-player.cap-active .cap-label-playing { display: flex; }
-.case-audio-player.cap-active .cap-label-idle { display: none; }
-.cap-label-playing span { display: block; width: 2px; background: var(--case-deep); border-radius: 2px; animation: capWave 0.8s ease-in-out infinite; }
-.cap-label-playing span:nth-child(1) { height: 4px; animation-delay: 0s; }
-.cap-label-playing span:nth-child(2) { height: 10px; animation-delay: 0.15s; }
-.cap-label-playing span:nth-child(3) { height: 6px; animation-delay: 0.3s; }
-.cap-label-playing span:nth-child(4) { height: 12px; animation-delay: 0.1s; }
-.cap-label-playing span:nth-child(5) { height: 4px; animation-delay: 0.25s; }
-@keyframes capWave { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(1.8); } }
-.cap-stop { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--case-text); background: none; border: none; cursor: pointer; opacity: 0.4; padding: 2px 0; transition: opacity .2s; }
-.cap-stop:hover { opacity: 0.9; }
-/* Toast prompt */
-.cap-toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%); background: var(--ink); color: var(--bg); font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; padding: 12px 20px; display: flex; align-items: center; gap: 14px; z-index: 10001; animation: capToastIn .35s ease; white-space: nowrap; box-shadow: 4px 4px 0 rgba(0,0,0,0.18); }
-@keyframes capToastIn { from { opacity:0; transform:translateX(-50%) translateY(10px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
-.cap-toast-msg { opacity: 0.8; }
-.cap-toast-listen { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; background: var(--bg); color: var(--ink); border: none; padding: 5px 12px; cursor: pointer; transition: background .15s; }
-.cap-toast-listen:hover { background: var(--c-pink); }
-.cap-toast-x { background: none; border: none; color: var(--bg); opacity: 0.45; cursor: pointer; font-size: 16px; padding: 0 2px; line-height: 1; transition: opacity .15s; }
-.cap-toast-x:hover { opacity: 1; }
-@media (max-width: 640px) { .cap-toast { white-space: normal; left: 16px; right: 16px; transform: none; bottom: 16px; } }
 
+.qm-hint { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--case-text); opacity: 0.45; border-left: 2px solid var(--case-accent); padding: 6px 12px; margin: -4px 0 40px; display: block; transition: opacity .2s; }
+.qm-hint:hover { opacity: 0.8; }
+.qm-hint strong { font-weight: 700; color: var(--case-deep); }
 /* ── CHAPTER BREAKS — full-bleed dark story beats ── */
 .chapter-break {
   margin: 80px -80px 0;
@@ -4715,29 +4682,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </ul>
               </div>
 
-              <!-- AUDIO PLAYER -->
-              <div class="case-audio-player" id="cap-svs">
-                <div class="cap-headphone" onclick="caseSpeech('svs')" title="Hear my story">
-                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
-                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
-                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
-                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
-                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
-                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
-                  </svg>
-                  <span class="cap-hp-led"></span>
-                </div>
-                <div class="cap-meta">
-                  <div class="cap-label-idle">hear my story</div>
-                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
-                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-svs">⏹ stop</button>
-                </div>
-              </div>
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- STAT STRIP -->
               <div class="svs-stats">
@@ -6511,29 +6457,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </ul>
               </div>
 
-              <!-- AUDIO PLAYER -->
-              <div class="case-audio-player" id="cap-lightburn">
-                <div class="cap-headphone" onclick="caseSpeech('lightburn')" title="Hear my story">
-                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
-                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
-                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
-                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
-                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
-                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
-                  </svg>
-                  <span class="cap-hp-led"></span>
-                </div>
-                <div class="cap-meta">
-                  <div class="cap-label-idle">hear my story</div>
-                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
-                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-lightburn">⏹ stop</button>
-                </div>
-              </div>
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- ── COLLAGE HERO ── -->
               <div class="lb-collage">
@@ -7329,29 +7254,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </ul>
               </div>
 
-              <!-- AUDIO PLAYER -->
-              <div class="case-audio-player" id="cap-halo">
-                <div class="cap-headphone" onclick="caseSpeech('halo')" title="Hear my story">
-                  <svg class="cap-hp-svg" viewBox="0 0 80 78" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                    <line x1="40" y1="0" x2="40" y2="10" stroke="#2A1F1A" stroke-width="1.2"/>
-                    <circle cx="40" cy="2" r="2" fill="#A98D6B" stroke="#2A1F1A" stroke-width="1"/>
-                    <path d="M36 10 Q34 14 36 18" fill="none" stroke="#2A1F1A" stroke-width="1.4" stroke-linecap="round"/>
-                    <path d="M14 36 Q14 16 40 16 Q66 16 66 36" fill="none" stroke="#2A1F1A" stroke-width="1.6" stroke-linecap="round"/>
-                    <path d="M14 36 L14 50 Q14 56 18 56 L22 56 Q26 56 26 50 L26 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <path d="M66 36 L66 50 Q66 56 62 56 L58 56 Q54 56 54 50 L54 36" fill="none" stroke="#2A1F1A" stroke-width="1.4"/>
-                    <ellipse cx="20" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse cx="60" cy="48" rx="9" ry="11" fill="#2A1F1A"/>
-                    <ellipse class="cap-hp-cup" cx="20" cy="48" rx="6" ry="7.5"/>
-                    <ellipse class="cap-hp-cup" cx="60" cy="48" rx="6" ry="7.5"/>
-                  </svg>
-                  <span class="cap-hp-led"></span>
-                </div>
-                <div class="cap-meta">
-                  <div class="cap-label-idle">hear my story</div>
-                  <div class="cap-label-playing"><span></span><span></span><span></span><span></span><span></span></div>
-                  <button class="cap-stop" onclick="stopSpeech()" style="display:none" id="capStop-halo">⏹ stop</button>
-                </div>
-              </div>
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- STATS -->
               <div class="halo-stats">
@@ -9625,8 +9529,6 @@ function openCase(id) {
   }
   state.caseOpen = id;
   // Stop music if playing; show audio prompt
-  const _musicWasOn = window._musicIsPlaying && window._musicIsPlaying();
-  if (_musicWasOn) window._musicStop && window._musicStop();
   loIndex.classList.add('hidden');
   loCases.classList.remove('hidden');
   if (loBack) loBack.style.display = 'none';
@@ -9641,7 +9543,6 @@ function openCase(id) {
     const spread = document.querySelector(`[data-id="${id}"]`);
     if (spread) spread.scrollTop = 0;
   }, 250);
-  if (_musicWasOn) setTimeout(() => window._showAudioPrompt && window._showAudioPrompt(id), 600);
 }
 function closeCase() {
   state.caseOpen = null;
@@ -10609,147 +10510,6 @@ document.querySelectorAll('.cs-sidenav-item').forEach(a => {
 })();
 </script>
 
-<script>
-/* ── Case Study Audio Narration (Web Speech API) ── */
-(function () {
-  const SCRIPTS = {
-    svs: `SVS School has been around for 26 years. Twenty-six years of kids learning, growing up, and going on to do remarkable things — and for all that time, the school existed only in the memories of the families it touched. No website. No way to find them unless someone who knew someone told you about them.
-
-That's what I walked into.
-
-The ask was to build a website. But before I opened Figma or wrote a single line of code, I sat down with the people who knew the school best — the staff, the parents — and just listened. What did families need to understand before they'd trust a school with their child? What does this place feel like, and how do you translate that into a screen?
-
-From those conversations, I built the whole thing. The structure of the site, every section, every word of copy — all of it came from what I learned in those early conversations. Then I designed it, built it in HTML and CSS and JavaScript, and deployed it myself.
-
-I chose to handle the deployment personally. Not because I had to, but because I wanted to understand the full distance between a design file and a live URL. What breaks, what doesn't, what the real experience is for someone finding the site for the first time on their phone.
-
-The school is online now. Parents can find it. A 26-year story finally has somewhere to live.`,
-
-    lightburn: `This one started with a single email.
-
-I was interning at CX by Design, a UX consultancy, and they'd been brought in to help LightBurn — laser-cutting software with around 300,000 users worldwide. The brief landed in my inbox: redesign their upgrade email. One email. That was it.
-
-But when I actually looked at LightBurn's communications — all of them, not just the one I'd been asked about — I couldn't unsee the problems. Three transactional emails that users received at critical moments: when they bought, when their license updated, when it was delivered. All of them were doing the job, technically. None of them were doing it well. The copy was stiff. The calls to action were buried. The design had no personality.
-
-Nobody asked me to fix those. I fixed them anyway. Rebuilt each one from scratch, annotated every decision, and brought it to the team.
-
-And then I kept going. The upgrade campaign — the reason I'd been brought in — became six more pieces: emails, an in-app nudge, a website banner, a forum post. And because none of this communication had a consistent visual language, I designed a system for it.
-
-Nine pieces of work came out of one brief. All of it was approved.
-
-I'm proud of this project because it taught me something about how I work. I don't stop at the edges of what I've been asked. I keep looking until I understand the whole picture.`,
-
-    halo: `TinkerBloX came to me with a very specific problem. They were building HALO — a marketplace connecting makers with the hardware they need, laser cutters, 3D printers, CNC machines — and they had an investor meeting coming up. They needed something people could actually click through. Not a deck. Not a mockup. A real, interactive experience.
-
-They had one day.
-
-I've thought a lot about what made that day work, and honestly it came down to two things running in parallel: a clear process, and the right tools.
-
-In the morning I did the research — looked at how similar marketplaces were structured, mapped out the information architecture, sketched the user flows. By the afternoon I was in Figma building out the screens, eight of them, with the kind of detail that makes something feel real rather than designed. In the evening I built the prototype in React, using Claude Code to move at a pace that would normally take weeks.
-
-The investors could navigate it like a real product. After the meeting, the engineering team took it as their build reference.
-
-What I learned from HALO is that speed and quality don't have to trade off against each other — but only if the process underneath is solid. The tools let me go faster. The thinking at the start is what made it worth going fast toward.`
-  };
-
-  let _activeId = null;
-
-  function selectFemaleVoice(voices) {
-    const preferred = [
-      'Samantha', 'Karen', 'Moira', 'Tessa', 'Victoria', 'Ava', 'Allison',
-      'Susan', 'Zira', 'Hazel', 'Linda', 'Eva', 'Alice',
-      'Google US English', 'Microsoft Zira'
-    ];
-    for (const name of preferred) {
-      const v = voices.find(v => v.name.includes(name));
-      if (v) return v;
-    }
-    return voices.find(v => /female/i.test(v.name))
-      || voices.find(v => v.lang && v.lang.startsWith('en'))
-      || voices[0] || null;
-  }
-
-  window.caseSpeech = async function (caseId) {
-    if (!window.speechSynthesis) return;
-    if (_activeId === caseId && window.speechSynthesis.speaking) { stopSpeech(); return; }
-    stopSpeech();
-
-    // Stop background music if playing
-    if (window._musicIsPlaying && window._musicIsPlaying()) {
-      window._musicStop && window._musicStop();
-    }
-
-    let voices = window.speechSynthesis.getVoices();
-    if (!voices.length) {
-      await new Promise(r => { window.speechSynthesis.onvoiceschanged = r; setTimeout(r, 600); });
-      voices = window.speechSynthesis.getVoices();
-    }
-
-    const text = SCRIPTS[caseId];
-    if (!text) return;
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    const voice = selectFemaleVoice(voices);
-    if (voice) utterance.voice = voice;
-    utterance.lang = 'en-US';
-    utterance.rate = 0.88;
-    utterance.pitch = 1.08;
-
-    _activeId = caseId;
-    const container = document.getElementById('cap-' + caseId);
-    if (container) {
-      container.classList.add('cap-active');
-      const stopBtn = document.getElementById('capStop-' + caseId);
-      if (stopBtn) stopBtn.style.display = '';
-    }
-
-    utterance.onend = resetSpeechUI;
-    utterance.onerror = resetSpeechUI;
-    window.speechSynthesis.speak(utterance);
-  };
-
-  window.stopSpeech = function () {
-    window.speechSynthesis.cancel();
-    resetSpeechUI();
-  };
-
-  function resetSpeechUI() {
-    if (_activeId) {
-      const container = document.getElementById('cap-' + _activeId);
-      if (container) {
-        container.classList.remove('cap-active');
-        const stopBtn = document.getElementById('capStop-' + _activeId);
-        if (stopBtn) stopBtn.style.display = 'none';
-      }
-      _activeId = null;
-    }
-  }
-
-  window._showAudioPrompt = function (caseId) {
-    const existing = document.getElementById('cap-toast');
-    if (existing) existing.remove();
-    const toast = document.createElement('div');
-    toast.id = 'cap-toast';
-    toast.className = 'cap-toast';
-    toast.innerHTML =
-      '<span class="cap-toast-msg">♪ music paused — want a walkthrough?</span>' +
-      '<button class="cap-toast-listen" onclick="caseSpeech(\'' + caseId + '\');this.closest(\'#cap-toast\').remove()">listen ▶</button>' +
-      '<button class="cap-toast-x" onclick="this.closest(\'#cap-toast\').remove()">×</button>';
-    document.body.appendChild(toast);
-    setTimeout(() => { if (toast.parentNode) toast.remove(); }, 6000);
-  };
-
-  // Stop speech when case horizontally scrolled out of view
-  document.addEventListener('scroll', () => {
-    if (!_activeId || !window.speechSynthesis.speaking) return;
-    const spreadId = _activeId === 'svs' ? 'caseSvs' : _activeId === 'lightburn' ? 'caseLightburn' : 'caseHalo';
-    const spread = document.getElementById(spreadId);
-    if (!spread) return;
-    const rect = spread.getBoundingClientRect();
-    if (rect.left > window.innerWidth || rect.right < 0) stopSpeech();
-  }, { passive: true, capture: true });
-})();
-</script>
 
 </body>
 </html>
