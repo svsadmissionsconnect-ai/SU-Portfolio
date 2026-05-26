@@ -173,10 +173,11 @@ body.case-open .magazine-mast { display: flex; pointer-events: auto; opacity: 1;
 .magazine-mast .mm-close:hover { background: var(--c-pink); transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--ink); }
 .magazine-mast .mm-nav { display: flex; align-items: center; gap: 10px; }
 .magazine-mast .mm-nav-count { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--ink-soft); margin-right: 4px; }
-.magazine-mast .mm-nav-btn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid rgba(30,10,60,0.3); padding: 5px 10px; cursor: pointer; transition: all .2s; }
-.magazine-mast .mm-nav-btn:hover { background: var(--ink); color: var(--bg); }
-.magazine-mast .mm-nav-btn:disabled { opacity: 0.28; cursor: default; pointer-events: none; }
+.magazine-mast .mm-nav-btn { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); background: none; border: none; padding: 4px 8px; cursor: pointer; transition: all .2s; opacity: 0.42; }
+.magazine-mast .mm-nav-btn:hover { opacity: 0.9; color: var(--ink); }
 .magazine-mast .mm-close { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid var(--ink); padding: 5px 12px; cursor: pointer; transition: all .2s; margin-left: 6px; }
+.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 16px; }
+.magazine-mast .mm-case-title { font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 800; white-space: nowrap; }
 
 /* push case content down to make room for masthead */
 .lo-body { padding-top: 56px; }
@@ -1820,6 +1821,62 @@ a.ch-stat-link { display: inline-flex; align-items: center; gap: 8px; font-famil
 a.ch-stat-link::before { content: "★"; color: var(--case-accent); }
 a.ch-stat-link:hover { opacity: 0.82; }
 
+/* ── TL;DR SUMMARY CARD ── */
+.tldr-card {
+  margin: 40px 0 56px;
+  padding: 22px 26px 26px;
+  border: 1.5px solid var(--case-accent);
+  border-left: 3px solid var(--case-deep);
+  background: rgba(0,0,0,0.02);
+  position: relative;
+}
+.tldr-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: var(--case-deep);
+  font-weight: 800;
+  margin-bottom: 18px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tldr-label::before { content: "✦"; font-size: 8px; }
+.tldr-items { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.tldr-item { display: grid; grid-template-columns: 100px 1fr; gap: 14px; align-items: baseline; }
+.tldr-key {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--case-deep);
+  opacity: 0.6;
+  line-height: 1.5;
+  padding-top: 2px;
+}
+.tldr-val {
+  font-family: var(--serif);
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--case-text);
+}
+.tldr-val strong { font-weight: 600; }
+@media (max-width: 900px) {
+  .tldr-item { grid-template-columns: 80px 1fr; gap: 10px; }
+  .tldr-val { font-size: 13px; }
+}
+@media (max-width: 640px) {
+  .tldr-card { padding: 16px 18px 20px; }
+  .tldr-item { grid-template-columns: 1fr; gap: 2px; }
+  .tldr-key { opacity: 1; }
+}
+
+
+.qm-hint { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--case-text); opacity: 0.45; border-left: 2px solid var(--case-accent); padding: 6px 12px; margin: -4px 0 40px; display: block; transition: opacity .2s; }
+.qm-hint:hover { opacity: 0.8; }
+.qm-hint strong { font-weight: 700; color: var(--case-deep); }
 /* ── CHAPTER BREAKS — full-bleed dark story beats ── */
 .chapter-break {
   margin: 80px -80px 0;
@@ -2837,7 +2894,7 @@ a.ch-stat-link:hover { opacity: 0.82; }
       margin-top: 8px;
       z-index: 2;
     }
-    .cs-sidenav-prev-case,
+.cs-sidenav-prev-case,
     .cs-sidenav-next-case {
       display: block;
       font-size: 11px;
@@ -3488,12 +3545,12 @@ body.quick-mode .halo-h2 { display:none !important; }
 .halo-stat:last-child { border-right:none; }
 .halo-stat-num { font-family:var(--display); font-size:clamp(48px,5vw,72px); line-height:0.9; color:#ef7a85; font-variation-settings:"SOFT" 80,"opsz" 144; margin-bottom:6px; letter-spacing:-0.02em; }
 .halo-stat-label { font-family:var(--mono); font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:#1e0a3c; opacity:0.55; line-height:1.4; }
-.halo-section { margin:0 0 96px; max-width:880px; }
+.halo-section { margin:0 0 96px; }
 .halo-eyebrow { font-family:var(--mono); font-size:12px; letter-spacing:0.32em; text-transform:uppercase; color:#ef7a85; font-weight:800; margin-bottom:20px; }
 .halo-h2 { font-family:var(--display); font-weight:400; font-size:clamp(32px,3.6vw,50px); line-height:1.05; letter-spacing:-0.02em; color:#1e0a3c; font-variation-settings:"SOFT" 80,"opsz" 144; margin-bottom:28px; }
 .halo-h2 em { font-family:var(--serif); font-style:italic; font-weight:500; color:#ef7a85; }
 .halo-h3 { font-family:var(--display); font-weight:400; font-size:clamp(22px,2.2vw,30px); line-height:1.2; color:#ef7a85; font-variation-settings:"SOFT" 80; margin:48px 0 16px; letter-spacing:-0.01em; }
-.halo-prose p { font-family:var(--serif); font-size:18px; line-height:1.7; color:#1e0a3c; margin:0 0 18px; max-width:64ch; }
+.halo-prose p { font-family:var(--serif); font-size:18px; line-height:1.7; color:#1e0a3c; margin:0 0 18px; }
 .halo-prose p:last-child { margin-bottom:0; }
 .halo-prose p strong { font-weight:600; background:linear-gradient(180deg,transparent 60%,rgba(239,122,133,0.3) 60%); padding:0 2px; }
 .halo-prose p em { font-style:italic; color:#ef7a85; }
@@ -3590,7 +3647,7 @@ body.quick-mode .halo-h2 { display:none !important; }
 .halo-type-sample { font-size:20px; color:#1e0a3c; line-height:1.1; margin-bottom:2px; }
 .halo-type-meta { font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#ff90b3; }
 @media (max-width:900px) {
-  .halo-spread { padding:40px 24px 80px; }
+  .halo-spread { padding:40px 24px 80px; max-width:100% !important; width:100% !important; margin:0 !important; box-sizing:border-box; }
   .halo-trio { grid-template-columns:1fr; }
   .halo-screen-list { grid-template-columns:1fr; }
   .halo-doodle-row { grid-template-columns:1fr; }
@@ -3607,18 +3664,52 @@ body.quick-mode .halo-h2 { display:none !important; }
   .halo-tension > div:nth-child(2) { display:none; }
   .halo-ia-scroll { overflow-x:auto; }
   .halo-ia-scroll svg { min-width:500px; }
+  /* Collapse doodle rows — hide doodle, single column */
+  .halo-spread .svs-doodle-row { grid-template-columns:1fr !important; }
   .halo-spread .svs-doodle-row > div:last-child { display:none; }
+  .halo-spread .svs-girl-row { flex-wrap:wrap; }
+  /* Collapse inline 3-col grids */
+  .halo-3col-info { grid-template-columns:1fr !important; }
+  .halo-3col-info > div { border-right:none !important; border-bottom:1.5px solid var(--case-text); }
+  .halo-3col-info > div:last-child { border-bottom:none; }
+  .halo-3col-cards { grid-template-columns:1fr 1fr !important; }
+  /* Challenge section 3-col → 1-col */
+  .halo-spread .case-pdh { grid-template-columns:1fr !important; }
+  /* Design system type grid */
+  .halo-type-grid { grid-template-columns:1fr !important; }
+  .halo-type-grid > div { border-right:none !important; }
+  /* Shipped screens gallery — single column */
+  .halo-screens-grid { grid-template-columns:1fr !important; }
+  /* Wireframe → final comparison — single column */
+  .halo-wf-compare { grid-template-columns:1fr !important; }
+  .halo-wf-compare > div:first-child { border-right:none !important; border-bottom:1.5px solid var(--case-text); }
+  /* Interaction + impact 2-col grids */
+  .halo-2col-grid { grid-template-columns:1fr !important; }
+  /* Chapter breaks span edge-to-edge: negate exact case-spread-inner padding (20px mobile) */
+  .halo-spread .chapter-break { margin-left:-20px !important; margin-right:-20px !important; padding-left:20px !important; padding-right:20px !important; }
+  /* Images and videos stay within bounds */
+  .halo-spread img, .halo-spread video { max-width:100%; height:auto; }
+  /* Audit / data tables: force min-width so they scroll inside their overflow-x:auto wrapper */
+  .halo-spread table { min-width:480px; font-size:10px; }
 }
 @media (max-width:640px) {
-  .halo-spread { padding:24px 16px 80px; }
+  .halo-spread { padding:24px 16px 80px; max-width:100% !important; width:100% !important; margin:0 !important; box-sizing:border-box; }
+  .halo-spread .chapter-break { margin-left:-16px !important; margin-right:-16px !important; padding-left:16px !important; padding-right:16px !important; }
   .halo-stats { grid-template-columns:1fr; }
   .halo-h2 { font-size:clamp(26px,7vw,40px) !important; }
+  .halo-eyebrow { font-size:10px; letter-spacing:0.22em; }
   .halo-feature-grid { grid-template-columns:1fr !important; }
   .halo-wf-3col { grid-template-columns:1fr !important; }
+  .halo-3col-cards { grid-template-columns:1fr !important; }
   .halo-ds-dark-panel { padding:16px 14px; }
   .halo-ds-color-row { grid-template-columns:1fr 1fr !important; }
   .chapter-break .cb-text { font-size:clamp(20px,5vw,36px) !important; }
   .halo-flow-steps { flex-wrap:wrap; }
+  /* Audit table scrollable on phone */
+  .halo-spread table { font-size:10px; }
+  /* Pull quote smaller on phone */
+  .halo-pull { font-size:clamp(18px,5.5vw,28px) !important; padding-left:16px; }
+  .halo-prose p { font-size:16px; }
 }
   </style>
 </head>
@@ -4558,11 +4649,6 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <a class="cs-sidenav-item" href="#svs-s-next">What's next</a>
                 </div>
               </div>
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-next-case" onclick="event.preventDefault();scrollToCase('lightburn')" href="#">
-                  Case 02 · LightBurn →
-                </a>
-              </div>
             </div>
             <div class="case-spread-inner svs-spread">
               <!-- HERO HEAD -->
@@ -4572,6 +4658,32 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <div class="ch-deck">How I designed and shipped a website for a 26-year-old school in one month — solo, before admissions opened, with Claude as my build collaborator.</div>
                 <a class="ch-stat-link" href="https://svsschool.net/" target="_blank" rel="noopener">live · svsschool.net ↗</a>
               </div>
+
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">26-year-old school invisible online, losing admissions to competitor imposters with the same name.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Solo end-to-end — research, personas, design system, build and ship in exactly 30 days.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Used Claude as build collaborator, briefing AI with designer-level precision to execute typographic and motion decisions.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>Page 1 Google ranking</strong> for their own name. 20% of new applicants found them online. 8 enquiries in 4 weeks from zero.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- STAT STRIP -->
               <div class="svs-stats">
@@ -6280,20 +6392,12 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
               </div>
             
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-prev-case" onclick="event.preventDefault();scrollToCase('svs')" href="#">
-                  ← Case 01 · SVS School
-                </a>
-                <a class="cs-sidenav-next-case" onclick="event.preventDefault();scrollToCase('halo')" href="#" style="margin-top:8px;display:block;">
-                  Case 03 · HALO →
-                </a>
-              </div>
             </div>
             <div class="case-spread-inner">
 
               <!-- ── HEAD ── -->
               <div class="case-head">
-                <div class="ch-meta">case 02 · ux writing + design · cx by design · 2024</div>
+                <div class="ch-meta">case 02 · ux writing + design · cx by design · 2025</div>
                 <div class="lb-intro-row">
                   <div>
                     <h1>They asked for <em>one email.</em><br>I built a system.</h1>
@@ -6329,6 +6433,32 @@ body.quick-mode .halo-h2 { display:none !important; }
                   </div>
                 </div>
               </div>
+
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">LightBurn offered a 20% upgrade discount — most users had no idea it existed.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Given 1 email brief, delivered 9 touchpoints across email, in-app, website and forum — most entirely my own initiative.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Redesigned existing emails nobody asked me to touch, flagged every issue with annotations, got full team approval.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>1 brief. 9 deliverables. All approved.</strong> Built a visual design system from zero for a product that had none.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- ── COLLAGE HERO ── -->
               <div class="lb-collage">
@@ -6392,7 +6522,7 @@ body.quick-mode .halo-h2 { display:none !important; }
 
 
               <!-- ── CONTEXT CARD ── -->
-              
+
 <section class="svs-section" id="lb-s-context">
                 <div class="svs-eyebrow">★ the context</div>
                 <div class="qm-card" data-section="lb-s-context"><p>LightBurn is laser-cutting software used by ~300K makers worldwide. I joined as an intern to redesign their email communications — 3 existing triggered emails, then a full upgrade campaign from scratch.</p></div>
@@ -7088,11 +7218,6 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <a class="cs-sidenav-item" href="#halo-s-lessons">Reflections</a>
                 </div>
               </div>
-              <div class="cs-sidenav-footer">
-                <a class="cs-sidenav-prev-case" onclick="event.preventDefault();scrollToCase('lightburn')" href="#">
-                  ← Case 02 · Lightburn
-                </a>
-              </div>
             </div>
 
             <!-- MAIN CONTENT -->
@@ -7103,8 +7228,34 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <div class="ch-meta">case 03 · ui/ux design · edge iot marketplace · may 2026</div>
                 <h1>HALO × <em>TinkerBloX</em></h1>
                 <div class="ch-deck">A fully interactive Edge AI IoT marketplace for TinkerBloX — designed, prototyped and shipped in a single day. Eight screens. Real interactions. Made for an investor pitch, handed to the dev team. I had one day and I made it count.</div>
-                <a class="ch-stat-link" href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;text-decoration:none;border-bottom:1px solid #ffc2e2;padding-bottom:2px;">view live prototype ↗</a>
+                <a class="ch-stat-link" href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener">view live prototype ↗</a>
               </div>
+
+              <!-- TL;DR CARD -->
+              <div class="tldr-card">
+                <div class="tldr-label">tl;dr · at a glance</div>
+                <ul class="tldr-items">
+                  <li class="tldr-item">
+                    <span class="tldr-key">Problem</span>
+                    <span class="tldr-val">TinkerBloX needed an investor-grade AIoT marketplace prototype before a pitch meeting — with one day to deliver.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">What I did</span>
+                    <span class="tldr-val">Designed 8 fully interactive screens from scratch — design system, IA, wireframes, UX audit, live prototype.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">The twist</span>
+                    <span class="tldr-val">Designed everything in Figma first, then directed Claude Code with exact specifications — no vague prompts, no guessing.</span>
+                  </li>
+                  <li class="tldr-item">
+                    <span class="tldr-key">Result</span>
+                    <span class="tldr-val"><strong>Went to the investor meeting.</strong> Then handed to the dev team as the build reference. Delivered in 1 day.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- HIGHLIGHTS HINT -->
+              <div class="qm-hint">⚡ short on time? try <strong>Highlights</strong> in the sidebar — key moments only.</div>
 
               <!-- STATS -->
               <div class="halo-stats">
@@ -7133,7 +7284,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
 
                 <!-- WHO IS TINKERBLOX -->
-                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:2px solid var(--case-text);margin:28px 0 40px;">
+                <div class="halo-3col-info" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border:2px solid var(--case-text);margin:28px 0 40px;">
                   <div style="padding:20px 22px;border-right:1.5px solid var(--case-text);">
                     <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">Who they are</div>
                     <div style="font-family:var(--display);font-size:15px;color:var(--case-text);font-variation-settings:'SOFT' 60;margin-bottom:6px;">TinkerBloX</div>
@@ -7160,7 +7311,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                       <p>They had investors coming in who needed to believe this was real before it was built. So they needed a UX designer who understood both the product and the business moment — and could move fast.</p>
                       <p>They explained exactly what the platform would sell:</p>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0 28px;">
+                    <div class="halo-3col-cards" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:20px 0 28px;">
                       <div style="padding:16px;background:rgba(239,122,133,0.07);border:1px solid #ef7a85;border-radius:4px;">
                         <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">01</div>
                         <div style="font-family:var(--display);font-size:16px;color:#1e0a3c;margin-bottom:6px;font-variation-settings:'SOFT' 60;">AI Microservices</div>
@@ -7211,20 +7362,48 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <p>No discovery phase. No user research sprint. The brief was simple: build something real enough that investors feel confident writing a cheque. That meant designing for two completely different people at the same time.</p>
                 </div>
 
-                <div class="halo-h2">Two audiences. <em>One product.</em></div>
+                <div class="svs-doodle-row" style="align-items:start;gap:36px;">
+                  <div style="flex:1;">
+                    <div class="halo-h2">Two audiences. <em>One product.</em></div>
 
-                <div class="case-pdh">
-                  <div class="col">
-                    <h3><span class="num">①</span> The constraint</h3>
-                    <p>Investors can spot a wireframe from across the room. A static mockup signals the team hasn't shipped yet. <em>A prototype IS the pitch.</em> It needed to feel real — not look like a prototype.</p>
+                    <div class="case-pdh">
+                      <div class="col">
+                        <h3><span class="num">①</span> The constraint</h3>
+                        <p>Investors can spot a wireframe from across the room. A static mockup signals the team hasn't shipped yet. <em>A prototype IS the pitch.</em> It needed to feel real — not look like a prototype.</p>
+                      </div>
+                      <div class="col">
+                        <h3><span class="num">②</span> What I did</h3>
+                        <p>Designed 9 fully interactive screens in one day. Real copy. Real pricing. Real empty states. Real cart logic. Every click leads somewhere — <em>no dead ends.</em></p>
+                      </div>
+                      <div class="col">
+                        <h3><span class="num">③</span> The result</h3>
+                        <p>A live web prototype investors could demo on their own device — something that felt like it already existed, delivered <em>hours before the meeting.</em></p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col">
-                    <h3><span class="num">②</span> What I did</h3>
-                    <p>Designed 9 fully interactive screens in one day. Real copy. Real pricing. Real empty states. Real cart logic. Every click leads somewhere — <em>no dead ends.</em></p>
-                  </div>
-                  <div class="col">
-                    <h3><span class="num">③</span> The result</h3>
-                    <p>A live web prototype investors could demo on their own device — something that felt like it already existed, delivered <em>hours before the meeting.</em></p>
+                  <div style="width:130px;flex-shrink:0;padding-top:8px;">
+                    <div class="svs-girl-doodle" style="width:130px;">
+<svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#6B3410" stroke="#1e0a3c" stroke-width="0.7">
+    <circle cx="18" cy="22" r="8"/><circle cx="30" cy="14" r="9"/>
+    <circle cx="46" cy="11" r="9"/><circle cx="62" cy="14" r="9"/>
+    <circle cx="74" cy="22" r="8"/>
+  </g>
+  <circle cx="45" cy="34" r="20" fill="#F4D8B8" stroke="#1e0a3c" stroke-width="1.3"/>
+  <circle cx="38" cy="31" r="2" fill="#1e0a3c"/><circle cx="52" cy="31" r="2" fill="#1e0a3c"/>
+  <path d="M 39 40 Q 45 36 51 40" stroke="#1e0a3c" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M 30 54 L 30 92 L 60 92 L 60 54 Z" fill="#ffc2e2" stroke="#1e0a3c" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M 60 62 Q 76 52 78 42" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 30 62 Q 14 70 10 82" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 36 92 L 34 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 54 92 L 56 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="60" y1="40" x2="82" y2="36" stroke="#ef7a85" stroke-width="1.2" stroke-dasharray="2,2"/>
+  <rect x="74" y="28" width="14" height="18" rx="2" fill="none" stroke="#ef7a85" stroke-width="1.2"/>
+  <line x1="76" y1="34" x2="86" y2="34" stroke="#ef7a85" stroke-width="0.8"/>
+  <line x1="76" y1="38" x2="86" y2="38" stroke="#ef7a85" stroke-width="0.8"/>
+</svg>
+                      <div class="svs-girl-caption">one day deadline</div>
+                    </div>
                   </div>
                 </div>
               </section>
@@ -7555,7 +7734,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <!-- TYPOGRAPHY SYSTEM -->
                 <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--case-deep);margin-bottom:14px;">Type System — three registers</div>
                 <div style="border:2px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 #ef7a85;margin-bottom:48px;">
-                  <div style="display:grid;grid-template-columns:160px 1fr;">
+                  <div class="halo-type-grid" style="display:grid;grid-template-columns:160px 1fr;">
                     <div style="padding:18px;border-right:1px solid var(--case-text);border-bottom:1px solid var(--case-text);background:rgba(239,122,133,0.06);">
                       <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.24em;text-transform:uppercase;color:#ef7a85;margin-bottom:4px;">Bebas Neue</div>
                       <div style="font-family:var(--mono);font-size:9px;color:#4a2d7a;opacity:0.7;">Impact · Hero · Uppercase</div>
@@ -7784,136 +7963,64 @@ body.quick-mode .halo-h2 { display:none !important; }
                   </div>
                 </div>
 
-                <!-- ── CONCEPTUAL SKETCHES ── -->
-                <div style="margin-bottom:48px;">
-                  <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.28em;text-transform:uppercase;color:var(--case-deep);margin-bottom:14px;">Before Figma — the thinking sketches</div>
-                  <div style="font-family:var(--serif);font-style:italic;font-size:14px;color:#4a2d7a;margin-bottom:20px;opacity:0.8;">These are the rough concepts I scribbled before touching Figma — layout logic, hierarchy thinking, flow decisions. Nothing precious.</div>
-
-                  <div class="halo-wf-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
-
-                    <!-- Sketch 1: Homepage Layout -->
-                    <div style="background:#fdf9f0;border:1.5px solid #d4b896;padding:18px 20px;box-shadow:3px 3px 0 rgba(239,122,133,0.25);position:relative;">
-                      <div style="font-family:'Caveat',cursive;font-size:11px;color:#9a7a5a;margin-bottom:12px;letter-spacing:0.08em;">homepage layout concept ↓</div>
-                      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;font-family:'Caveat',cursive;">
-                        <!-- Nav bar -->
-                        <rect x="8" y="8" width="264" height="22" rx="2" fill="none" stroke="#4a2d7a" stroke-width="1.6" stroke-dasharray="1,0"/>
-                        <text x="16" y="23" font-size="9" fill="#4a2d7a" font-family="Caveat,cursive">HALO</text>
-                        <text x="190" y="23" font-size="8" fill="#4a2d7a" font-family="Caveat,cursive">stores  cart  subscribe</text>
-                        <line x1="8" y1="30" x2="272" y2="30" stroke="#4a2d7a" stroke-width="0.8" stroke-dasharray="3,3"/>
-                        <!-- Hero video area -->
-                        <rect x="8" y="34" width="264" height="54" rx="2" fill="#f0e8ff" stroke="#6e44ff" stroke-width="1.5"/>
-                        <line x1="8" y1="34" x2="272" y2="88" stroke="#6e44ff" stroke-width="0.7" opacity="0.4"/>
-                        <line x1="272" y1="34" x2="8" y2="88" stroke="#6e44ff" stroke-width="0.7" opacity="0.4"/>
-                        <text x="140" y="63" font-size="11" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">hero video — kinetic type</text>
-                        <text x="140" y="78" font-size="9" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">edge AI · IoT · TinkerBloX</text>
-                        <!-- 3 store cards -->
-                        <text x="8" y="102" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">3 store types — equal weight, no hierarchy</text>
-                        <rect x="8" y="106" width="82" height="52" rx="3" fill="rgba(239,122,133,0.12)" stroke="#ef7a85" stroke-width="1.5"/>
-                        <rect x="99" y="106" width="82" height="52" rx="3" fill="rgba(110,68,255,0.1)" stroke="#6e44ff" stroke-width="1.5"/>
-                        <rect x="190" y="106" width="82" height="52" rx="3" fill="rgba(255,144,179,0.12)" stroke="#ff90b3" stroke-width="1.5"/>
-                        <text x="49" y="128" font-size="9" fill="#ef7a85" text-anchor="middle" font-family="Caveat,cursive">App</text>
-                        <text x="49" y="141" font-size="8" fill="#ef7a85" text-anchor="middle" font-family="Caveat,cursive">Microservice</text>
-                        <text x="140" y="128" font-size="9" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">AI</text>
-                        <text x="140" y="141" font-size="8" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">Algorithms</text>
-                        <text x="231" y="128" font-size="9" fill="#ff90b3" text-anchor="middle" font-family="Caveat,cursive">Logic</text>
-                        <text x="231" y="141" font-size="8" fill="#ff90b3" text-anchor="middle" font-family="Caveat,cursive">Engine</text>
-                        <!-- Why note -->
-                        <path d="M 140 162 Q 140 172 155 175" stroke="#ef7a85" stroke-width="1" fill="none" stroke-dasharray="2,2"/>
-                        <text x="158" y="177" font-size="8" fill="#ef7a85" font-family="Caveat,cursive">← equal cards = no confusion for buyers</text>
-                        <!-- Stats strip -->
-                        <rect x="8" y="185" width="264" height="12" rx="2" fill="rgba(239,122,133,0.08)" stroke="#ffc2e2" stroke-width="1"/>
-                        <text x="140" y="194" font-size="7" fill="#4a2d7a" text-anchor="middle" font-family="Caveat,cursive">trust signals strip here — latency · compatibility · version</text>
-                      </svg>
-                      <!-- tape strip -->
-                      <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:48px;height:14px;background:rgba(255,194,226,0.5);border:1px solid rgba(239,122,133,0.3);border-radius:2px;"></div>
-                    </div>
-
-                    <!-- Sketch 2: Purchase Flow -->
-                    <div style="background:#fdf9f0;border:1.5px solid #d4b896;padding:18px 20px;box-shadow:3px 3px 0 rgba(110,68,255,0.2);position:relative;">
-                      <div style="font-family:'Caveat',cursive;font-size:11px;color:#9a7a5a;margin-bottom:12px;letter-spacing:0.08em;">purchase journey — 3 critical flows</div>
-                      <svg viewBox="0 0 280 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;font-family:'Caveat',cursive;">
-                        <!-- Flow nodes -->
-                        <ellipse cx="32" cy="40" rx="26" ry="16" fill="#f0e8ff" stroke="#6e44ff" stroke-width="1.6"/>
-                        <text x="32" y="44" font-size="9" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">Home</text>
-                        <line x1="58" y1="40" x2="84" y2="40" stroke="#1e0a3c" stroke-width="1.4" marker-end="url(#arr1)"/>
-                        <defs><marker id="arr1" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#1e0a3c"/></marker></defs>
-                        <rect x="84" y="28" width="52" height="24" rx="4" fill="rgba(239,122,133,0.15)" stroke="#ef7a85" stroke-width="1.5"/>
-                        <text x="110" y="43" font-size="9" fill="#ef7a85" text-anchor="middle" font-family="Caveat,cursive">Store</text>
-                        <line x1="136" y1="40" x2="160" y2="40" stroke="#1e0a3c" stroke-width="1.4" marker-end="url(#arr1)"/>
-                        <rect x="160" y="28" width="52" height="24" rx="4" fill="rgba(110,68,255,0.12)" stroke="#6e44ff" stroke-width="1.5"/>
-                        <text x="186" y="43" font-size="9" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">Product</text>
-                        <!-- Branch from product -->
-                        <text x="186" y="62" font-size="8" fill="#9a7a5a" text-anchor="middle" font-family="Caveat,cursive">2 CTAs here!</text>
-                        <line x1="186" y1="52" x2="148" y2="80" stroke="#ef7a85" stroke-width="1.2" stroke-dasharray="3,2"/>
-                        <line x1="186" y1="52" x2="224" y2="80" stroke="#6e44ff" stroke-width="1.2" stroke-dasharray="3,2"/>
-                        <rect x="112" y="80" width="72" height="22" rx="3" fill="rgba(239,122,133,0.15)" stroke="#ef7a85" stroke-width="1.4"/>
-                        <text x="148" y="95" font-size="8" fill="#ef7a85" text-anchor="middle" font-family="Caveat,cursive">Add to Cart →</text>
-                        <rect x="190" y="80" width="72" height="22" rx="3" fill="rgba(110,68,255,0.12)" stroke="#6e44ff" stroke-width="1.4"/>
-                        <text x="226" y="95" font-size="8" fill="#6e44ff" text-anchor="middle" font-family="Caveat,cursive">Subscribe →</text>
-                        <text x="148" y="118" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">evaluate first</text>
-                        <text x="200" y="118" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">committed buyer</text>
-                        <!-- Cart → Checkout -->
-                        <line x1="148" y1="102" x2="148" y2="130" stroke="#ef7a85" stroke-width="1.2" marker-end="url(#arr1)"/>
-                        <rect x="112" y="130" width="72" height="22" rx="3" fill="rgba(255,194,226,0.3)" stroke="#ffc2e2" stroke-width="1.4"/>
-                        <text x="148" y="145" font-size="8" fill="#4a2d7a" text-anchor="middle" font-family="Caveat,cursive">Cart</text>
-                        <line x1="184" y1="141" x2="210" y2="141" stroke="#4a2d7a" stroke-width="1.2" marker-end="url(#arr1)"/>
-                        <rect x="210" y="130" width="62" height="22" rx="3" fill="#f0e8ff" stroke="#4a2d7a" stroke-width="1.4"/>
-                        <text x="241" y="145" font-size="8" fill="#4a2d7a" text-anchor="middle" font-family="Caveat,cursive">Checkout</text>
-                        <!-- States note -->
-                        <text x="50" y="165" font-size="8" fill="#ef7a85" font-family="Caveat,cursive">design all 3 checkout states —</text>
-                        <text x="50" y="177" font-size="8" fill="#ef7a85" font-family="Caveat,cursive">default · loading · success</text>
-                        <path d="M 46 162 Q 30 158 22 148 Q 16 138 22 132" stroke="#ef7a85" stroke-width="0.9" fill="none" stroke-dasharray="2,2"/>
-                        <!-- ✓ note -->
-                        <text x="22" y="198" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">no dead ends. every path = a decision.</text>
-                      </svg>
-                      <div style="position:absolute;top:-8px;right:30px;width:48px;height:14px;background:rgba(184,146,255,0.35);border:1px solid rgba(110,68,255,0.3);border-radius:2px;"></div>
-                    </div>
+                <div class="svs-girl-row" style="margin:0 0 28px;">
+                  <div class="svs-girl-doodle" style="width:120px;flex-shrink:0;">
+<svg viewBox="0 0 90 120" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#6B3410" stroke="#1e0a3c" stroke-width="0.7">
+    <circle cx="18" cy="22" r="8"/><circle cx="30" cy="14" r="9"/>
+    <circle cx="46" cy="11" r="9"/><circle cx="62" cy="14" r="9"/>
+    <circle cx="74" cy="22" r="8"/>
+  </g>
+  <circle cx="45" cy="34" r="20" fill="#F4D8B8" stroke="#1e0a3c" stroke-width="1.3"/>
+  <circle cx="38" cy="32" r="2" fill="#1e0a3c"/><circle cx="52" cy="32" r="2" fill="#1e0a3c"/>
+  <path d="M 40 42 Q 45 44 50 42" stroke="#1e0a3c" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M 30 54 L 30 92 L 60 92 L 60 54 Z" fill="#ef7a85" stroke="#1e0a3c" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M 60 62 Q 74 55 76 44" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 30 62 Q 16 72 12 84" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 36 92 L 34 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 54 92 L 56 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="74" cy="18" r="11" fill="#ffc2e2" stroke="#ef7a85" stroke-width="1.2" opacity="0.9"/>
+  <line x1="74" y1="10" x2="74" y2="8" stroke="#ef7a85" stroke-width="1.4" stroke-linecap="round"/>
+  <circle cx="74" cy="14" r="4" fill="none" stroke="#ef7a85" stroke-width="1.2"/>
+  <rect x="71" y="19" width="6" height="3" rx="1" fill="#ef7a85"/>
+  <circle cx="63" cy="30" r="3" fill="#ffc2e2" stroke="#ef7a85" stroke-width="0.8" opacity="0.7"/>
+  <circle cx="58" cy="37" r="2" fill="#ffc2e2" stroke="#ef7a85" stroke-width="0.8" opacity="0.5"/>
+</svg>
+                    <div class="svs-girl-caption">ia before figma</div>
                   </div>
+                  <div style="font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.7;color:var(--case-text);">
+                    <p style="margin:0 0 12px;">Eight screens doesn't sound like much until you realise each one needs <strong>at least three states</strong>: default, loading, success. And every single click has to go somewhere.</p>
+                    <p style="margin:0;">I mapped the information architecture on paper before opening Figma. Not because the wireframes were precious — because <em>the decisions were.</em></p>
+                  </div>
+                </div>
 
-                  <!-- Sketch 3: Card component anatomy -->
-                  <div style="background:#fdf9f0;border:1.5px solid #d4b896;padding:18px 24px;box-shadow:3px 3px 0 rgba(255,144,179,0.3);position:relative;">
-                    <div style="font-family:'Caveat',cursive;font-size:11px;color:#9a7a5a;margin-bottom:12px;letter-spacing:0.08em;">product card anatomy — what info goes where and why</div>
-                    <svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;font-family:'Caveat',cursive;">
-                      <!-- Card mockup -->
-                      <rect x="20" y="10" width="160" height="140" rx="6" fill="#08081c" stroke="#B2FF00" stroke-width="2"/>
-                      <!-- Image zone -->
-                      <rect x="28" y="18" width="144" height="60" rx="3" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.2)" stroke-width="0.8"/>
-                      <line x1="28" y1="18" x2="172" y2="78" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-                      <line x1="172" y1="18" x2="28" y2="78" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-                      <text x="100" y="52" font-size="8" fill="rgba(255,255,255,0.4)" text-anchor="middle" font-family="Caveat,cursive">product img</text>
-                      <!-- Category badge -->
-                      <rect x="28" y="82" width="52" height="11" rx="2" fill="rgba(178,255,0,0.15)" stroke="#B2FF00" stroke-width="0.8"/>
-                      <text x="54" y="91" font-size="7" fill="#B2FF00" text-anchor="middle" font-family="Caveat,cursive">MICROSERVICE</text>
-                      <!-- Product name -->
-                      <text x="28" y="105" font-size="9" fill="#eeeeff" font-family="Caveat,cursive" font-weight="700">EDGE VISION KIT</text>
-                      <!-- Spec line -->
-                      <text x="28" y="118" font-size="7" fill="rgba(238,238,255,0.45)" font-family="Caveat,cursive">0.019s · edge-native · v2.4</text>
-                      <!-- Price + CTA -->
-                      <text x="28" y="133" font-size="11" fill="#B2FF00" font-family="Caveat,cursive" font-weight="700">$59.99</text>
-                      <rect x="130" y="124" width="42" height="18" rx="2" fill="#B2FF00"/>
-                      <text x="151" y="136" font-size="8" fill="#08081c" text-anchor="middle" font-family="Caveat,cursive" font-weight="700">+ Add</text>
-
-                      <!-- Annotations -->
-                      <!-- Image annotation -->
-                      <line x1="172" y1="48" x2="210" y2="38" stroke="#ef7a85" stroke-width="1" stroke-dasharray="3,2"/>
-                      <text x="214" y="35" font-size="9" fill="#ef7a85" font-family="Caveat,cursive">product image first</text>
-                      <text x="214" y="47" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">context before specs</text>
-                      <!-- Category annotation -->
-                      <line x1="80" y1="88" x2="210" y2="72" stroke="#6e44ff" stroke-width="1" stroke-dasharray="3,2"/>
-                      <text x="214" y="69" font-size="9" fill="#6e44ff" font-family="Caveat,cursive">category badge always visible</text>
-                      <text x="214" y="81" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">buyers already know which store they're in</text>
-                      <!-- Spec annotation -->
-                      <line x1="100" y1="118" x2="210" y2="108" stroke="#ff90b3" stroke-width="1" stroke-dasharray="3,2"/>
-                      <text x="214" y="105" font-size="9" fill="#ff90b3" font-family="Caveat,cursive">JetBrains Mono for specs</text>
-                      <text x="214" y="117" font-size="8" fill="#9a7a5a" font-family="Caveat,cursive">signals technical credibility instantly</text>
-                      <!-- Price annotation -->
-                      <line x1="50" y1="133" x2="90" y2="145" stroke="#4a2d7a" stroke-width="1" stroke-dasharray="3,2"/>
-                      <text x="94" y="143" font-size="9" fill="#4a2d7a" font-family="Caveat,cursive">price unavoidable — enterprise buyers won't evaluate what they can't price</text>
-                      <!-- CTA annotation -->
-                      <line x1="151" y1="133" x2="210" y2="138" stroke="#B2FF00" stroke-width="1" stroke-dasharray="3,2"/>
-                      <text x="214" y="136" font-size="9" fill="#4a2d7a" font-family="Caveat,cursive">lime CTA = only interactive element on the card</text>
-                    </svg>
-                    <div style="position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:56px;height:14px;background:rgba(239,122,133,0.3);border:1px solid rgba(239,122,133,0.4);border-radius:2px;"></div>
+                <div class="svs-girl-row" style="margin:0 0 48px;">
+                  <div class="svs-girl-doodle" style="width:120px;flex-shrink:0;">
+<svg viewBox="0 0 90 120" xmlns="http://www.w3.org/2000/svg">
+  <g fill="#4a2d7a" stroke="#1e0a3c" stroke-width="0.7">
+    <circle cx="22" cy="22" r="9"/><circle cx="36" cy="13" r="9"/>
+    <circle cx="52" cy="11" r="9"/><circle cx="66" cy="15" r="8"/>
+    <circle cx="76" cy="24" r="7"/>
+  </g>
+  <circle cx="45" cy="34" r="20" fill="#F4D8B8" stroke="#1e0a3c" stroke-width="1.3"/>
+  <circle cx="38" cy="32" r="2" fill="#1e0a3c"/><circle cx="52" cy="32" r="2" fill="#1e0a3c"/>
+  <path d="M 38 42 Q 45 48 52 42" stroke="#1e0a3c" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+  <path d="M 30 54 L 30 92 L 60 92 L 60 54 Z" fill="#6e44ff" stroke="#1e0a3c" stroke-width="1.3" stroke-linejoin="round"/>
+  <path d="M 60 64 Q 74 60 78 70" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 30 64 Q 16 68 14 78" stroke="#F4D8B8" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <path d="M 36 92 L 34 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M 54 92 L 56 108" stroke="#1e0a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="60" y="60" width="28" height="19" rx="2" fill="#08081c" stroke="#B2FF00" stroke-width="1.2"/>
+  <rect x="63" y="63" width="22" height="13" rx="1" fill="rgba(178,255,0,0.1)"/>
+  <line x1="64" y1="67" x2="83" y2="67" stroke="#B2FF00" stroke-width="0.8"/>
+  <line x1="64" y1="71" x2="79" y2="71" stroke="#ef7a85" stroke-width="0.8"/>
+  <line x1="64" y1="75" x2="76" y2="75" stroke="#B2FF00" stroke-width="0.6" opacity="0.6"/>
+</svg>
+                    <div class="svs-girl-caption">one day. eight screens.</div>
+                  </div>
+                  <div style="font-family:var(--serif);font-style:italic;font-size:17px;line-height:1.7;color:var(--case-text);">
+                    <p style="margin:0 0 12px;">No wireframe-to-feedback loop. No revision rounds. The wireframes <em>were</em> the handoff — straight into the build.</p>
+                    <p style="margin:0;">Every call I made became a real screen. Which means every decision had to be right <em>the first time.</em></p>
                   </div>
                 </div>
 
@@ -7981,20 +8088,19 @@ body.quick-mode .halo-h2 { display:none !important; }
                     </div>
                   </div>
 
-                  <!-- Row 4: Subscription -->
-                  <div class="halo-wf-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-                    <div style="border:2px solid #ef7a85;overflow:hidden;background:#fff;box-shadow:4px 4px 0 rgba(239,122,133,0.18);">
-                      <img src="Subscription.png" alt="Subscription pricing wireframe" style="width:100%;display:block;border-bottom:2px solid #ef7a85;">
-                      <div style="padding:12px 14px;background:rgba(239,122,133,0.07);border-top:none;">
-                        <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#ef7a85;margin-bottom:6px;font-weight:700;">Subscribe · Pricing</div>
-                        <div style="font-family:var(--serif);font-size:13px;line-height:1.6;color:#1e0a3c;">4 tiers including Free — low barrier to adoption for a new marketplace. Monthly/annual toggle baked in from the start because enterprise budgets run on annual cycles. Enterprise tier anchors perception of the whole pricing page.</div>
-                      </div>
-                    </div>
-                    <div style="border:1px solid #ffc2e2;padding:20px;background:rgba(239,122,133,0.04);display:flex;flex-direction:column;justify-content:center;">
-                      <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:12px;">What came next</div>
-                      <div style="font-family:var(--serif);font-size:14px;line-height:1.7;color:#1e0a3c;font-style:italic;">These wireframes were the brief. Everything above is what I asked Claude to build — with exact specifications for spacing, animation, interaction behaviour, and visual hierarchy on every single screen.</div>
+                  <!-- Row 4: Subscription — full width -->
+                  <div style="border:2px solid #ef7a85;overflow:hidden;background:#fff;box-shadow:4px 4px 0 rgba(239,122,133,0.18);">
+                    <img src="Subscription.png" alt="Subscription pricing wireframe" style="width:100%;display:block;border-bottom:2px solid #ef7a85;">
+                    <div style="padding:12px 14px;background:rgba(239,122,133,0.07);border-top:none;">
+                      <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#ef7a85;margin-bottom:6px;font-weight:700;">Subscribe · Pricing</div>
+                      <div style="font-family:var(--serif);font-size:13px;line-height:1.6;color:#1e0a3c;">4 tiers including Free — low barrier to adoption for a new marketplace. Monthly/annual toggle baked in from the start because enterprise budgets run on annual cycles. Enterprise tier anchors perception of the whole pricing page.</div>
                     </div>
                   </div>
+                </div>
+
+                <div style="margin:28px 0 48px;padding:24px 32px;border-left:4px solid #ef7a85;background:rgba(239,122,133,0.06);">
+                  <div style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:10px;">What came next</div>
+                  <div style="font-family:var(--serif);font-size:16px;line-height:1.7;color:#1e0a3c;font-style:italic;">These wireframes were the brief. Everything above is what I asked Claude to build — with exact specifications for spacing, animation, interaction behaviour, and visual hierarchy on every single screen.</div>
                 </div>
 
                 <div style="background:rgba(239,122,133,0.06);border:1.5px solid #ef7a85;padding:28px 32px;margin-bottom:48px;">
@@ -8106,47 +8212,47 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <div class="halo-h2">8 screens. <em>Every one clickable.</em></div>
 
                 <!-- Row 1: Home (left) | Product Detail + Store + Cart stacked (right) -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 12px;align-items:start;">
+                <div class="halo-screens-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:28px 0 12px;align-items:start;">
                   <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="Hpage 1.png" alt="HALO Home" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="Hpage 1.png" alt="HALO Home" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                     <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">01 · Home</span></div>
                   </div>
                   <div style="display:flex;flex-direction:column;gap:12px;">
                     <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                      <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 4.png" alt="HALO Product Detail" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                      <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 4.png" alt="HALO Product Detail" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                       <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">02 · Product Detail</span></div>
                     </div>
                     <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                      <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 2.png" alt="HALO Store" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                      <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 2.png" alt="HALO Store" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                       <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">03 · Store</span></div>
                     </div>
                     <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                      <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 3.png" alt="HALO Cart" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                      <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 3.png" alt="HALO Cart" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                       <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">04 · Cart</span></div>
                     </div>
                   </div>
                 </div>
 
                 <!-- Row 2: Subscription | Checkout (~same height) -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px;">
+                <div class="halo-screens-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 12px;">
                   <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 5.png" alt="HALO Subscription" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 5.png" alt="HALO Subscription" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                     <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">05 · Subscription</span></div>
                   </div>
                   <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 8.png" alt="HALO Checkout" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 8.png" alt="HALO Checkout" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                     <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">06 · Checkout</span></div>
                   </div>
                 </div>
 
                 <!-- Row 3: Login | Saved (identical height) -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 8px;">
+                <div class="halo-screens-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 8px;">
                   <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 6.png" alt="HALO Login" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 6.png" alt="HALO Login" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                     <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">07 · Login</span></div>
                   </div>
                   <div style="border:1.5px solid var(--case-text);overflow:hidden;box-shadow:3px 3px 0 var(--case-accent);">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 7.png" alt="HALO Saved" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" rel="noopener"><img src="hpage 7.png" alt="HALO Saved" style="width:100%;display:block;border-bottom:1px solid var(--case-text);"></a>
                     <div style="padding:8px 10px;background:var(--case-text);"><span style="font-family:var(--mono);font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:var(--case-bg);">08 · Saved</span></div>
                   </div>
                 </div>
@@ -8166,7 +8272,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-bg);">Store — category browsing</span>
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--case-accent);opacity:0.7;">wireframe → final</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;">
+                    <div class="halo-wf-compare" style="display:grid;grid-template-columns:1fr 1fr;">
                       <div style="border-right:1.5px solid var(--case-text);">
                         <img src="Halo Store.png" alt="Store wireframe" style="width:100%;display:block;">
                         <div style="padding:10px 14px;font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#4a2d7a;border-top:1px solid var(--case-text);">Wireframe</div>
@@ -8187,7 +8293,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-bg);">Cart — live purchase flow</span>
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--case-accent);opacity:0.7;">wireframe → final</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;">
+                    <div class="halo-wf-compare" style="display:grid;grid-template-columns:1fr 1fr;">
                       <div style="border-right:1.5px solid var(--case-text);">
                         <img src="Cart 4.png" alt="Cart wireframe" style="width:100%;display:block;">
                         <div style="padding:10px 14px;font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#4a2d7a;border-top:1px solid var(--case-text);">Wireframe</div>
@@ -8208,7 +8314,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-bg);">Subscription — pricing tiers</span>
                       <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--case-accent);opacity:0.7;">wireframe → final</span>
                     </div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;">
+                    <div class="halo-wf-compare" style="display:grid;grid-template-columns:1fr 1fr;">
                       <div style="border-right:1.5px solid var(--case-text);">
                         <img src="Subscription.png" alt="Subscription wireframe" style="width:100%;display:block;">
                         <div style="padding:10px 14px;font-family:var(--mono);font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#4a2d7a;border-top:1px solid var(--case-text);">Wireframe</div>
@@ -8247,7 +8353,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
 
                 <!-- INTERACTION DESCRIPTIONS -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 40px;">
+                <div class="halo-2col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 40px;">
                   <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
                     <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">01 · Kinetic Hero Text</div>
                     <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Words animate in on load with blur + skew. Sets the energy of the entire homepage in the first second. Investors subconsciously classify the product as premium before they read a word.</div>
@@ -8295,7 +8401,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
                 <div class="halo-h2">One day. <em>Real outcomes.</em></div>
 
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0 32px;">
+                <div class="halo-2col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:28px 0 32px;">
                   <div style="padding:24px;background:rgba(239,122,133,0.07);border:1.5px solid #ef7a85;border-radius:8px;">
                     <div style="font-family:var(--mono);font-size:28px;font-weight:700;color:#ef7a85;margin-bottom:8px;">01</div>
                     <div style="font-family:var(--display);font-size:16px;font-weight:600;color:var(--case-text);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.04em;">Went to the investor meeting</div>
@@ -8420,7 +8526,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                   </div>
                   <div style="font-family:var(--serif);font-style:italic;font-size:15px;color:var(--case-text);opacity:0.65;margin:20px 0 0;text-align:center;max-width:420px;">TinkerBloX trusted me with the thing that mattered most — the first impression. That means a lot.</div>
                   <div style="margin-top:24px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
-                    <a href="https://halo-marketplace.vercel.app/halo-site/" target="_blank" style="font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-deep);border-bottom:1px solid var(--case-accent);padding-bottom:3px;text-decoration:none;">view live prototype ↗</a>
+                    <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" style="font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-deep);border-bottom:1px solid var(--case-accent);padding-bottom:3px;text-decoration:none;">view live prototype ↗</a>
                   </div>
                 </div>
               </section>
@@ -9388,20 +9494,24 @@ const CASE_ORDER = ['svs', 'lightburn', 'halo']; // TDM blocked (locked case)
 function mmNavigate(dir) {
   if (!state.caseOpen) return;
   const idx = CASE_ORDER.indexOf(state.caseOpen);
-  const next = CASE_ORDER[idx + dir];
-  if (next) scrollToCase(next);
+  const nextIdx = (idx + dir + CASE_ORDER.length) % CASE_ORDER.length;
+  scrollToCase(CASE_ORDER[nextIdx]);
 }
 
 function mmUpdateNav(id) {
-  const count = document.getElementById('mmNavCount');
-  const prev  = document.getElementById('mmNavPrev');
-  const next  = document.getElementById('mmNavNext');
-  if (!count || !prev || !next) return;
+  const prevBtn   = document.getElementById('mmNavPrev');
+  const nextBtn   = document.getElementById('mmNavNext');
+  const prevLabel = document.getElementById('mmPrevLabel');
+  const nextLabel = document.getElementById('mmNextLabel');
+  const title     = document.getElementById('mmCaseTitle');
+  if (!prevBtn || !nextBtn) return;
+  const names = { svs: 'SVS School', lightburn: 'LightBurn', halo: 'HALO' };
   const idx = CASE_ORDER.indexOf(id);
-  const num = String(idx + 1).padStart(2, '0');
-  count.textContent = num + ' / 0' + CASE_ORDER.length;
-  prev.disabled = idx === 0;
-  next.disabled = idx === CASE_ORDER.length - 1;
+  const prevId = CASE_ORDER[(idx - 1 + CASE_ORDER.length) % CASE_ORDER.length];
+  const nextId = CASE_ORDER[(idx + 1) % CASE_ORDER.length];
+  if (prevLabel) prevLabel.textContent = names[prevId];
+  if (nextLabel) nextLabel.textContent = names[nextId];
+  if (title) title.textContent = names[id];
 }
 
 
@@ -9418,21 +9528,21 @@ function openCase(id) {
     document.body.classList.add('case-open');
   }
   state.caseOpen = id;
+  // Stop music if playing; show audio prompt
   loIndex.classList.add('hidden');
   loCases.classList.remove('hidden');
   if (loBack) loBack.style.display = 'none';
   if (loBreadcrumb) loBreadcrumb.textContent = 'case ' + (id === 'svs' ? '01' : id === 'lightburn' ? '02' : id === 'halo' ? '03' : '04');
-  // initial masthead
-  const labels = { svs: ['CASE 01', 'SVS SCHOOL'], lightburn: ['CASE 02', 'LIGHTBURN'], halo: ['CASE 03', 'HALO × TINKERBLOХ'], tdm: ['CASE 04', 'LA TDM CALCULATOR'] };
-  const m = document.getElementById('mmCaseLabel');
-  const t = document.getElementById('mmCaseTitle');
-  if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   setTimeout(() => {
     scrollToCase(id, 'auto');
     const spread = document.querySelector(`[data-id="${id}"]`);
     if (spread) spread.scrollTop = 0;
   }, 30);
+  setTimeout(() => {
+    const spread = document.querySelector(`[data-id="${id}"]`);
+    if (spread) spread.scrollTop = 0;
+  }, 250);
 }
 function closeCase() {
   state.caseOpen = null;
@@ -9444,17 +9554,24 @@ function scrollToCase(id, behavior) {
   // Use index-based positioning — each case-spread is exactly 100% wide
   const caseIdx = ['svs','lightburn','halo'].indexOf(id);
   const left = caseIdx * caseTrack.offsetWidth;
-  caseTrack.scrollTo({ left, behavior: behavior || 'smooth' });
+  const isInstant = behavior === 'auto' || behavior === 'instant';
+  if (isInstant) {
+    caseTrack.scrollLeft = left;
+  } else {
+    caseTrack.scrollTo({ left, behavior: 'smooth' });
+  }
   // update breadcrumb (if exists)
   if (typeof loBreadcrumb !== 'undefined' && loBreadcrumb) loBreadcrumb.textContent = 'case ' + (id === 'svs' ? '01' : id === 'lightburn' ? '02' : id === 'halo' ? '03' : '04');
-  // update magazine masthead
-  const labels = { svs: ['CASE 01', 'SVS SCHOOL'], lightburn: ['CASE 02', 'LIGHTBURN'], halo: ['CASE 03', 'HALO × TINKERBLOХ'], tdm: ['CASE 04', 'LA TDM CALCULATOR'] };
-  const m = document.getElementById('mmCaseLabel');
-  const t = document.getElementById('mmCaseTitle');
-  if (m && t && labels[id]) { m.textContent = labels[id][0]; t.textContent = labels[id][1]; }
   mmUpdateNav(id);
   state.caseOpen = id;
-  setTimeout(() => { target.scrollTop = 0; }, 50);
+  // After animation completes, refresh scrollspy active state.
+  // Don't reset scrollTop here — openCase handles that separately.
+  const delay = isInstant ? 60 : 520;
+  setTimeout(() => {
+    if (typeof _sidenav_updaters !== 'undefined' && _sidenav_updaters[target.id]) {
+      _sidenav_updaters[target.id]();
+    }
+  }, delay);
 }
 // arrow key navigation between cases
 document.addEventListener('keydown', e => {
@@ -10024,7 +10141,11 @@ function svsSetBuiltView(view) {
 <!-- ── MAGAZINE MASTHEAD ── -->
 <div class="magazine-mast">
   <div class="mm-brand" onclick="closeLaptopOverlay()">Supritha's <em>Room</em> ↗</div>
-  <div class="mm-meta">★ THE WORK · <strong id="mmCaseLabel">CASE 01</strong> · <span id="mmCaseTitle">SVS SCHOOL</span></div>
+  <div class="mm-case-nav">
+    <button class="mm-nav-btn" id="mmNavPrev" onclick="mmNavigate(-1)">← <span id="mmPrevLabel">HALO</span></button>
+    <span class="mm-case-title" id="mmCaseTitle">SVS SCHOOL</span>
+    <button class="mm-nav-btn" id="mmNavNext" onclick="mmNavigate(1)"><span id="mmNextLabel">LIGHTBURN</span> →</button>
+  </div>
 </div>
 
     <script>
@@ -10053,7 +10174,9 @@ function svsSetBuiltView(view) {
       document.querySelectorAll('.svs-section, .crash-grid').forEach(el => revealObs.observe(el));
     }
 
-    /* ── Sidebar IntersectionObserver ── */
+    /* ── Sidebar scroll-spy ── */
+    const _sidenav_updaters = [];
+
     function initSidenav(caseId) {
       const selector = caseId === 'svs'
         ? '#caseSvs .svs-section[id]'
@@ -10061,23 +10184,40 @@ function svsSetBuiltView(view) {
         ? '#caseHalo .halo-section[id]'
         : '#caseLightburn .svs-section[id]';
       const navId = caseId === 'svs' ? 'svs-sidenav' : caseId === 'halo' ? 'halo-sidenav' : 'lb-sidenav';
-      const sections = document.querySelectorAll(selector);
+      const spreadId = caseId === 'svs' ? 'caseSvs' : caseId === 'halo' ? 'caseHalo' : 'caseLightburn';
+      const sections = Array.from(document.querySelectorAll(selector));
       const nav = document.getElementById(navId);
-      if (!sections.length || !nav) return;
+      const spread = document.getElementById(spreadId);
+      if (!sections.length || !nav || !spread) return;
 
-      const obs = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const id = '#' + entry.target.id;
-            nav.querySelectorAll('.cs-sidenav-item').forEach(a => {
-              a.classList.toggle('active', a.getAttribute('href') === id);
-            });
-            const active = nav.querySelector('.cs-sidenav-item.active');
-            if (active) active.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-          }
-        });
-      }, { rootMargin: '-15% 0px -55% 0px', threshold: 0 });
-      sections.forEach(s => obs.observe(s));
+      let currentActiveId = null;
+
+      function updateActive() {
+        const spreadRect = spread.getBoundingClientRect();
+        // Only run when this case is horizontally in view
+        if (spreadRect.left > window.innerWidth || spreadRect.right < 0) return;
+        const zone = spreadRect.top + spreadRect.height * 0.33;
+        let activeSection = sections[0];
+        for (const s of sections) {
+          if (s.getBoundingClientRect().top <= zone) activeSection = s;
+        }
+        if (!activeSection) return;
+        if (activeSection.id === currentActiveId) return;
+        currentActiveId = activeSection.id;
+        const href = '#' + activeSection.id;
+        nav.querySelectorAll('.cs-sidenav-item').forEach(a =>
+          a.classList.toggle('active', a.getAttribute('href') === href));
+        const activeLink = nav.querySelector('.cs-sidenav-item.active');
+        if (activeLink) activeLink.scrollIntoView({ block: 'nearest' });
+      }
+
+      // Store updater so scrollToCase can trigger it on case open
+      _sidenav_updaters[spreadId] = updateActive;
+
+      // Use capture phase on document: scroll events don't bubble, so this is
+      // the only way to catch scroll from case-spread, lo-body, lo-page, or any
+      // other element that might be the actual scroll container at runtime.
+      document.addEventListener('scroll', updateActive, { passive: true, capture: true });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
@@ -10085,10 +10225,19 @@ function svsSetBuiltView(view) {
       initSidenav('lightburn');
       initSidenav('halo');
       initScrollReveal();
-      document.querySelectorAll('.cs-sidenav-item').forEach(a => {
+document.querySelectorAll('.cs-sidenav-item').forEach(a => {
         a.addEventListener('click', e => {
-          const target = document.querySelector(a.getAttribute('href'));
-          if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+          e.preventDefault();
+          const section = document.querySelector(a.getAttribute('href'));
+          if (!section) return;
+          // Find the nearest scrollable ancestor (the case-spread)
+          let container = section.parentElement;
+          while (container && !['auto','scroll'].includes(getComputedStyle(container).overflowY)) {
+            container = container.parentElement;
+          }
+          if (!container) return;
+          const offset = section.getBoundingClientRect().top - container.getBoundingClientRect().top;
+          container.scrollBy({ top: offset, behavior: 'smooth' });
         });
       });
     });
@@ -10360,6 +10509,7 @@ function svsSetBuiltView(view) {
   loop();
 })();
 </script>
+
 
 </body>
 </html>
