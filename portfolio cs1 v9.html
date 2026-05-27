@@ -162,22 +162,25 @@ svg.line text { stroke: none; fill: var(--ink); font-family: var(--mono); }
 
 
 /* ── MAGAZINE MASTHEAD on case study page (replaces laptop chrome) ── */
-.magazine-mast { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: var(--bg); border-bottom: 1.5px solid var(--ink); display: none; align-items: center; justify-content: space-between; padding: 0 32px; z-index: 510; opacity: 0; transition: opacity .35s ease; }
+.magazine-mast { position: fixed; top: 0; left: 0; right: 0; height: 56px; background: var(--bg); border-bottom: 1.5px solid rgba(30,10,60,0.15); display: none; align-items: center; justify-content: space-between; padding: 0 32px; z-index: 510; opacity: 0; transition: opacity .35s ease, background .5s ease, border-color .5s ease; }
 body.case-open .magazine-mast { display: flex; pointer-events: auto; opacity: 1; }
 .magazine-mast > * { pointer-events: auto; }
-.magazine-mast .mm-brand { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); cursor: pointer; }
+.magazine-mast .mm-brand { font-family: var(--display); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; color: var(--ink); cursor: pointer; transition: color .4s ease; }
 .magazine-mast .mm-brand em { font-family: var(--serif); font-style: italic; font-weight: 500; color: var(--c-pink-deep); text-transform: lowercase; }
 .magazine-mast .mm-meta { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--ink-soft); font-weight: 700; }
 .magazine-mast .mm-meta strong { color: var(--c-blue); font-weight: 800; }
-
 .magazine-mast .mm-close:hover { background: var(--c-pink); transform: translate(-1px, -1px); box-shadow: 2px 2px 0 var(--ink); }
 .magazine-mast .mm-nav { display: flex; align-items: center; gap: 10px; }
 .magazine-mast .mm-nav-count { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; color: var(--ink-soft); margin-right: 4px; }
-.magazine-mast .mm-nav-btn { font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-soft); background: none; border: none; padding: 4px 8px; cursor: pointer; transition: all .2s; opacity: 0.42; }
-.magazine-mast .mm-nav-btn:hover { opacity: 0.9; color: var(--ink); }
+.magazine-mast .mm-nav-btn { font-family: var(--serif); font-style: italic; font-size: 13px; letter-spacing: 0.01em; color: var(--mm-nav-color, var(--ink-soft)); background: none; border: none; padding: 4px 10px; cursor: pointer; transition: all .35s ease; opacity: 0.45; }
+.magazine-mast .mm-nav-btn:hover { opacity: 1; transform: scale(1.05); }
 .magazine-mast .mm-close { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink); background: none; border: 1px solid var(--ink); padding: 5px 12px; cursor: pointer; transition: all .2s; margin-left: 6px; }
-.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 16px; }
-.magazine-mast .mm-case-title { font-family: var(--mono); font-size: 14px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink); font-weight: 800; white-space: nowrap; }
+.magazine-mast .mm-case-nav { display: flex; align-items: center; gap: 20px; }
+.magazine-mast .mm-case-title { font-family: var(--display); font-size: 19px; font-weight: 400; font-variation-settings: "SOFT" 80, "opsz" 144; letter-spacing: -0.02em; color: var(--mm-title-color, var(--ink)); white-space: nowrap; transition: color .5s ease, opacity .25s ease; }
+/* Per-case masthead themes */
+.magazine-mast[data-case="svs"] { background: #f8f4ff; border-bottom-color: rgba(110,68,255,0.18); --mm-title-color: #6e44ff; --mm-nav-color: #6e44ff; }
+.magazine-mast[data-case="lightburn"] { background: #fdfcff; border-bottom-color: rgba(77,47,196,0.18); --mm-title-color: #4d2fc4; --mm-nav-color: #4d2fc4; }
+.magazine-mast[data-case="halo"] { background: #fff8f8; border-bottom-color: rgba(239,122,133,0.25); --mm-title-color: #ef7a85; --mm-nav-color: #ef7a85; }
 
 /* push case content down to make room for masthead */
 .lo-body { padding-top: 56px; }
@@ -9504,6 +9507,7 @@ function mmUpdateNav(id) {
   const prevLabel = document.getElementById('mmPrevLabel');
   const nextLabel = document.getElementById('mmNextLabel');
   const title     = document.getElementById('mmCaseTitle');
+  const mast      = document.querySelector('.magazine-mast');
   if (!prevBtn || !nextBtn) return;
   const names = { svs: 'SVS School', lightburn: 'LightBurn', halo: 'HALO' };
   const idx = CASE_ORDER.indexOf(id);
@@ -9511,7 +9515,14 @@ function mmUpdateNav(id) {
   const nextId = CASE_ORDER[(idx + 1) % CASE_ORDER.length];
   if (prevLabel) prevLabel.textContent = names[prevId];
   if (nextLabel) nextLabel.textContent = names[nextId];
-  if (title) title.textContent = names[id];
+  if (title) {
+    title.style.opacity = '0';
+    setTimeout(() => {
+      title.textContent = names[id];
+      title.style.opacity = '1';
+    }, 200);
+  }
+  if (mast) mast.setAttribute('data-case', id);
 }
 
 
@@ -9528,7 +9539,6 @@ function openCase(id) {
     document.body.classList.add('case-open');
   }
   state.caseOpen = id;
-  // Stop music if playing; show audio prompt
   loIndex.classList.add('hidden');
   loCases.classList.remove('hidden');
   if (loBack) loBack.style.display = 'none';
