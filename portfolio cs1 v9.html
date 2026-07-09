@@ -3646,6 +3646,22 @@ body.quick-mode .halo-h2 { display:none !important; }
 .halo-type-row { padding:10px 14px; border:1px solid #ffc2e2; background:rgba(255,194,226,0.05); }
 .halo-type-sample { font-size:20px; color:#1e0a3c; line-height:1.1; margin-bottom:2px; }
 .halo-type-meta { font-family:var(--mono); font-size:9px; letter-spacing:0.2em; text-transform:uppercase; color:#ff90b3; }
+/* Process bar */
+.halo-process-bar { display:flex; align-items:stretch; flex-wrap:nowrap; gap:0; margin:0 0 64px; padding:6px; background:#fff8f8; border:1.5px solid #ef7a85; overflow-x:auto; }
+.halo-process-step { display:flex; flex-direction:column; align-items:flex-start; justify-content:center; gap:4px; padding:14px 18px; flex:1 1 0; min-width:118px; }
+.halo-process-step.is-audit { background:rgba(239,122,133,0.12); border-radius:3px; }
+.halo-process-num { font-family:var(--mono); font-size:9px; letter-spacing:0.14em; color:#ef7a85; opacity:0.7; }
+.halo-process-label { font-family:var(--mono); font-size:11px; letter-spacing:0.06em; text-transform:uppercase; color:#1e0a3c; white-space:nowrap; font-weight:600; }
+.halo-process-step.is-audit .halo-process-label { color:#ef7a85; }
+.halo-process-arrow { display:flex; align-items:center; justify-content:center; color:#ffc2e2; font-size:15px; flex-shrink:0; padding:0 2px; }
+/* UX audit callout */
+.halo-audit-callout { background:linear-gradient(180deg,rgba(239,122,133,0.10),rgba(255,194,226,0.05)); border:2px solid #ef7a85; border-radius:10px; padding:44px 40px 40px; margin-bottom:96px !important; box-shadow:6px 6px 0 rgba(239,122,133,0.16); }
+.halo-audit-badge { display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#fff8f8; background:#ef7a85; padding:6px 14px; border-radius:4px; font-weight:700; margin-bottom:20px; }
+/* Brief interaction list */
+.halo-feature-brief-list { list-style:none; padding:0; margin:24px 0 40px; display:flex; flex-direction:column; }
+.halo-feature-brief-list li { font-family:var(--serif); font-size:15px; line-height:1.6; color:#1e0a3c; padding:14px 4px; border-bottom:1px solid rgba(255,194,226,0.6); }
+.halo-feature-brief-list li:first-child { border-top:1px solid rgba(255,194,226,0.6); }
+.halo-feature-brief-list li strong { color:#ef7a85; font-weight:600; }
 @media (max-width:900px) {
   .halo-spread { padding:40px 24px 80px; max-width:100% !important; width:100% !important; margin:0 !important; box-sizing:border-box; }
   .halo-trio { grid-template-columns:1fr; }
@@ -3689,6 +3705,9 @@ body.quick-mode .halo-h2 { display:none !important; }
   .halo-spread .chapter-break { margin-left:-20px !important; margin-right:-20px !important; padding-left:20px !important; padding-right:20px !important; }
   /* Images and videos stay within bounds */
   .halo-spread img, .halo-spread video { max-width:100%; height:auto; }
+  /* Process bar + audit callout on tighter viewports */
+  .halo-process-step { min-width:100px; padding:12px 14px; }
+  .halo-audit-callout { padding:32px 22px 28px; }
   /* Audit / data tables: force min-width so they scroll inside their overflow-x:auto wrapper */
   .halo-spread table { min-width:480px; font-size:10px; }
 }
@@ -7216,6 +7235,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <a class="cs-sidenav-item" href="#halo-s-features">Interactions &amp; highlights</a>
                   <a class="cs-sidenav-item" href="#halo-s-impact">Impact</a>
                   <a class="cs-sidenav-item" href="#halo-s-lessons">Reflections</a>
+                  <a class="cs-sidenav-item" href="#halo-s-differently">What I'd do differently</a>
                 </div>
               </div>
             </div>
@@ -7252,6 +7272,25 @@ body.quick-mode .halo-h2 { display:none !important; }
                     <span class="tldr-val"><strong>Went to the investor meeting.</strong> Then handed to the dev team as the build reference. Delivered in 1 day.</span>
                   </li>
                 </ul>
+              </div>
+
+              <!-- PROCESS BAR -->
+              <div class="halo-process-bar" role="list" aria-label="Design process, start to finish">
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">01</span><span class="halo-process-label">Research</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">02</span><span class="halo-process-label">Competitive Audit</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">03</span><span class="halo-process-label">IA &amp; Flows</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">04</span><span class="halo-process-label">Design System</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">05</span><span class="halo-process-label">Wireframes</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">06</span><span class="halo-process-label">Build</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step is-audit" role="listitem"><span class="halo-process-num">07</span><span class="halo-process-label">UX Audit</span></div>
+                <div class="halo-process-arrow">→</div>
+                <div class="halo-process-step" role="listitem"><span class="halo-process-num">08</span><span class="halo-process-label">Impact</span></div>
               </div>
 
               <!-- HIGHLIGHTS HINT -->
@@ -8122,7 +8161,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                 </div>
               </section>
 
-              <section class="halo-section" id="halo-s-audit">
+              <section class="halo-section halo-audit-callout" id="halo-s-audit">
+                <div class="halo-audit-badge">★ the part that actually matters</div>
                 <div class="halo-eyebrow">★ ux audit</div>
                 <div class="qm-card" data-section="halo-s-audit">
                   <p>After the first build pass, I did a full UX audit. Not just visual QA — actual design critique. Hierarchy, spacing, state management, information density. Things only a designer would catch.</p>
@@ -8144,8 +8184,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <div class="lb-el-item">
                     <div class="lb-el-num">②</div>
                     <div>
-                      <div class="lb-el-title">CHECKOUT GLASSMORPHISM DEPTH</div>
-                      <div class="lb-el-body">The initial checkout panel wasn't glassy enough — it looked flat. I pushed the blur to 20px, added a white ice-edge highlight on the top border, and added an entry sweep animation. The premium feel didn't land until those three things were right together.</div>
+                      <div class="lb-el-title">CHECKOUT PANEL HIERARCHY</div>
+                      <div class="lb-el-body">The initial checkout panel read flat — payment fields, totals, and CTA all competed for attention at once. Fixed: a layered surface treatment that separates the panel from the page, plus an entry animation that draws the eye to the panel first. Ensuring readability at the exact moment someone is about to pay matters more than any other screen in the flow.</div>
                     </div>
                   </div>
                   <div class="lb-el-item">
@@ -8335,54 +8375,18 @@ body.quick-mode .halo-h2 { display:none !important; }
               <section class="halo-section" id="halo-s-features">
                 <div class="halo-eyebrow">★ interactions &amp; feature highlights</div>
                 <div class="qm-card" data-section="halo-s-features">
-                  <p>The brief said "interactive demo." I decided it should also feel delightful. Six interactions I researched, designed, and specifically directed — the difference between a wireframe and something investors believe in.</p>
+                  <p>The brief said "interactive demo." None of these were required — each earned its place because it removed a reason for an investor or buyer to doubt the product was real.</p>
                 </div>
-                <div class="halo-h2">Good enough wasn't <em>good enough.</em></div>
+                <div class="halo-h2">Six interactions, <em>each doing a job.</em></div>
 
-                <div class="halo-prose">
-                  <p>None of the kinetic hero text, 3D tilt, or ⌘K search were in the brief. Those were my additions — because I knew what the product needed to feel trustworthy to enterprise buyers and exciting to investors at the same time. The interactions are the argument.</p>
-                </div>
-
-                <!-- FULL RECORDING VIDEO -->
-                <div style="border:2px solid var(--case-text);overflow:hidden;box-shadow:5px 5px 0 #ef7a85;margin:28px 0 40px;">
-                  <video src="Recording comp2.mp4" controls muted playsinline style="width:100%;display:block;background:#08081c;"></video>
-                  <div style="padding:12px 16px;background:var(--case-text);display:flex;align-items:center;justify-content:space-between;">
-                    <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-bg);">↑ full interaction walkthrough</span>
-                    <span style="font-family:var(--mono);font-size:9px;letter-spacing:0.16em;text-transform:uppercase;color:var(--case-accent);opacity:0.8;">all 6 highlights · click to play</span>
-                  </div>
-                </div>
-
-                <!-- INTERACTION DESCRIPTIONS -->
-                <div class="halo-2col-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 40px;">
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">01 · Kinetic Hero Text</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Words animate in on load with blur + skew. Sets the energy of the entire homepage in the first second. Investors subconsciously classify the product as premium before they read a word.</div>
-                  </div>
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">02 · 3D Tilt on Cards</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Product cards tilt with the cursor in 3D — up to 12° per axis. Makes every card feel physical and tactile. Enterprise buyers pause on it. Developers hover it twice because it's just satisfying.</div>
-                  </div>
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">03 · Live Cart Updates</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Add to Cart updates the badge, recalculates totals, flashes the button — all live, no reload. This single interaction is what makes investors stop and say "wait, is this actually built?"</div>
-                  </div>
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">04 · ⌘K Search Overlay</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Global search opens with a keyboard shortcut and filters live as you type. Immediately signals to buyers that this product was built by people who understand how they work.</div>
-                  </div>
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">05 · Billing Toggle</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Annual/monthly switch updates all plan prices live. Makes the business model tangible in a room — one of the most convincing signals for investors and procurement leads.</div>
-                  </div>
-                  <div style="padding:20px 22px;background:rgba(239,122,133,0.06);border:1.5px solid #ffc2e2;border-left:3px solid #ef7a85;">
-                    <div style="font-family:var(--mono);font-size:10px;letter-spacing:0.22em;text-transform:uppercase;color:#ef7a85;margin-bottom:8px;">06 · Glassmorphism Checkout</div>
-                    <div style="font-family:var(--serif);font-size:14px;line-height:1.6;color:var(--case-text);">Frosted glass checkout panel — 20px blur, white ice-edge highlight, sweep entry animation. The moment the premium design language lands hardest. It earns the price tag.</div>
-                  </div>
-                </div>
-
-                <div class="halo-thought">
-                  <p>"more glow. yes. MORE glow. now bring back 10% of it." — me, directing the glassmorphism checkout at 11pm</p>
-                </div>
+                <ul class="halo-feature-brief-list">
+                  <li><strong>Kinetic hero text</strong> — sets the pace of the homepage in the first second, before anyone reads a word.</li>
+                  <li><strong>3D tilt on product cards</strong> — makes the catalogue feel tactile rather than static.</li>
+                  <li><strong>Live cart updates</strong> — badge and totals recalculate instantly, no reload; the single moment people stop and ask if this is actually built.</li>
+                  <li><strong>⌘K search overlay</strong> — filters live as you type, signalling the product was built by people who understand how buyers actually work.</li>
+                  <li><strong>Billing toggle</strong> — annual/monthly switch makes the business model tangible in the room.</li>
+                  <li><strong>Layered checkout panel</strong> — visual hierarchy that keeps focus on the payment step, the point where trust matters most.</li>
+                </ul>
               </section>
 
               <!-- CHAPTER BREAK -->
@@ -8528,6 +8532,27 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <div style="margin-top:24px;display:flex;gap:20px;justify-content:center;flex-wrap:wrap;">
                     <a href="https://halomarketplace.vercel.app/halo-site/" target="_blank" style="font-family:var(--mono);font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--case-deep);border-bottom:1px solid var(--case-accent);padding-bottom:3px;text-decoration:none;">view live prototype ↗</a>
                   </div>
+                </div>
+              </section>
+
+              <section class="halo-section" id="halo-s-differently">
+                <div class="halo-eyebrow">★ what I'd do differently</div>
+                <div class="qm-card" data-section="halo-s-differently">
+                  <p>The pitch landed and the build shipped, but a one-day clock meant a few calls were made on assumption rather than evidence. Naming them here on purpose.</p>
+                </div>
+                <div class="halo-h2">Where I'd <em>slow down.</em></div>
+
+                <div class="halo-lesson">
+                  <div class="halo-lesson-num">01</div>
+                  <p><strong>Validate the IA with a real user first.</strong> I built the architecture from competitive research alone — even one quick user call would have confirmed whether my assumptions about how buyers browse three store types actually held up.</p>
+                </div>
+                <div class="halo-lesson">
+                  <div class="halo-lesson-num">02</div>
+                  <p><strong>Test the checkout flow outside the room.</strong> Everyone who saw it before the pitch already understood the product. I never watched someone unfamiliar with HALO try to complete a purchase cold — that's the test that would have caught real friction.</p>
+                </div>
+                <div class="halo-lesson">
+                  <div class="halo-lesson-num">03</div>
+                  <p><strong>Push back harder on "make it feel premium."</strong> I answered that brief with visual polish. A sharper version of me would have asked what "premium" needs to signal to an enterprise buyer specifically, and let that answer — not instinct — drive the surface treatment.</p>
                 </div>
               </section>
 
