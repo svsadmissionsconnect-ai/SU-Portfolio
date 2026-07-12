@@ -3651,6 +3651,28 @@ body.quick-mode .halo-h2 { display:none !important; }
 /* UX audit callout */
 .halo-audit-callout { background:linear-gradient(180deg,rgba(239,122,133,0.10),rgba(255,194,226,0.05)); border:2px solid #ef7a85; border-radius:10px; padding:44px 40px 40px; margin-bottom:96px !important; box-shadow:6px 6px 0 rgba(239,122,133,0.16); }
 .halo-audit-badge { display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#fff8f8; background:#ef7a85; padding:6px 14px; border-radius:4px; font-weight:700; margin-bottom:20px; }
+/* UX audit — structured finding cards (problem → fix) */
+.halo-audit-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:30px 0 40px; }
+.halo-audit-card { background:#fffafb; border:1.5px solid #f2b8c2; border-radius:10px; padding:20px 22px 22px; box-shadow:3px 3px 0 rgba(239,122,133,0.16); display:flex; flex-direction:column; }
+.halo-audit-card.span2 { grid-column:1 / -1; background:#1e0a3c; border-color:#1e0a3c; box-shadow:4px 4px 0 rgba(239,122,133,0.35); }
+.halo-audit-cardhead { display:flex; align-items:center; justify-content:space-between; margin-bottom:11px; }
+.halo-audit-chip { font-family:var(--mono); font-size:9px; letter-spacing:0.18em; text-transform:uppercase; color:#a8314a; background:rgba(239,122,133,0.12); border:1px solid #ef7a85; border-radius:20px; padding:4px 11px; font-weight:700; }
+.halo-audit-num { font-family:var(--mono); font-size:12px; color:#ef7a85; opacity:0.6; font-weight:700; }
+.halo-audit-title { font-family:var(--display); font-size:19px; line-height:1.18; color:#1e0a3c; font-variation-settings:"SOFT" 60; margin-bottom:14px; }
+.halo-audit-ba { display:flex; flex-direction:column; gap:9px; }
+.halo-audit-ba > div { font-family:var(--serif); font-size:13.5px; line-height:1.55; color:#4a2d7a; padding-left:52px; position:relative; }
+.halo-audit-ba .ba-after { color:#1e0a3c; }
+.ba-lbl { position:absolute; left:0; top:1px; font-family:var(--mono); font-size:8px; letter-spacing:0.12em; text-transform:uppercase; font-weight:700; padding:3px 6px; border-radius:3px; line-height:1; }
+.ba-before .ba-lbl { color:#9a3b4a; background:rgba(239,122,133,0.16); }
+.ba-after .ba-lbl { color:#2f7d32; background:rgba(60,160,60,0.14); }
+/* dark accessibility card */
+.halo-audit-card.span2 .halo-audit-title { color:#fff8f8; }
+.halo-audit-card.span2 .halo-audit-chip { color:#B2FF00; background:rgba(178,255,0,0.10); border-color:#B2FF00; }
+.halo-audit-card.span2 .halo-audit-num { color:#ffc2e2; }
+.halo-audit-card.span2 .halo-audit-ba > div { color:#d7cfe8; }
+.halo-audit-card.span2 .ba-after { color:#fff8f8; }
+.halo-audit-card.span2 .ba-before .ba-lbl { color:#ffb3c0; background:rgba(255,255,255,0.10); }
+.halo-audit-card.span2 .ba-after .ba-lbl { color:#B2FF00; background:rgba(178,255,0,0.14); }
 /* Brief interaction list */
 .halo-feature-brief-list { list-style:none; padding:0; margin:24px 0 40px; display:flex; flex-direction:column; }
 .halo-feature-brief-list li { font-family:var(--serif); font-size:15px; line-height:1.6; color:#1e0a3c; padding:14px 4px; border-bottom:1px solid rgba(255,194,226,0.6); }
@@ -3701,6 +3723,7 @@ body.quick-mode .halo-h2 { display:none !important; }
   .halo-spread img, .halo-spread video { max-width:100%; height:auto; }
   /* Audit callout on tighter viewports */
   .halo-audit-callout { padding:32px 22px 28px; }
+  .halo-audit-grid { grid-template-columns:1fr; }
   /* Subscription wireframe returns to full width on small screens */
   .halo-wf-sub { max-width:100% !important; }
   /* Audit / data tables: force min-width so they scroll inside their overflow-x:auto wrapper */
@@ -8019,40 +8042,45 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <p>I went screen by screen, the way I'd review a teammate's work — looking for the small things that quietly make a product feel unfinished. Here are five I caught and fixed.</p>
                 </div>
 
-                <div style="margin:28px 0 48px;">
-                  <div class="lb-el-item">
-                    <div class="lb-el-num">①</div>
-                    <div>
-                      <div class="lb-el-title">The product cards didn't guide the eye</div>
-                      <div class="lb-el-body">At first the name and the price were the same size, so your eye didn't know where to land. I made the name bigger, tucked the category above it, and gave the price its own colour. Now you read it in the right order: what is this, what kind, how much.</div>
+                <div class="halo-audit-grid">
+                  <div class="halo-audit-card">
+                    <div class="halo-audit-cardhead"><span class="halo-audit-chip">Hierarchy</span><span class="halo-audit-num">01</span></div>
+                    <div class="halo-audit-title">Product cards didn't guide the eye</div>
+                    <div class="halo-audit-ba">
+                      <div class="ba-before"><span class="ba-lbl">saw</span>Name and price were the same size, so the eye didn't know where to land first.</div>
+                      <div class="ba-after"><span class="ba-lbl">fix</span>Bigger name, category tucked above, price in its own colour — now it reads in order: what is this → what kind → how much.</div>
                     </div>
                   </div>
-                  <div class="lb-el-item">
-                    <div class="lb-el-num">②</div>
-                    <div>
-                      <div class="lb-el-title">Checkout felt flat and busy</div>
-                      <div class="lb-el-body">On the checkout screen the fields, the total, and the button all shouted at once. I gave the panel a clear order so your eye goes to the important part first. On the one screen where someone actually pays, calm and readable matters more than anywhere else.</div>
+                  <div class="halo-audit-card">
+                    <div class="halo-audit-cardhead"><span class="halo-audit-chip">Focus &amp; trust</span><span class="halo-audit-num">02</span></div>
+                    <div class="halo-audit-title">Checkout felt flat and busy</div>
+                    <div class="halo-audit-ba">
+                      <div class="ba-before"><span class="ba-lbl">saw</span>The fields, the total, and the button all competed for attention at once.</div>
+                      <div class="ba-after"><span class="ba-lbl">fix</span>Gave the panel a clear order so the eye lands on the key part first. On the screen where people actually pay, calm matters most.</div>
                     </div>
                   </div>
-                  <div class="lb-el-item">
-                    <div class="lb-el-num">③</div>
-                    <div>
-                      <div class="lb-el-title">The empty screens looked broken</div>
-                      <div class="lb-el-body">The cart and saved pages started out as blank screens — and blank reads as "broken." I added friendly empty states with a little art and a clear next step, so it always feels finished, even when there's nothing there yet.</div>
+                  <div class="halo-audit-card">
+                    <div class="halo-audit-cardhead"><span class="halo-audit-chip">Empty states</span><span class="halo-audit-num">03</span></div>
+                    <div class="halo-audit-title">Empty screens looked broken</div>
+                    <div class="halo-audit-ba">
+                      <div class="ba-before"><span class="ba-lbl">saw</span>The cart and saved pages started as blank screens — and blank reads as "broken."</div>
+                      <div class="ba-after"><span class="ba-lbl">fix</span>Added friendly empty states with a little art and a clear next step, so it always feels finished.</div>
                     </div>
                   </div>
-                  <div class="lb-el-item">
-                    <div class="lb-el-num">④</div>
-                    <div>
-                      <div class="lb-el-title">Search popped in with no life</div>
-                      <div class="lb-el-body">The search box just appeared, which felt cheap. I gave it a soft fade-and-slide so it feels smooth and deliberate — the way search behaves on the apps people already use every day.</div>
+                  <div class="halo-audit-card">
+                    <div class="halo-audit-cardhead"><span class="halo-audit-chip">Motion</span><span class="halo-audit-num">04</span></div>
+                    <div class="halo-audit-title">Search popped in with no life</div>
+                    <div class="halo-audit-ba">
+                      <div class="ba-before"><span class="ba-lbl">saw</span>The search box just appeared with no movement, which felt cheap.</div>
+                      <div class="ba-after"><span class="ba-lbl">fix</span>A soft fade-and-slide, so it feels smooth and deliberate — like search on the apps people use daily.</div>
                     </div>
                   </div>
-                  <div class="lb-el-item">
-                    <div class="lb-el-num">⑤</div>
-                    <div>
-                      <div class="lb-el-title">Colour contrast — checking it's readable for everyone (WCAG)</div>
-                      <div class="lb-el-body">I checked the colours against the WCAG contrast guidelines so the text stays easy to read — including for people with low vision. The bright lime holds up on the near-black background, but I darkened a few of the softer pinks where they sat on light backgrounds, and made sure nothing depends on colour alone to make sense.</div>
+                  <div class="halo-audit-card span2">
+                    <div class="halo-audit-cardhead"><span class="halo-audit-chip">Accessibility · WCAG</span><span class="halo-audit-num">05</span></div>
+                    <div class="halo-audit-title">Colour contrast — readable for everyone</div>
+                    <div class="halo-audit-ba">
+                      <div class="ba-before"><span class="ba-lbl">saw</span>A few of the softer pinks sat on light backgrounds and got hard to read; a couple of cues leaned on colour alone.</div>
+                      <div class="ba-after"><span class="ba-lbl">fix</span>Checked every colour against WCAG contrast ratios. Kept the lime (it holds up on near-black), darkened the weak pinks, and made sure nothing depends on colour alone — so it works for low-vision users too.</div>
                     </div>
                   </div>
                 </div>
