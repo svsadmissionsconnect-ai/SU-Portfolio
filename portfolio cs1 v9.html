@@ -819,7 +819,10 @@ body.mode-riso #risoCanvas { opacity: 1; }
 }
 .case-spread.theme-svs { --case-bg: #f8f4ff; --case-accent: #ffc2e2; --case-deep: #6e44ff; --case-text: #1e0a3c; }
 .case-spread.theme-lightburn { --case-bg: #fdfcff; --case-accent: #6e44ff; --case-deep: #4d2fc4; --case-text: #1e0a3c; }
-.lb-context-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:2px solid #1e0a3c; margin:28px 0 36px; }
+.lb-context-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:2px solid #1e0a3c; margin:20px 0 24px; }
+.lb-editorial .lb-context-grid { grid-template-columns:1fr; }
+.lb-editorial .lb-context-card { border-right:none; border-bottom:1.5px solid #1e0a3c; }
+.lb-editorial .lb-context-card:last-child { border-bottom:none; }
 .lb-context-card { padding:20px 22px; border-right:1.5px solid #1e0a3c; }
 .lb-context-card:last-child { border-right:none; }
 .lb-context-label { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#6e44ff; margin-bottom:8px; font-weight:700; }
@@ -6435,7 +6438,21 @@ body.quick-mode .halo-h2 { display:none !important; }
               <div class="lb-editorial">
                 <div>
                   <p class="lb-editorial-lede">LightBurn offered 10–20% off renewals. Their users had <em>no idea it existed.</em></p>
-                  <p class="lb-editorial-body">A 5-week project with CX by Design. The ask: <span class="lb-hl">find a way to get the renewal offer in front of users before their update period runs out.</span> I researched how similar creative software handles update communication, then designed a personalised email, a forum message, and a countdown banner — deployed across the software and website. <span class="lb-hl-blue" style="padding:1px 6px;border-radius:2px;">Every surface was my own idea</span> — I decided where each one belonged and what it should say.</p>
+                  <div class="lb-context-grid">
+                    <div class="lb-context-card">
+                      <div class="lb-context-label">What is LightBurn</div>
+                      <div class="lb-context-body">Desktop software for laser cutting — used by hobbyists, makers, and small shops to design, edit, and manage cutting and engraving jobs.</div>
+                    </div>
+                    <div class="lb-context-card">
+                      <div class="lb-context-label">The problem</div>
+                      <div class="lb-context-body">Buy LightBurn and you get one year of updates. Renew after that at a 10–20% discount — but that discount was only ever mentioned inside the software itself. Most users never saw it before their window closed.</div>
+                    </div>
+                    <div class="lb-context-card">
+                      <div class="lb-context-label">The ask</div>
+                      <div class="lb-context-body">CX by Design was working with LightBurn on their customer experience and wanted ideas for notifying users about the renewal offer before it was too late. How I solved it was up to me.</div>
+                    </div>
+                  </div>
+                  <p class="lb-editorial-body">A 5-week project with CX by Design. I researched how similar creative software handles update communication, then designed a personalised email, a forum message, and a countdown banner — deployed across the software and website. <span class="lb-hl-blue" style="padding:1px 6px;border-radius:2px;">Every surface was my own idea</span> — I decided where each one belonged and what it should say.</p>
                   <div class="lb-anno-strip">
                     <div class="lb-sticky">💡 "what if the email <em>knew</em> who you were?"</div>
                     <div class="lb-sticky pink">🔍 researched 6 competitor products first</div>
@@ -6469,21 +6486,6 @@ body.quick-mode .halo-h2 { display:none !important; }
 <section class="svs-section" id="lb-s-context">
                 <div class="svs-eyebrow">★ the context</div>
                 <div class="qm-card" data-section="lb-s-context"><p>LightBurn is laser-cutting software. Its renewal discount only ever showed up inside the software itself, so most users never saw it before their update period ran out. CX by Design brought me on to find a way to fix that.</p></div>
-                <h2 class="svs-h2">The setup, <em>in three parts.</em></h2>
-                <div class="lb-context-grid">
-                  <div class="lb-context-card">
-                    <div class="lb-context-label">What is LightBurn</div>
-                    <div class="lb-context-body">Desktop software for laser cutting — used by hobbyists, makers, and small shops to design, edit, and manage cutting and engraving jobs.</div>
-                  </div>
-                  <div class="lb-context-card">
-                    <div class="lb-context-label">The problem</div>
-                    <div class="lb-context-body">Buy LightBurn and you get one year of updates. Renew after that at a 10–20% discount — but that discount was only ever mentioned inside the software itself. Most users never saw it before their window closed.</div>
-                  </div>
-                  <div class="lb-context-card">
-                    <div class="lb-context-label">The ask</div>
-                    <div class="lb-context-body">CX by Design was working with LightBurn on their customer experience and wanted ideas for notifying users about the renewal offer before it was too late. How I solved it was up to me.</div>
-                  </div>
-                </div>
                 <div class="svs-girl-row">
                   <div class="svs-girl-doodle">
                     <svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg">
