@@ -819,6 +819,16 @@ body.mode-riso #risoCanvas { opacity: 1; }
 }
 .case-spread.theme-svs { --case-bg: #f8f4ff; --case-accent: #ffc2e2; --case-deep: #6e44ff; --case-text: #1e0a3c; }
 .case-spread.theme-lightburn { --case-bg: #fdfcff; --case-accent: #6e44ff; --case-deep: #4d2fc4; --case-text: #1e0a3c; }
+.lb-context-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:2px solid #1e0a3c; margin:28px 0 36px; }
+.lb-context-card { padding:20px 22px; border-right:1.5px solid #1e0a3c; }
+.lb-context-card:last-child { border-right:none; }
+.lb-context-label { font-family:var(--mono); font-size:9px; letter-spacing:0.22em; text-transform:uppercase; color:#6e44ff; margin-bottom:8px; font-weight:700; }
+.lb-context-body { font-family:var(--serif); font-size:13.5px; line-height:1.6; color:#1e0a3c; }
+@media (max-width:900px) {
+  .lb-context-grid { grid-template-columns:1fr; }
+  .lb-context-card { border-right:none; border-bottom:1.5px solid #1e0a3c; }
+  .lb-context-card:last-child { border-bottom:none; }
+}
 .case-spread.theme-tdm { --case-bg: #fff0f6; --case-accent: #ff90b3; --case-deep: #ef7a85; --case-text: #1e0a3c; }
 
 .case-toolbar { display: flex; align-items: center; gap: 24px; padding: 14px 28px; border-bottom: 1px solid rgba(110,68,255,0.15); grid-column: 1 / -1; position: sticky; top: 0; z-index: 10; }
@@ -1221,6 +1231,7 @@ body.mode-riso #risoCanvas { opacity: 1; }
   flex-direction: column;
   gap: 14px;
 }
+.svs-diagram-centered { grid-column: 1 / -1; justify-self: center; width: 100%; max-width: calc(50% - 11px); }
 .svs-diagram-vis {
   width: 100%;
   aspect-ratio: 240 / 130;
@@ -1270,6 +1281,7 @@ body.mode-riso #risoCanvas { opacity: 1; }
 
 @media (max-width: 900px) {
   .svs-impact-diagrams { grid-template-columns: 1fr; gap: 18px; }
+  .svs-diagram-centered { max-width: 100%; }
 }
 
 /* ─── SVS WHAT-GOT-BUILT — 6-section thumbnail strip ─── */
@@ -6120,7 +6132,7 @@ body.quick-mode .halo-h2 { display:none !important; }
                     </article>
 
                     <!-- DIAGRAM 4: identifiable among similar-name results -->
-                    <article class="svs-diagram-card">
+                    <article class="svs-diagram-card svs-diagram-centered">
                       <div class="svs-diagram-vis">
                         <svg viewBox="0 0 240 130" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
                           <rect x="20" y="10" width="200" height="20" rx="10" fill="#FFFFFF" stroke="#1e0a3c" stroke-width="1.2"/>
@@ -6458,10 +6470,19 @@ body.quick-mode .halo-h2 { display:none !important; }
                 <div class="svs-eyebrow">★ the context</div>
                 <div class="qm-card" data-section="lb-s-context"><p>LightBurn is laser-cutting software. Its renewal discount only ever showed up inside the software itself, so most users never saw it before their update period ran out. CX by Design brought me on to find a way to fix that.</p></div>
                 <h2 class="svs-h2">LightBurn offered 10–20% off renewals.<br><em>Their users had never heard about it.</em></h2>
-                <div class="svs-prose">
-                  <p><strong>What is LightBurn:</strong> <span class="lb-hl-blue">desktop software for laser cutting</span> — used by hobbyists, makers, and small shops around the world to design, edit, and manage cutting and engraving jobs.</p>
-                  <p><strong>The problem:</strong> buy LightBurn and you get one year of software updates. After that year, you can renew at a 10–20% discount — but the only place that discount was ever mentioned was inside the software itself. Most users never saw it before their window closed.</p>
-                  <p><strong>The ask:</strong> CX by Design was working with LightBurn on their customer experience, and wanted ideas for notifying users about the renewal offer before it was too late. How I solved it was up to me.</p>
+                <div class="lb-context-grid">
+                  <div class="lb-context-card">
+                    <div class="lb-context-label">What is LightBurn</div>
+                    <div class="lb-context-body">Desktop software for laser cutting — used by hobbyists, makers, and small shops to design, edit, and manage cutting and engraving jobs.</div>
+                  </div>
+                  <div class="lb-context-card">
+                    <div class="lb-context-label">The problem</div>
+                    <div class="lb-context-body">Buy LightBurn and you get one year of updates. Renew after that at a 10–20% discount — but that discount was only ever mentioned inside the software itself. Most users never saw it before their window closed.</div>
+                  </div>
+                  <div class="lb-context-card">
+                    <div class="lb-context-label">The ask</div>
+                    <div class="lb-context-body">CX by Design was working with LightBurn on their customer experience and wanted ideas for notifying users about the renewal offer before it was too late. How I solved it was up to me.</div>
+                  </div>
                 </div>
                 <div class="svs-girl-row">
                   <div class="svs-girl-doodle">
@@ -7065,8 +7086,8 @@ body.quick-mode .halo-h2 { display:none !important; }
                   <span class="closing-eyebrow">★ one thing I'd genuinely do differently</span>
                   <div class="closing-row">
                     <div>
-                      <p class="closing-quote">I'd put it in front of <em>real users before calling it done.</em></p>
-                      <p class="closing-body">Every decision I made came from competitor research and my own judgement — which took me a long way, but it's not the same as evidence. <span class="lb-hl">I never watched an actual LightBurn user open the personalised email or notice the countdown banner.</span> Next time I'd build in even a small round of testing — five users, a quick reaction — and I'd agree on a success metric up front, so "did this work?" has an answer instead of a hunch.</p>
+                      <p class="closing-quote">I'd have stayed in touch <em>to find out what actually happened.</em></p>
+                      <p class="closing-body">Once the designs were handed off, I moved on to the next task and never circled back. <span class="lb-hl">I don't actually know if the personalised email got opened, or if anyone noticed the countdown banner.</span> Next time I'd stay in contact after implementation specifically to ask about the results — did renewals go up, did people click the banner — instead of shipping it and assuming it worked.</p>
                     </div>
                     <div class="closing-girl">
                       <svg viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg">
